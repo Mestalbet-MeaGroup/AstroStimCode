@@ -1,0 +1,485 @@
+#
+# A fatal error has been detected by the Java Runtime Environment:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x0000000075bbcf91, pid=5784, tid=8512
+#
+# JRE version: 6.0_17-b04
+# Java VM: Java HotSpot(TM) 64-Bit Server VM (14.3-b01 mixed mode windows-amd64 )
+# Problematic frame:
+# C  0x0000000075bbcf91
+#
+# If you would like to submit a bug report, please visit:
+#   http://java.sun.com/webapps/bugreport/crash.jsp
+# The crash happened outside the Java Virtual Machine in native code.
+# See problematic frame for where to report the bug.
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x0000000056594800):  JavaThread "AWT-EventQueue-0" [_thread_in_native, id=8512, stack(0x00000000a0000000,0x00000000a4000000)]
+
+siginfo: ExceptionCode=0xc0000005, writing address 0x0000000000000000
+
+Registers:
+EAX=0x0000000000000000, EBX=0x00000000a3ff6e40, ECX=0x0000000000000010, EDX=0x0000000068746880
+ESP=0x00000000a3ff6c70, EBP=0x00000000565949b8, ESI=0x0000000068746880, EDI=0x0000000005640d1d
+EIP=0x0000000075bbcf91, EFLAGS=0x0000000000010246
+
+Top of Stack: (sp=0x00000000a3ff6c70)
+0x00000000a3ff6c70:   00000000a3ff6e40 0000000068746880
+0x00000000a3ff6c80:   0000000005640d1d 0000000005640d1d
+0x00000000a3ff6c90:   0000000000000000 00000000a3ff6f28
+0x00000000a3ff6ca0:   0000000000000000 0000000068746880
+0x00000000a3ff6cb0:   000000005659b708 00000000a3ff6dc8
+0x00000000a3ff6cc0:   000000000000000c 00000000a3ff6ac0
+0x00000000a3ff6cd0:   00000000437f0000 0000000000000000
+0x00000000a3ff6ce0:   0000000056594800 0000000247476a78
+0x00000000a3ff6cf0:   00000000437f0000 0000000000000000
+0x00000000a3ff6d00:   00000001807ea958 000000002cf319ec
+0x00000000a3ff6d10:   0000000000000000 000000000000000c
+0x00000000a3ff6d20:   000000018a8f0e28 0000000055311721
+0x00000000a3ff6d30:   000000005547c368 000000018a8f15a0
+0x00000000a3ff6d40:   0000000184a869d0 0000000188015b90
+0x00000000a3ff6d50:   0000000005640d1d 0000000075bbd9b3
+0x00000000a3ff6d60:   00000000565949b8 0000000000000023 
+
+Instructions: (pc=0x0000000075bbcf91)
+0x0000000075bbcf81:   ff 15 41 53 01 00 45 33 c0 48 8b d6 48 8d 48 10
+0x0000000075bbcf91:   89 38 48 8b d8 48 89 48 08 4d 8b 4d 00 49 8b cd 
+
+
+Stack: [0x00000000a0000000,0x00000000a4000000],  sp=0x00000000a3ff6c70,  free space=65499k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+C  0x0000000075bbcf91
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+J  sun.java2d.loops.DrawGlyphListLCD.DrawGlyphListLCD(Lsun/java2d/SunGraphics2D;Lsun/java2d/SurfaceData;Lsun/font/GlyphList;)V
+J  sun.java2d.SunGraphics2D.drawChars([CIIII)V
+j  sun.swing.SwingUtilities2.drawChars(Ljavax/swing/JComponent;Ljava/awt/Graphics;[CIIII)I+313
+J  javax.swing.text.Utilities.drawTabbedText(Ljavax/swing/text/View;Ljavax/swing/text/Segment;IILjava/awt/Graphics;Ljavax/swing/text/TabExpander;I[I)I
+j  javax.swing.text.Utilities.drawTabbedText(Ljavax/swing/text/View;Ljavax/swing/text/Segment;IILjava/awt/Graphics;Ljavax/swing/text/TabExpander;I)I+11
+j  javax.swing.text.PlainView.drawUnselectedText(Ljava/awt/Graphics;IIII)I+44
+j  com.mathworks.mde.cmdwin.CmdWinSyntaxUI$SyntaxPlainView.drawUnselectedText(Ljava/awt/Graphics;IIII)I+674
+j  javax.swing.text.PlainView.drawElement(ILjavax/swing/text/Element;Ljava/awt/Graphics;II)I+135
+j  javax.swing.text.PlainView.drawLine(ILjava/awt/Graphics;II)V+30
+j  com.mathworks.mde.cmdwin.CmdWinSyntaxUI$SyntaxPlainView.drawLine(ILjava/awt/Graphics;II)V+38
+j  javax.swing.text.PlainView.paint(Ljava/awt/Graphics;Ljava/awt/Shape;)V+407
+j  com.mathworks.mde.cmdwin.CmdWinSyntaxUI$SyntaxPlainView.paint(Ljava/awt/Graphics;Ljava/awt/Shape;)V+30
+j  javax.swing.plaf.basic.BasicTextUI$RootView.paint(Ljava/awt/Graphics;Ljava/awt/Shape;)V+48
+j  javax.swing.plaf.basic.BasicTextUI.paintSafely(Ljava/awt/Graphics;)V+65
+j  javax.swing.plaf.basic.BasicTextUI.paint(Ljava/awt/Graphics;Ljavax/swing/JComponent;)V+45
+j  javax.swing.plaf.basic.BasicTextUI.update(Ljava/awt/Graphics;Ljavax/swing/JComponent;)V+3
+J  javax.swing.JComponent.paintComponent(Ljava/awt/Graphics;)V
+J  javax.swing.JComponent.paint(Ljava/awt/Graphics;)V
+J  javax.swing.RepaintManager$PaintManager.paintDoubleBuffered(Ljavax/swing/JComponent;Ljava/awt/Image;Ljava/awt/Graphics;IIII)V
+J  javax.swing.RepaintManager$PaintManager.paint(Ljavax/swing/JComponent;Ljavax/swing/JComponent;Ljava/awt/Graphics;IIII)Z
+J  javax.swing.JComponent._paintImmediately(IIII)V
+J  javax.swing.RepaintManager.paintDirtyRegions(Ljava/util/Map;)V
+J  javax.swing.SystemEventQueueUtilities$ComponentWorkRequest.run()V
+J  java.awt.event.InvocationEvent.dispatch()V
+J  java.awt.EventDispatchThread.pumpOneEventForFilters(I)Z
+J  java.awt.EventDispatchThread.pumpEventsForFilter(ILjava/awt/Conditional;Ljava/awt/EventFilter;)V
+j  java.awt.EventDispatchThread.pumpEventsForHierarchy(ILjava/awt/Conditional;Ljava/awt/Component;)V+11
+j  java.awt.EventDispatchThread.pumpEvents(ILjava/awt/Conditional;)V+4
+j  java.awt.EventDispatchThread.pumpEvents(Ljava/awt/Conditional;)V+3
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+J  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+j  foxtrot.pumps.ConditionalEventPump.pumpEvents(Lfoxtrot/Task;)V+49
+j  foxtrot.AbstractSyncWorker.post(Lfoxtrot/Task;Lfoxtrot/WorkerThread;Lfoxtrot/EventPump;)Ljava/lang/Object;+43
+j  foxtrot.Worker.post(Lfoxtrot/Task;)Ljava/lang/Object;+10
+j  com.mathworks.mwswing.MJFileChooserPerPlatform.createAndStartSynchronousFoxTrotTask(Ljava/lang/Object;Z)V+33
+j  com.mathworks.mwswing.MJFileChooserPerPlatform.access$600(Ljava/lang/Object;Z)V+2
+j  com.mathworks.mwswing.MJFileChooserPerPlatform$OpenDialogDelegateImpl.showOpenDialog(Lcom/mathworks/mwswing/MJFileChooserPerPlatform;Ljava/awt/Component;)V+22
+j  com.mathworks.mwswing.MJFileChooserPerPlatform.showOpenDialog(Ljava/awt/Component;)V+5
+j  com.mathworks.mde.desk.MLDesktop.showOpenDialog(Ljava/io/File;Ljava/awt/Component;Ljava/lang/String;Ljava/util/List;)V+48
+j  com.mathworks.mde.desk.MLDesktop.showOpenDialog(Ljava/io/File;Ljava/awt/Component;)V+7
+j  com.mathworks.mde.editor.EditorGroup.doDesktopOpenFile()V+9
+j  com.mathworks.mde.editor.EditorGroup.access$100()V+0
+j  com.mathworks.mde.editor.EditorGroup$2.update(Ljava/util/Observable;Ljava/lang/Object;)V+0
+j  com.mathworks.mde.editor.EditorAction$ObservableAction.actionPerformed(Ljava/awt/event/ActionEvent;)V+38
+j  com.mathworks.mwswing.ChildAction.actionPerformed(Ljava/awt/event/ActionEvent;)V+12
+j  javax.swing.AbstractButton.fireActionPerformed(Ljava/awt/event/ActionEvent;)V+84
+j  javax.swing.AbstractButton$Handler.actionPerformed(Ljava/awt/event/ActionEvent;)V+5
+j  javax.swing.DefaultButtonModel.fireActionPerformed(Ljava/awt/event/ActionEvent;)V+35
+j  javax.swing.DefaultButtonModel.setPressed(Z)V+117
+j  com.mathworks.toolstrip.components.DropDownButtonModel.originalSetPressed(Z)V+2
+j  com.mathworks.toolstrip.components.SplitButtonModel.setPressed(Z)V+2
+j  com.mathworks.toolstrip.plaf.SplitButtonUI$MyToolstripButtonListener.mouseReleased(Ljava/awt/event/MouseEvent;)V+33
+j  java.awt.AWTEventMulticaster.mouseReleased(Ljava/awt/event/MouseEvent;)V+8
+j  java.awt.AWTEventMulticaster.mouseReleased(Ljava/awt/event/MouseEvent;)V+8
+j  java.awt.Component.processMouseEvent(Ljava/awt/event/MouseEvent;)V+64
+j  javax.swing.JComponent.processMouseEvent(Ljava/awt/event/MouseEvent;)V+23
+j  com.mathworks.mwswing.MJButton.processMouseEvent(Ljava/awt/event/MouseEvent;)V+37
+j  java.awt.Component.processEvent(Ljava/awt/AWTEvent;)V+81
+j  java.awt.Container.processEvent(Ljava/awt/AWTEvent;)V+18
+j  java.awt.Component.dispatchEventImpl(Ljava/awt/AWTEvent;)V+566
+J  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V
+J  java.awt.LightweightDispatcher.retargetMouseEvent(Ljava/awt/Component;ILjava/awt/event/MouseEvent;)V
+J  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V
+j  java.awt.Window.dispatchEventImpl(Ljava/awt/AWTEvent;)V+19
+J  java.awt.EventDispatchThread.pumpOneEventForFilters(I)Z
+J  java.awt.EventDispatchThread.pumpEventsForFilter(ILjava/awt/Conditional;Ljava/awt/EventFilter;)V
+j  java.awt.EventDispatchThread.pumpEventsForHierarchy(ILjava/awt/Conditional;Ljava/awt/Component;)V+11
+j  java.awt.EventDispatchThread.pumpEvents(ILjava/awt/Conditional;)V+4
+j  java.awt.EventDispatchThread.pumpEvents(Ljava/awt/Conditional;)V+3
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+J  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+j  foxtrot.pumps.ConditionalEventPump.pumpEvents(Lfoxtrot/Task;)V+49
+j  foxtrot.AbstractSyncWorker.post(Lfoxtrot/Task;Lfoxtrot/WorkerThread;Lfoxtrot/EventPump;)Ljava/lang/Object;+43
+j  foxtrot.Worker.post(Lfoxtrot/Task;)Ljava/lang/Object;+10
+j  com.mathworks.mwswing.MJFileChooserPerPlatform.createAndStartSynchronousFoxTrotTask(Ljava/lang/Object;Z)V+33
+j  com.mathworks.mwswing.MJFileChooserPerPlatform.access$600(Ljava/lang/Object;Z)V+2
+j  com.mathworks.mwswing.MJFileChooserPerPlatform$SaveDialogDelegateImpl.showSaveDialog(Lcom/mathworks/mwswing/MJFileChooserPerPlatform;Ljava/awt/Component;)V+22
+j  com.mathworks.mwswing.MJFileChooserPerPlatform.showSaveDialog(Ljava/awt/Component;)V+5
+j  com.mathworks.widgets.datamodel.TextFileBackingStore$DefaultDialogProvider.selectFile(Ljava/awt/Component;Ljava/lang/String;)Ljava/io/File;+98
+j  com.mathworks.widgets.datamodel.TextFileBackingStore.doNegotiateSaveAs(Ljavax/swing/text/Document;Ljava/awt/Component;)Z+8
+j  com.mathworks.widgets.datamodel.TextFileBackingStore.doNegotiateSaveAs(Ljava/lang/Object;Ljava/awt/Component;)Z+6
+j  com.mathworks.widgets.datamodel.AbstractBackingStore.negotiateSaveAs(Ljava/lang/Object;Ljava/awt/Component;)Z+4
+j  com.mathworks.mde.editor.EditorView.negotiateSaveAs()Z+21
+j  com.mathworks.mde.editor.EditorView.access$3000(Lcom/mathworks/mde/editor/EditorView;)Z+1
+j  com.mathworks.mde.editor.EditorView$11.update(Ljava/util/Observable;Ljava/lang/Object;)V+430
+j  com.mathworks.mde.editor.EditorAction$ObservableAction.actionPerformed(Ljava/awt/event/ActionEvent;)V+38
+j  com.mathworks.mwswing.ChildAction.actionPerformed(Ljava/awt/event/ActionEvent;)V+12
+j  com.mathworks.toolstrip.factory.TSFactory$ListListenerBridge.listItemSelected(Lcom/mathworks/toolstrip/components/popups/ListActionEvent;)V+79
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+J  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+J  com.mathworks.util.event.EventListenerList$1.invoke(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;
+j  $Proxy7.listItemSelected(Lcom/mathworks/toolstrip/components/popups/ListActionEvent;)V+16
+j  com.mathworks.toolstrip.plaf.TSListCellRenderer.mouseReleased(Ljava/awt/event/MouseEvent;)V+87
+j  java.awt.AWTEventMulticaster.mouseReleased(Ljava/awt/event/MouseEvent;)V+21
+j  java.awt.Component.processMouseEvent(Ljava/awt/event/MouseEvent;)V+64
+j  javax.swing.JComponent.processMouseEvent(Ljava/awt/event/MouseEvent;)V+23
+j  java.awt.Component.processEvent(Ljava/awt/AWTEvent;)V+81
+j  java.awt.Container.processEvent(Ljava/awt/AWTEvent;)V+18
+j  java.awt.Component.dispatchEventImpl(Ljava/awt/AWTEvent;)V+566
+j  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V+42
+J  java.awt.LightweightDispatcher.retargetMouseEvent(Ljava/awt/Component;ILjava/awt/event/MouseEvent;)V
+j  java.awt.LightweightDispatcher.processMouseEvent(Ljava/awt/event/MouseEvent;)Z+139
+j  java.awt.LightweightDispatcher.dispatchEvent(Ljava/awt/AWTEvent;)Z+50
+j  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V+12
+j  java.awt.Window.dispatchEventImpl(Ljava/awt/AWTEvent;)V+19
+J  java.awt.EventDispatchThread.pumpOneEventForFilters(I)Z
+j  java.awt.EventDispatchThread.pumpEventsForFilter(ILjava/awt/Conditional;Ljava/awt/EventFilter;)V+30
+j  java.awt.EventDispatchThread.pumpEventsForHierarchy(ILjava/awt/Conditional;Ljava/awt/Component;)V+11
+j  java.awt.EventDispatchThread.pumpEvents(ILjava/awt/Conditional;)V+4
+j  java.awt.EventDispatchThread.pumpEvents(Ljava/awt/Conditional;)V+3
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+J  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+j  foxtrot.pumps.ConditionalEventPump.pumpEvents(Lfoxtrot/Task;)V+49
+j  foxtrot.AbstractSyncWorker.post(Lfoxtrot/Task;Lfoxtrot/WorkerThread;Lfoxtrot/EventPump;)Ljava/lang/Object;+43
+j  foxtrot.Worker.post(Lfoxtrot/Task;)Ljava/lang/Object;+10
+j  com.mathworks.mwswing.MJFileChooserPerPlatform.createAndStartSynchronousFoxTrotTask(Ljava/lang/Object;Z)V+33
+j  com.mathworks.mwswing.MJFileChooserPerPlatform.access$600(Ljava/lang/Object;Z)V+2
+j  com.mathworks.mwswing.MJFileChooserPerPlatform$SaveDialogDelegateImpl.showSaveDialog(Lcom/mathworks/mwswing/MJFileChooserPerPlatform;Ljava/awt/Component;)V+22
+j  com.mathworks.mwswing.MJFileChooserPerPlatform.showSaveDialog(Ljava/awt/Component;)V+5
+j  com.mathworks.widgets.datamodel.TextFileBackingStore$DefaultDialogProvider.selectFile(Ljava/awt/Component;Ljava/lang/String;)Ljava/io/File;+98
+j  com.mathworks.widgets.datamodel.TextFileBackingStore.doNegotiateSaveAs(Ljavax/swing/text/Document;Ljava/awt/Component;)Z+8
+j  com.mathworks.widgets.datamodel.TextFileBackingStore.doNegotiateSaveAs(Ljava/lang/Object;Ljava/awt/Component;)Z+6
+j  com.mathworks.widgets.datamodel.AbstractBackingStore.negotiateSaveAs(Ljava/lang/Object;Ljava/awt/Component;)Z+4
+j  com.mathworks.mde.editor.EditorView.negotiateSaveAs()Z+21
+j  com.mathworks.mde.editor.EditorView.access$3000(Lcom/mathworks/mde/editor/EditorView;)Z+1
+j  com.mathworks.mde.editor.EditorView$11.update(Ljava/util/Observable;Ljava/lang/Object;)V+430
+j  com.mathworks.mde.editor.EditorAction$ObservableAction.actionPerformed(Ljava/awt/event/ActionEvent;)V+38
+j  com.mathworks.mwswing.ChildAction.actionPerformed(Ljava/awt/event/ActionEvent;)V+12
+j  com.mathworks.toolstrip.factory.TSFactory$ListListenerBridge.listItemSelected(Lcom/mathworks/toolstrip/components/popups/ListActionEvent;)V+79
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+J  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+J  com.mathworks.util.event.EventListenerList$1.invoke(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;
+j  $Proxy7.listItemSelected(Lcom/mathworks/toolstrip/components/popups/ListActionEvent;)V+16
+j  com.mathworks.toolstrip.plaf.TSListCellRenderer.mouseReleased(Ljava/awt/event/MouseEvent;)V+87
+j  java.awt.AWTEventMulticaster.mouseReleased(Ljava/awt/event/MouseEvent;)V+21
+j  java.awt.Component.processMouseEvent(Ljava/awt/event/MouseEvent;)V+64
+j  javax.swing.JComponent.processMouseEvent(Ljava/awt/event/MouseEvent;)V+23
+j  java.awt.Component.processEvent(Ljava/awt/AWTEvent;)V+81
+j  java.awt.Container.processEvent(Ljava/awt/AWTEvent;)V+18
+j  java.awt.Component.dispatchEventImpl(Ljava/awt/AWTEvent;)V+566
+j  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V+42
+J  java.awt.LightweightDispatcher.retargetMouseEvent(Ljava/awt/Component;ILjava/awt/event/MouseEvent;)V
+j  java.awt.LightweightDispatcher.processMouseEvent(Ljava/awt/event/MouseEvent;)Z+139
+j  java.awt.LightweightDispatcher.dispatchEvent(Ljava/awt/AWTEvent;)Z+50
+j  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V+12
+j  java.awt.Window.dispatchEventImpl(Ljava/awt/AWTEvent;)V+19
+J  java.awt.EventDispatchThread.pumpOneEventForFilters(I)Z
+j  java.awt.EventDispatchThread.pumpEventsForFilter(ILjava/awt/Conditional;Ljava/awt/EventFilter;)V+30
+j  java.awt.EventDispatchThread.pumpEventsForHierarchy(ILjava/awt/Conditional;Ljava/awt/Component;)V+11
+j  java.awt.EventDispatchThread.pumpEvents(ILjava/awt/Conditional;)V+4
+j  java.awt.EventDispatchThread.pumpEvents(Ljava/awt/Conditional;)V+3
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+J  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+j  foxtrot.pumps.ConditionalEventPump.pumpEvents(Lfoxtrot/Task;)V+49
+j  foxtrot.AbstractSyncWorker.post(Lfoxtrot/Task;Lfoxtrot/WorkerThread;Lfoxtrot/EventPump;)Ljava/lang/Object;+43
+j  foxtrot.Worker.post(Lfoxtrot/Task;)Ljava/lang/Object;+10
+j  com.mathworks.mwswing.MJFileChooserPerPlatform.createAndStartSynchronousFoxTrotTask(Ljava/lang/Object;Z)V+33
+j  com.mathworks.mwswing.MJFileChooserPerPlatform.access$600(Ljava/lang/Object;Z)V+2
+j  com.mathworks.mwswing.MJFileChooserPerPlatform$SaveDialogDelegateImpl.showSaveDialog(Lcom/mathworks/mwswing/MJFileChooserPerPlatform;Ljava/awt/Component;)V+22
+j  com.mathworks.mwswing.MJFileChooserPerPlatform.showSaveDialog(Ljava/awt/Component;)V+5
+j  com.mathworks.widgets.datamodel.TextFileBackingStore$DefaultDialogProvider.selectFile(Ljava/awt/Component;Ljava/lang/String;)Ljava/io/File;+98
+j  com.mathworks.widgets.datamodel.TextFileBackingStore.doNegotiateSaveAs(Ljavax/swing/text/Document;Ljava/awt/Component;)Z+8
+j  com.mathworks.widgets.datamodel.TextFileBackingStore.doNegotiateSaveAs(Ljava/lang/Object;Ljava/awt/Component;)Z+6
+j  com.mathworks.widgets.datamodel.AbstractBackingStore.negotiateSaveAs(Ljava/lang/Object;Ljava/awt/Component;)Z+4
+j  com.mathworks.mde.editor.EditorView.negotiateSaveAs()Z+21
+j  com.mathworks.mde.editor.EditorView.access$3000(Lcom/mathworks/mde/editor/EditorView;)Z+1
+j  com.mathworks.mde.editor.EditorView$11.update(Ljava/util/Observable;Ljava/lang/Object;)V+430
+j  com.mathworks.mde.editor.EditorAction$ObservableAction.actionPerformed(Ljava/awt/event/ActionEvent;)V+38
+j  com.mathworks.mwswing.ChildAction.actionPerformed(Ljava/awt/event/ActionEvent;)V+12
+j  com.mathworks.toolstrip.factory.TSFactory$ListListenerBridge.listItemSelected(Lcom/mathworks/toolstrip/components/popups/ListActionEvent;)V+79
+v  ~StubRoutines::call_stub
+j  sun.reflect.NativeMethodAccessorImpl.invoke0(Ljava/lang/reflect/Method;Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+0
+j  sun.reflect.NativeMethodAccessorImpl.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;+87
+J  java.lang.reflect.Method.invoke(Ljava/lang/Object;[Ljava/lang/Object;)Ljava/lang/Object;
+J  com.mathworks.util.event.EventListenerList$1.invoke(Ljava/lang/Object;Ljava/lang/reflect/Method;[Ljava/lang/Object;)Ljava/lang/Object;
+j  $Proxy7.listItemSelected(Lcom/mathworks/toolstrip/components/popups/ListActionEvent;)V+16
+j  com.mathworks.toolstrip.plaf.TSListCellRenderer.mouseReleased(Ljava/awt/event/MouseEvent;)V+87
+j  java.awt.AWTEventMulticaster.mouseReleased(Ljava/awt/event/MouseEvent;)V+21
+j  java.awt.Component.processMouseEvent(Ljava/awt/event/MouseEvent;)V+64
+j  javax.swing.JComponent.processMouseEvent(Ljava/awt/event/MouseEvent;)V+23
+j  java.awt.Component.processEvent(Ljava/awt/AWTEvent;)V+81
+j  java.awt.Container.processEvent(Ljava/awt/AWTEvent;)V+18
+j  java.awt.Component.dispatchEventImpl(Ljava/awt/AWTEvent;)V+566
+j  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V+42
+J  java.awt.LightweightDispatcher.retargetMouseEvent(Ljava/awt/Component;ILjava/awt/event/MouseEvent;)V
+j  java.awt.LightweightDispatcher.processMouseEvent(Ljava/awt/event/MouseEvent;)Z+139
+j  java.awt.LightweightDispatcher.dispatchEvent(Ljava/awt/AWTEvent;)Z+50
+j  java.awt.Container.dispatchEventImpl(Ljava/awt/AWTEvent;)V+12
+j  java.awt.Window.dispatchEventImpl(Ljava/awt/AWTEvent;)V+19
+J  java.awt.EventDispatchThread.pumpOneEventForFilters(I)Z
+J  java.awt.EventDispatchThread.pumpEventsForFilter(ILjava/awt/Conditional;Ljava/awt/EventFilter;)V
+j  java.awt.EventDispatchThread.pumpEventsForHierarchy(ILjava/awt/Conditional;Ljava/awt/Component;)V+11
+j  java.awt.EventDispatchThread.pumpEvents(ILjava/awt/Conditional;)V+4
+j  java.awt.EventDispatchThread.pumpEvents(Ljava/awt/Conditional;)V+3
+j  java.awt.EventDispatchThread.run()V+9
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x000000006ee47800 JavaThread "pool-7-thread-1" [_thread_blocked, id=8700, stack(0x000000014c040000,0x0000000150040000)]
+  0x000000006ee4a800 JavaThread "FreeableDirectByteBuffer reference reaper" daemon [_thread_blocked, id=10788, stack(0x000000048e970000,0x0000000492970000)]
+  0x000000006ee49800 JavaThread "KeepAlive0" daemon [_thread_blocked, id=9932, stack(0x000000047a950000,0x000000047e950000)]
+  0x000000006ee49000 JavaThread "pool-8-thread-1" [_thread_blocked, id=6772, stack(0x0000000476950000,0x000000047a950000)]
+  0x000000006ee46800 JavaThread "CommGroup select thread com.mathworks.toolbox.distcomp.pmode.io.CommunicationGroup@460367c3" daemon [_thread_in_native, id=10552, stack(0x000000011c000000,0x0000000120000000)]
+  0x000000006ee48000 JavaThread "LocalScheduler2" daemon [_thread_in_native, id=10444, stack(0x00000003e28b0000,0x00000003e68b0000)]
+  0x00000000569a0000 JavaThread "Thread-269" [_thread_blocked, id=9420, stack(0x00000003d68b0000,0x00000003da8b0000)]
+  0x000000005699f800 JavaThread "LocalScheduler1" daemon [_thread_blocked, id=4016, stack(0x000000035e880000,0x0000000362880000)]
+  0x000000005699d000 JavaThread "LocalScheduler0" daemon [_thread_blocked, id=7912, stack(0x0000000178060000,0x000000017c060000)]
+  0x00000000b4269800 JavaThread "Code Analyzer updating thread" [_thread_blocked, id=5792, stack(0x0000000148040000,0x000000014c040000)]
+  0x00000000b426e800 JavaThread "Code Analyzer updating thread" [_thread_blocked, id=10308, stack(0x0000000124000000,0x0000000128000000)]
+  0x00000000b426d000 JavaThread "Code Analyzer updating thread" [_thread_blocked, id=6380, stack(0x0000000120000000,0x0000000124000000)]
+  0x00000000b4267000 JavaThread "Code Analyzer updating thread" [_thread_blocked, id=9728, stack(0x00000000c0000000,0x00000000c4000000)]
+  0x00000000b4268000 JavaThread "Foxtrot Single Worker Thread #1" daemon [_thread_blocked, id=772, stack(0x00000000f8000000,0x00000000fc000000)]
+  0x00000000b426a800 JavaThread "Active Reference Queue Daemon" daemon [_thread_blocked, id=6364, stack(0x00000000f0000000,0x00000000f4000000)]
+  0x00000000b426a000 JavaThread "Timer-1" daemon [_thread_blocked, id=7064, stack(0x00000000ec000000,0x00000000f0000000)]
+  0x00000000b426d800 JavaThread "Prefs Updater" daemon [_thread_blocked, id=8184, stack(0x00000000e4000000,0x00000000e8000000)]
+  0x00000000b426c000 JavaThread "Swing-Shell" daemon [_thread_blocked, id=6512, stack(0x00000000f4000000,0x00000000f8000000)]
+  0x00000000569a1800 JavaThread "ClipboardMonitor Timer" daemon [_thread_blocked, id=8824, stack(0x00000000d8000000,0x00000000dc000000)]
+  0x00000000569a1000 JavaThread "Explorer NavigationContext request queue" daemon [_thread_blocked, id=1216, stack(0x00000000d4000000,0x00000000d8000000)]
+  0x000000005699e800 JavaThread "AddressBar directory emptiness poller" daemon [_thread_blocked, id=3964, stack(0x00000000c8000000,0x00000000cc000000)]
+  0x000000005699e000 JavaThread "Explorer Refresh Service 1326101490" daemon [_thread_blocked, id=5996, stack(0x00000000c4000000,0x00000000c8000000)]
+  0x000000005699c800 JavaThread "Thread-4" daemon [_thread_blocked, id=8744, stack(0x00000000bc000000,0x00000000c0000000)]
+  0x000000005699c000 JavaThread "TimerQueue" daemon [_thread_blocked, id=268, stack(0x00000000b8000000,0x00000000bc000000)]
+  0x000000005699b000 JavaThread "Thread-3" daemon [_thread_blocked, id=4556, stack(0x00000000a4000000,0x00000000a8000000)]
+  0x000000005699a800 JavaThread "FelixPackageAdmin" daemon [_thread_blocked, id=9096, stack(0x00000000b0000000,0x00000000b4000000)]
+  0x000000005651d000 JavaThread "FelixStartLevel" daemon [_thread_blocked, id=5240, stack(0x00000000ac000000,0x00000000b0000000)]
+  0x0000000056699800 JavaThread "FelixDispatchQueue" daemon [_thread_blocked, id=7988, stack(0x00000000a8000000,0x00000000ac000000)]
+=>0x0000000056594800 JavaThread "AWT-EventQueue-0" [_thread_in_native, id=8512, stack(0x00000000a0000000,0x00000000a4000000)]
+  0x0000000056579000 JavaThread "com.google.common.base.internal.Finalizer" daemon [_thread_blocked, id=8508, stack(0x000000009c000000,0x00000000a0000000)]
+  0x0000000056567800 JavaThread "AWT-Windows" daemon [_thread_in_native, id=1620, stack(0x0000000094000000,0x0000000098000000)]
+  0x0000000056566800 JavaThread "AWT-Shutdown" [_thread_blocked, id=7224, stack(0x0000000090000000,0x0000000094000000)]
+  0x0000000056563000 JavaThread "Java2D Disposer" daemon [_thread_blocked, id=7520, stack(0x000000008c000000,0x0000000090000000)]
+  0x0000000055cb7000 JavaThread "Timer-0" [_thread_blocked, id=6292, stack(0x0000000088000000,0x000000008c000000)]
+  0x0000000055b51800 JavaThread "EventMgr Dispatcher" daemon [_thread_in_native, id=8776, stack(0x0000000084000000,0x0000000088000000)]
+  0x0000000048e9b800 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=8152, stack(0x0000000069680000,0x000000006d680000)]
+  0x0000000048e97000 JavaThread "CompilerThread1" daemon [_thread_blocked, id=8216, stack(0x0000000061360000,0x0000000065360000)]
+  0x0000000048e92000 JavaThread "CompilerThread0" daemon [_thread_blocked, id=5036, stack(0x000000005d360000,0x0000000061360000)]
+  0x0000000048e8d000 JavaThread "Attach Listener" daemon [_thread_blocked, id=7972, stack(0x0000000059360000,0x000000005d360000)]
+  0x0000000048e28000 JavaThread "Finalizer" daemon [_thread_blocked, id=7188, stack(0x0000000050f10000,0x0000000054f10000)]
+  0x0000000048e26800 JavaThread "Reference Handler" daemon [_thread_blocked, id=4700, stack(0x000000004cf10000,0x0000000050f10000)]
+  0x000000000674e800 JavaThread "main" [_thread_in_native, id=4292, stack(0x0000000000030000,0x0000000004030000)]
+
+Other Threads:
+  0x0000000048e23800 VMThread [stack: 0x0000000048f10000,0x000000004cf10000] [id=6432]
+  0x0000000048eb6800 WatcherThread [stack: 0x0000000080000000,0x0000000084000000] [id=9084]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread: None
+
+Heap
+ PSYoungGen      total 34560K, used 710K [0x0000000246e10000, 0x0000000249b80000, 0x0000000286810000)
+  eden space 26752K, 2% used [0x0000000246e10000,0x0000000246ec1ac8,0x0000000248830000)
+  from space 7808K, 0% used [0x0000000248830000,0x0000000248830000,0x0000000248fd0000)
+  to   space 7360K, 0% used [0x0000000249450000,0x0000000249450000,0x0000000249b80000)
+ PSOldGen        total 2246528K, used 2083867K [0x0000000188010000, 0x00000002111f0000, 0x0000000246e10000)
+  object space 2246528K, 92% used [0x0000000188010000,0x0000000207316c48,0x00000002111f0000)
+ PSPermGen       total 125312K, used 76726K [0x0000000180010000, 0x0000000187a70000, 0x0000000188010000)
+  object space 125312K, 61% used [0x0000000180010000,0x0000000184afda20,0x0000000187a70000)
+
+Dynamic libraries:
+0x0000000140000000 - 0x0000000140028000 	C:\Program Files\MATLAB\R2013a\bin\win64\MATLAB.exe
+0x0000000077150000 - 0x00000000772f9000 	C:\Windows\SYSTEM32\ntdll.dll
+0x0000000077030000 - 0x000000007714f000 	C:\Windows\system32\kernel32.dll
+0x000007fefd0e0000 - 0x000007fefd14b000 	C:\Windows\system32\KERNELBASE.dll
+0x0000000074460000 - 0x0000000074515000 	C:\Program Files\MATLAB\R2013a\bin\win64\libut.dll
+0x00000000758a0000 - 0x000000007595f000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwi18n.dll
+0x0000000180000000 - 0x000000018000d000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwresource_core.dll
+0x0000000067450000 - 0x00000000674e8000 	C:\Program Files\MATLAB\R2013a\bin\win64\MSVCP100.dll
+0x0000000067370000 - 0x0000000067442000 	C:\Program Files\MATLAB\R2013a\bin\win64\MSVCR100.dll
+0x0000000073380000 - 0x000000007338e000 	C:\Program Files\MATLAB\R2013a\bin\win64\boost_date_time-vc100-mt-1_49.dll
+0x0000000067340000 - 0x000000006736c000 	C:\Program Files\MATLAB\R2013a\bin\win64\boost_filesystem-vc100-mt-1_49.dll
+0x0000000073260000 - 0x0000000073269000 	C:\Program Files\MATLAB\R2013a\bin\win64\boost_system-vc100-mt-1_49.dll
+0x000007fefdae0000 - 0x000007fefdbbb000 	C:\Windows\system32\ADVAPI32.dll
+0x000007feff370000 - 0x000007feff40f000 	C:\Windows\system32\msvcrt.dll
+0x000007fefda10000 - 0x000007fefda2f000 	C:\Windows\SYSTEM32\sechost.dll
+0x000007fefe220000 - 0x000007fefe34d000 	C:\Windows\system32\RPCRT4.dll
+0x0000000067310000 - 0x0000000067335000 	C:\Program Files\MATLAB\R2013a\bin\win64\LIBEXPAT.dll
+0x0000000066f90000 - 0x000000006711a000 	C:\Program Files\MATLAB\R2013a\bin\win64\icuin49.dll
+0x0000000066e50000 - 0x0000000066f8e000 	C:\Program Files\MATLAB\R2013a\bin\win64\icuuc49.dll
+0x0000000058230000 - 0x0000000059352000 	C:\Program Files\MATLAB\R2013a\bin\win64\icudt49.dll
+0x00000000730a0000 - 0x00000000730b0000 	C:\Program Files\MATLAB\R2013a\bin\win64\icuio49.dll
+0x0000000073f70000 - 0x0000000074112000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwfl.dll
+0x000000007a350000 - 0x000000007a737000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwMATLAB_res.dll
+0x0000000058150000 - 0x000000005822f000 	C:\Program Files\MATLAB\R2013a\bin\win64\boost_regex-vc100-mt-1_49.dll
+0x0000000076f30000 - 0x000000007702a000 	C:\Windows\system32\USER32.dll
+0x000007fefe150000 - 0x000007fefe1b7000 	C:\Windows\system32\GDI32.dll
+0x000007fefd7f0000 - 0x000007fefd7fe000 	C:\Windows\system32\LPK.dll
+0x000007fefd510000 - 0x000007fefd5d9000 	C:\Windows\system32\USP10.dll
+0x0000000069660000 - 0x0000000069671000 	C:\Program Files\MATLAB\R2013a\bin\win64\boost_signals-vc100-mt-1_49.dll
+0x00000000672f0000 - 0x0000000067301000 	C:\Program Files\MATLAB\R2013a\bin\win64\boost_thread-vc100-mt-1_49.dll
+0x000007fedc030000 - 0x000007fedc0bc000 	C:\Program Files\MATLAB\R2013a\bin\win64\boost_log-vc100-mt-1_49.dll
+0x0000000077320000 - 0x0000000077327000 	C:\Windows\system32\PSAPI.DLL
+0x000007feff410000 - 0x000007feff45d000 	C:\Windows\system32\WS2_32.dll
+0x000007fefdad0000 - 0x000007fefdad8000 	C:\Windows\system32\NSI.dll
+0x000007feeb340000 - 0x000007feeb373000 	C:\Program Files\MATLAB\R2013a\bin\win64\tbb.dll
+0x000007fefd4f0000 - 0x000007fefd509000 	C:\Windows\system32\imagehlp.dll
+0x000007fefba90000 - 0x000007fefbabc000 	C:\Windows\system32\POWRPROF.dll
+0x000007fefd610000 - 0x000007fefd7e7000 	C:\Windows\system32\SETUPAPI.dll
+0x000007fefd320000 - 0x000007fefd356000 	C:\Windows\system32\CFGMGR32.dll
+0x000007fefdbc0000 - 0x000007fefdc97000 	C:\Windows\system32\OLEAUT32.dll
+0x000007fefd800000 - 0x000007fefda03000 	C:\Windows\system32\ole32.dll
+0x000007fefd0c0000 - 0x000007fefd0da000 	C:\Windows\system32\DEVOBJ.dll
+0x0000000004100000 - 0x0000000004121000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwmfl_scalar.dll
+0x000007feec3e0000 - 0x000007feec505000 	C:\Windows\system32\dbghelp.dll
+0x0000000004250000 - 0x000000000457f000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwservices.dll
+0x0000000075a20000 - 0x0000000075b0b000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmx.dll
+0x000007fedc000000 - 0x000007fedc028000 	C:\Program Files\MATLAB\R2013a\bin\win64\tbbmalloc.dll
+0x00000000672d0000 - 0x00000000672e7000 	C:\Program Files\MATLAB\R2013a\bin\win64\zlib1.dll
+0x0000000004580000 - 0x00000000045ce000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwregexp.dll
+0x0000000075f10000 - 0x0000000075f57000 	C:\Program Files\MATLAB\R2013a\bin\win64\mpath.dll
+0x000000007b680000 - 0x000000007bc66000 	C:\Program Files\MATLAB\R2013a\bin\win64\mlutil.dll
+0x00000000754d0000 - 0x0000000075547000 	C:\Program Files\MATLAB\R2013a\bin\win64\xmlcore.dll
+0x0000000057f00000 - 0x0000000058141000 	C:\Program Files\MATLAB\R2013a\bin\win64\xerces-c_2_7.dll
+0x00000000045d0000 - 0x00000000045f2000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwMATLAB_settings_res.dll
+0x000007feeb330000 - 0x000007feeb340000 	C:\Program Files\MATLAB\R2013a\bin\win64\boost_iostreams-vc100-mt-1_49.dll
+0x000007fedbfb0000 - 0x000007fedbff6000 	C:\Program Files\MATLAB\R2013a\bin\win64\boost_serialization-vc100-mt-1_49.dll
+0x000007fefe350000 - 0x000007feff0d8000 	C:\Windows\system32\SHELL32.dll
+0x000007fefd470000 - 0x000007fefd4e1000 	C:\Windows\system32\SHLWAPI.dll
+0x0000000004140000 - 0x0000000004146000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwnativedisplay.dll
+0x000007fef93a0000 - 0x000007fef9440000 	C:\Windows\WinSxS\amd64_microsoft.windows.common-controls_6595b64144ccf1df_5.82.7601.17514_none_a4d6a923711520a9\COMCTL32.dll
+0x000007fefda30000 - 0x000007fefdac7000 	C:\Windows\system32\COMDLG32.dll
+0x000007fef9810000 - 0x000007fef9826000 	C:\Windows\system32\NETAPI32.dll
+0x000007fef9800000 - 0x000007fef980c000 	C:\Windows\system32\netutils.dll
+0x000007fefca80000 - 0x000007fefcaa3000 	C:\Windows\system32\srvcli.dll
+0x000007fef97e0000 - 0x000007fef97f5000 	C:\Windows\system32\wkscli.dll
+0x0000000074970000 - 0x0000000074a18000 	C:\Program Files\MATLAB\R2013a\bin\win64\mcr.dll
+0x0000000075000000 - 0x00000000753b1000 	C:\Program Files\MATLAB\R2013a\bin\win64\iqm.dll
+0x0000000074e80000 - 0x0000000074f30000 	C:\Program Files\MATLAB\R2013a\bin\win64\m_dispatcher.dll
+0x0000000004600000 - 0x0000000004e08000 	C:\Program Files\MATLAB\R2013a\bin\win64\m_interpreter.dll
+0x0000000004e10000 - 0x0000000004e34000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmex.dll
+0x0000000075430000 - 0x00000000754ab000 	C:\Program Files\MATLAB\R2013a\bin\win64\profiler.dll
+0x0000000004e40000 - 0x00000000050c3000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwmathutil.dll
+0x0000000079f40000 - 0x0000000079f66000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwmathrng.dll
+0x00000000050d0000 - 0x00000000050e0000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwmfl_rng.dll
+0x0000000074c10000 - 0x0000000074cf8000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwmathcore.dll
+0x0000000076160000 - 0x00000000761c3000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwspmatrix.dll
+0x000000007b0a0000 - 0x000000007b2f6000 	C:\Program Files\MATLAB\R2013a\bin\win64\mcos.dll
+0x0000000075ea0000 - 0x0000000075f02000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwcholmod.dll
+0x00000000050f0000 - 0x00000000050fd000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwamd.dll
+0x0000000070ef0000 - 0x0000000070f93000 	C:\Windows\WinSxS\amd64_microsoft.vc90.crt_1fc8b3b9a1e18e3b_9.0.30729.6161_none_08e61857a83bc251\MSVCR90.dll
+0x0000000005110000 - 0x000000000511c000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwcolamd.dll
+0x000000007a290000 - 0x000000007a2a3000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwblas.dll
+0x000000007a310000 - 0x000000007a325000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwbinder.dll
+0x0000000005130000 - 0x000000000513b000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwompwrapper.dll
+0x0000000075820000 - 0x000000007589e000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwlapack.dll
+0x000000007a1b0000 - 0x000000007a1d0000 	C:\Program Files\MATLAB\R2013a\bin\win64\m_pcodeio.dll
+0x0000000079b10000 - 0x0000000079b6c000 	C:\Program Files\MATLAB\R2013a\bin\win64\m_ir.dll
+0x0000000078ed0000 - 0x0000000079579000 	C:\Program Files\MATLAB\R2013a\bin\win64\m_parser.dll
+0x000000007a2f0000 - 0x000000007a307000 	C:\Program Files\MATLAB\R2013a\bin\win64\ir_xfmr.dll
+0x0000000005140000 - 0x0000000005150000 	C:\Program Files\MATLAB\R2013a\bin\win64\mtok.dll
+0x000000007a130000 - 0x000000007a158000 	C:\Program Files\MATLAB\R2013a\bin\win64\m_pcodegen.dll
+0x0000000079fb0000 - 0x0000000079fdf000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwbridge.dll
+0x0000000074f40000 - 0x0000000074ff6000 	C:\Program Files\MATLAB\R2013a\bin\win64\udd.dll
+0x0000000073cc0000 - 0x0000000073e0e000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwgui.dll
+0x000000007a1d0000 - 0x000000007a1f4000 	C:\Program Files\MATLAB\R2013a\bin\win64\graphics_util.dll
+0x000007fedbef0000 - 0x000007fedbfa8000 	C:\Program Files\MATLAB\R2013a\bin\win64\libtex_base.dll
+0x0000000005150000 - 0x0000000005a93000 	C:\Program Files\MATLAB\R2013a\bin\win64\hg.dll
+0x0000000076100000 - 0x000000007615a000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmat.dll
+0x0000000072d30000 - 0x0000000072f38000 	C:\Program Files\MATLAB\R2013a\bin\win64\hdf5dll.dll
+0x0000000075710000 - 0x00000000757d8000 	C:\Program Files\MATLAB\R2013a\bin\win64\jmi.dll
+0x0000000005ab0000 - 0x0000000005abe000 	C:\Program Files\MATLAB\R2013a\bin\win64\nativejava_services.dll
+0x0000000005ac0000 - 0x0000000005b00000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwhardcopy.dll
+0x0000000075c70000 - 0x0000000075cce000 	C:\Program Files\MATLAB\R2013a\bin\win64\libuij.dll
+0x0000000005b00000 - 0x0000000005d3f000 	C:\Program Files\MATLAB\R2013a\bin\win64\hgdatatypes.dll
+0x0000000005d40000 - 0x0000000005e2b000 	C:\Program Files\MATLAB\R2013a\bin\win64\hgutils.dll
+0x0000000005e30000 - 0x0000000005ede000 	C:\Program Files\MATLAB\R2013a\bin\win64\udd_mi.dll
+0x0000000005ee0000 - 0x0000000005f16000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwgbtutils.dll
+0x0000000005f20000 - 0x0000000005f34000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwgbt.dll
+0x0000000005f40000 - 0x000000000620e000 	C:\Program Files\MATLAB\R2013a\bin\win64\uiw.dll
+0x0000000006210000 - 0x0000000006219000 	C:\Program Files\MATLAB\R2013a\bin\win64\uinone.dll
+0x0000000006220000 - 0x0000000006246000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwnativefiledialogs.dll
+0x0000000006250000 - 0x000000000625c000 	C:\Program Files\MATLAB\R2013a\bin\win64\libmwplatform_res.dll
+0x000007fef9380000 - 0x000007fef9398000 	C:\Windows\system32\MPR.dll
+0x00000000579a0000 - 0x0000000057efd000 	C:\Program Files\MATLAB\R2013a\bin\win64\mfc100.dll
+0x000007fefc410000 - 0x000007fefc417000 	C:\Windows\system32\MSIMG32.dll
+0x000007fef98e0000 - 0x000007fef9951000 	C:\Windows\system32\WINSPOOL.DRV
+0x0000000006260000 - 0x000000000627d000 	C:\Program Files\MATLAB\R2013a\bin\win64\mwoles05.DLL
+0x0000000006280000 - 0x00000000062ec000 	C:\Program Files\MATLAB\R2013a\bin\win64\comcli.dll
+0x00000000672a0000 - 0x00000000672cb000 	C:\Program Files\MATLAB\R2013a\bin\win64\ATL100.DLL
+0x00000000062f0000 - 0x00000000062fc000 	C:\Program Files\MATLAB\R2013a\bin\win64\mlautoregister.dll
+0x0000000006300000 - 0x0000000006456000 	C:\Program Files\MATLAB\R2013a\bin\win64\mvm.dll
+0x000007fefd5e0000 - 0x000007fefd60e000 	C:\Windows\system32\IMM32.DLL
+0x000007fefd360000 - 0x000007fefd469000 	C:\Windows\system32\MSCTF.dll
+0x0000000074d30000 - 0x0000000074d68000 	C:\PROGRA~2\Sophos\SOPHOS~1\SOPHOS~2.DLL
+0x000007fefa820000 - 0x000007fefa876000 	C:\Windows\system32\UxTheme.dll
+0x000007fefa440000 - 0x000007fefa458000 	C:\Windows\system32\dwmapi.dll
+0x0000000072600000 - 0x000000007260d000 	C:\Program Files\MATLAB\R2013a\bin\win64\MFC100ENU.DLL
+0x00000000081a0000 - 0x00000000081ee000 	C:\Program Files\MATLAB\R2013a\bin\win64\MVMLocal.dll
+
+VM Arguments:
+jvm_args: -XX:PermSize=32m -Xms64m -XX:NewRatio=3 -XX:MaxPermSize=128m -Xmx4071m -XX:MaxDirectMemorySize=2147400000 -Dsun.java2d.noddraw=true -Dsun.awt.nopixfmt=true -Xshare:off -Xrs -Dsun.awt.disableMixing=true -Djava.library.path=C:\Program Files\MATLAB\R2013a\bin\win64;C:\Program Files\MATLAB\R2013a\sys\jxbrowser\win64\lib vfprintf abort -XX:ParallelGCThreads=6 
+java_command: <unknown>
+Launcher Type: generic
+
+Environment Variables:
+CLASSPATH=.;C:\Program Files (x86)\Java\jre7\lib\ext\QTJava.zip
+PATH=C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\AMD APP\bin\x86_64;C:\Program Files (x86)\AMD APP\bin\x86;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;c:\Program Files\WIDCOMM\Bluetooth Software\;c:\Program Files\WIDCOMM\Bluetooth Software\syswow64;C:\Program Files\Broadcom\WHL\;C:\Program Files\Broadcom\WHL\syswow64;C:\Program Files\Broadcom\WHL\SysWow64\;C:\Program Files\Broadcom\WHL\SysWow64\syswow64;C:\Program Files\MATLAB\R2013a\runtime\win64;C:\Program Files\MATLAB\R2013a\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Microsoft Windows Performance Toolkit\;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\v1.0\;C:\Program Files\Microsoft SQL Server\110\Tools\Binn\;c:\Program Files (x86)\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\TortoiseGit\bin;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\
+USERNAME=Noah
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 58 Stepping 9, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows 7 Build 7601 Service Pack 1
+
+CPU:total 8 (8 cores per cpu, 2 threads per core) family 6 model 58 stepping 9, cmov, cx8, fxsr, mmx, sse, sse2, sse3, ssse3, sse4.1, sse4.2, ht
+
+Memory: 4k page, physical 16677228k(2104924k free), swap 33352596k(13025360k free)
+
+vm_info: Java HotSpot(TM) 64-Bit Server VM (14.3-b01) for windows-amd64 JRE (1.6.0_17-b04), built on Oct 11 2009 00:46:08 by "java_re" with MS VC++ 8.0
+
+time: Mon Jun 24 15:35:33 2013
+elapsed time: 3181 seconds
+
