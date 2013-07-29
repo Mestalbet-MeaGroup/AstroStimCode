@@ -9,18 +9,22 @@ function CreatePrePostRasterTrim(DataSetBase,DataSetStims,which)
 % which=6;
 % load('E:\AstroStimArticleDataSet\Code\DataSetStim.mat');
 
-tpre=DataSetBase{which}.t;
-icpre=DataSetBase{which}.ic;
-tpost=DataSetStims{which}.t;
-icpost=DataSetStims{which}.ic;
+tpre=DataSetBase{which}.Trim.t;
+
+icpre=DataSetBase{which}.Trim.ic;
+tpost=DataSetStims{which}.Trim.t;
+icpost=DataSetStims{which}.Trim.ic;
 a=icpre(1,:);
 b=icpost(1,:);
-onlysame=ismember(a,b);
 
+onlysame=ismember(a,b);
 icpre=icpre(:,onlysame);
+
 onlysame=ismember(b,a);
 icpost=icpost(:,onlysame);
 
+icpre=icpre(:,1:40);
+icpost=icpost(:,1:40);
 %% Create Rasters
 for i=1:2
     
@@ -39,10 +43,10 @@ for i=1:2
         %     tcenter=t(1)+min/2*(12000*60); %Around what center in time do you want your window?
         if ~isempty(DataSetStims{which}.sbs)
             if DataSetStims{which}.sbe(1)-min/2*(12000*60)>0
-                if DataSetStims{which}.sbe(1)+min/2*(12000*60)<max(DataSetStims{which}.t)
+                if DataSetStims{which}.sbe(1)+min/2*(12000*60)<max(DataSetStims{which}.Trim.t)
                     tcenter=DataSetStims{which}.sbe(1)-min/2*(12000*60); %Around what center in time do you want your window?
                 else
-                    temp=DataSetStims{which}.sbe(1)-abs(max(DataSetStims{which}.t) - (DataSetStims{which}.sbe(1)+min/2*(12000*60)) )-min/2*(12000*60); %moves center so window doesn't exceed last recorded spike
+                    temp=DataSetStims{which}.sbe(1)-abs(max(DataSetStims{which}.Trim.t) - (DataSetStims{which}.sbe(1)+min/2*(12000*60)) )-min/2*(12000*60); %moves center so window doesn't exceed last recorded spike
                     tcenter=temp+min/2*(12000*60);
                 end
             else

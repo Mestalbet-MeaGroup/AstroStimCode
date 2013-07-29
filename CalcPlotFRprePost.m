@@ -90,7 +90,7 @@ xlabel('Cultures','FontSize',16);
 set(gca,'FontSize',16);
 maximize(gcf);
 set(gcf,'color','w');
-export_fig 'FiringRateAllOpto.png';
+% export_fig 'FiringRateAllOpto.png';
 
 % print(gcf, '-r600', '-dpng', 'FiringRateAllOpto.png');
 
