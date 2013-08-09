@@ -10,7 +10,6 @@ function CreatePrePostRasterTrim(DataSetBase,DataSetStims,which)
 % load('E:\AstroStimArticleDataSet\Code\DataSetStim.mat');
 
 tpre=DataSetBase{which}.Trim.t;
-
 icpre=DataSetBase{which}.Trim.ic;
 tpost=DataSetStims{which}.Trim.t;
 icpost=DataSetStims{which}.Trim.ic;
@@ -23,8 +22,8 @@ icpre=icpre(:,onlysame);
 onlysame=ismember(b,a);
 icpost=icpost(:,onlysame);
 
-icpre=icpre(:,1:40);
-icpost=icpost(:,1:40);
+% icpre=icpre(:,1:100);
+% icpost=icpost(:,1:100);
 %% Create Rasters
 for i=1:2
     

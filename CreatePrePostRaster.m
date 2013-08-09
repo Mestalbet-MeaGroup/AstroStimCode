@@ -1,4 +1,4 @@
-function CreatePrePostRasterTrim(DataSetBase,DataSetStims,which)
+function CreatePrePostRaster(DataSetBase,DataSetStims,which)
 % Creates a raster plot from the end of one of the baseline recordings and
 % next to it a raster from the beginning of the stimulation recording with
 % HA neurons and low firing removed. See SortChannelsByFR.m for more
