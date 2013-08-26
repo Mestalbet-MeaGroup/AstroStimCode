@@ -25,7 +25,7 @@ icpost=icpost(:,onlysame);
 for i=1:2
     
     c=colormap(gray(64));
-    min=6; %How many minutes do you want your window?
+    min=10; %How many minutes do you want your window?
     
     if i==1
         t=tpre;

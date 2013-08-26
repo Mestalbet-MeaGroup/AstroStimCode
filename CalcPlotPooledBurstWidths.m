@@ -45,6 +45,7 @@ for i=1:size(DataSetStims,1)
 bwsPosts(i,1:numPost(i))=bwsPost{i}./12000;
 bwsPres(i,1:numPre(i))=bwsPre{i}./12000;
 end
+display(min([bwsPosts(:),bwsPres(:)]));
 figure;
 subplot(2,1,1);
 h1 = notBoxPlot(bwsPres',[],[],'line'); 
@@ -61,8 +62,9 @@ set(gca,'FontSize',18);
 title('Stimulation','FontSize',18);
 ylim([1E-3,1E3]);
 xlabel('Cultures');
-clear_all_but('DataSetStims','DataSetBase'); clc;
+clear_all_but('DataSetStims','DataSetBase'); 
 maximize(gcf);
 set(gcf,'color','w');
 export_fig 'AllBurstDurations.png';
+
 % print(gcf, '-r600', '-dpng', 'AllBurstDurations.png');

@@ -47,7 +47,7 @@ for i=1:size(DataSetStims,1)
     
     
     %% Plot Firing Rate and Mean/STD lines
-    subplot(5,3,i)
+    subplot(2,3,i)
     hold on;
     plot(preIndex,pres,'-b');
     plot(postIndex,posts,'-r');
@@ -73,15 +73,15 @@ for i=1:size(DataSetStims,1)
     set(hb,'FaceAlpha',0.2);
     %     ylim([-max([stdhigh_lineposts;stdhigh_linepres])*1.5,max([stdhigh_lineposts;stdhigh_linepres])*1.5]);
     %     ylim([-max([pres,posts])*1.01,max([pres,posts])*1.01]);
-    [ymin, ymax]=CalcLimitsWithoutOutliers(pres,posts);
-    ylim([ymin*0.9,ymax*1.1]);
+%     [ymin, ymax]=CalcLimitsWithoutOutliers(pres,posts);
+    ylim([-15,120]);
     ratio(i)  = ((numel(tpost)/max(tpost))/(numel(tpre)/max(tpre)));
     %     xlabel(['Ratio of Spikes: Post/Pre = ' num2str(ratio)],'FontSize',16);
     hold off
     %     eval(['print(f,' '''-r600''' ',' '''-deps'',''' cultures{i,1} '.eps'');']);
 end
 
-subplot(5,3,i+1:15)
+subplot(2,3,i+1:6)
 bar(ratio);
 lenLine = 0:1:14;
 line(lenLine,ones(length(lenLine)),'LineStyle','-.','Color','r');

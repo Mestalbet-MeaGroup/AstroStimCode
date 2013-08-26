@@ -8,9 +8,13 @@ for i=1:size(DataSetStims,1)
     tpost=DataSetStims{i}.Trim.t; %post
     icpost=DataSetStims{i}.Trim.ic; %post
     %% Calculate Firing Rate
-    [~,pre]=FindNeuronFrequency(tpre,icpre,500,1);
-    [~,post]=FindNeuronFrequency(tpost,icpost,500,1);
-    
+%     [~,pre]=FindNeuronFrequency(tpre,icpre,500,1);
+%     [~,post]=FindNeuronFrequency(tpost,icpost,500,1);
+    interval = 500; %ms
+    recend = max(tpre)./12; %30*60*1000; %(30 minutes/recording * 60 sec/min *1000 ms/sec)
+    pre = (histc(sort(tpre)./12,0:interval:recend)./1000)./(size(icpre,2));
+    recend = max(tpost)./12; %30*60*1000; %(30 minutes/recording * 60 sec/min *1000 ms/sec)
+    post = (histc(sort(tpost)./12,0:interval:recend)./1000)./(size(icpost,2));
     %% Setup window
     startpre=1;
     stoppre=length(pre);
@@ -38,12 +42,12 @@ for i=1:size(DataSetStims,1)
     postIndex=postIndex-postIndex(1);
     
     %% Calculate Mean and Standard Deviation of Firing Rates
-    meanlinepres=ones(length(preIndex),1).*mean(pres);
-    stdlow_linepres=ones(length(preIndex),1).*(mean(pres)-std(pres));
-    stdhigh_linepres=ones(length(preIndex),1).*(mean(pres)+std(pres));
-    meanlineposts=ones(length(postIndex),1).*mean(posts);
-    stdlow_lineposts=ones(length(postIndex),1).*(mean(posts)-std(posts));
-    stdhigh_lineposts=ones(length(postIndex),1).*(mean(posts)+std(posts));
+%     meanlinepres=ones(length(preIndex),1).*mean(pres);
+%     stdlow_linepres=ones(length(preIndex),1).*(mean(pres)-std(pres));
+%     stdhigh_linepres=ones(length(preIndex),1).*(mean(pres)+std(pres));
+%     meanlineposts=ones(length(postIndex),1).*mean(posts);
+%     stdlow_lineposts=ones(length(postIndex),1).*(mean(posts)-std(posts));
+%     stdhigh_lineposts=ones(length(postIndex),1).*(mean(posts)+std(posts));
     
     
     %% Plot Firing Rate and Mean/STD lines
@@ -62,20 +66,21 @@ for i=1:size(DataSetStims,1)
         xlim([-1*max(abs(preIndex)) max(abs(preIndex))]);
     end
     %     plot(preIndex,meanlinepres,'-b','LineWidth',3);
-    plot(preIndex,stdlow_linepres,'--b','LineWidth',2);
-    plot(preIndex,stdhigh_linepres,'--b','LineWidth',2);
-    ha = patch([preIndex fliplr(preIndex)], [stdlow_linepres',fliplr(stdhigh_linepres')],'b');
+%     plot(preIndex,stdlow_linepres,'--b','LineWidth',2);
+%     plot(preIndex,stdhigh_linepres,'--b','LineWidth',2);
+%     ha = patch([preIndex fliplr(preIndex)], [stdlow_linepres',fliplr(stdhigh_linepres')],'b');
     %     plot(postIndex,meanlineposts,'-r','LineWidth',3);
-    plot(postIndex,stdlow_lineposts,'--r','LineWidth',2);
-    plot(postIndex,stdhigh_lineposts,'--r','LineWidth',2);
-    hb = patch([postIndex fliplr(postIndex)], [stdlow_lineposts',fliplr(stdhigh_lineposts')],'r');
-    set(ha,'FaceAlpha',0.2);
-    set(hb,'FaceAlpha',0.2);
+%     plot(postIndex,stdlow_lineposts,'--r','LineWidth',2);
+%     plot(postIndex,stdhigh_lineposts,'--r','LineWidth',2);
+%     hb = patch([postIndex fliplr(postIndex)], [stdlow_lineposts',fliplr(stdhigh_lineposts')],'r');
+%     set(ha,'FaceAlpha',0.2);
+%     set(hb,'FaceAlpha',0.2);
     %     ylim([-max([stdhigh_lineposts;stdhigh_linepres])*1.5,max([stdhigh_lineposts;stdhigh_linepres])*1.5]);
     %     ylim([-max([pres,posts])*1.01,max([pres,posts])*1.01]);
-    [ymin, ymax]=CalcLimitsWithoutOutliers(pres,posts);
-    ylim([ymin*0.9,ymax*1.1]);
-    ratio(i)  = ((numel(tpost)/max(tpost))/(numel(tpre)/max(tpre)));
+    [~, ymax]=CalcLimitsWithoutOutliers(pres,posts);
+%     ylim([ymin*0.9,ymax*1.1]);
+    ylim([-1, 25]);
+    ratio(i)  = (numel(tpost)/(max(tpost)-min(tpost))) /(numel(tpre)/(max(tpre)-min(tpre)));
     %     xlabel(['Ratio of Spikes: Post/Pre = ' num2str(ratio)],'FontSize',16);
     hold off
     %     eval(['print(f,' '''-r600''' ',' '''-deps'',''' cultures{i,1} '.eps'');']);

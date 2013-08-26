@@ -11,5 +11,5 @@ for i=1:13
 end
 Treatment(end+1:length(test))=2;
 
-[p,table,stats,terms] = anovan(test',{cultNum' Treatment'},'model','full', 'varnames',{'Culture';'Stimulation'},'nested',[0,0;1,0]);
+[p,table,stats,terms] = anovan(test',{cultNum' Treatment'},'model','full', 'varnames',{'Culture';'Stimulation'},'alpha',0.01);
 % [p,table,stats,terms] = anovan(test,{cultNum' Treatment'},'model','full', 'varnames',{'Culture';'Stimulation'});

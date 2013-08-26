@@ -37,7 +37,7 @@ for i=1:numel(sbs);
 end
 
 subplot(4,1,1:3);
-hold all;
+hold on;
 plot(Firings(starts(1)-dev+1:end,1));
 offset=0;
 for i=2:size(Firings,2)
@@ -45,7 +45,8 @@ for i=2:size(Firings,2)
     plot(Firings(starts(i)-dev+1:end,i)+offset);
 end
 hold off;
-
+set(gca,'FontSize',16);
+set(gca,'XTick',[],'XTickLabel',[]);
 for i=1:size(Firings,2)
 FRtemp{i} = Firings(starts(i)-dev+1:end,i);
 end
@@ -56,6 +57,9 @@ end
 SumFirings = sum(SumFirings,2);
 subplot(4,1,4);
 bar(SumFirings);
+set(gca,'XTick',linspace(0,length(SumFirings),6),'XTickLabels',round((linspace(0,length(SumFirings),6)./12000)*100)/100,'FontSize',16);
+xlabel('Time [Sec]','FontSize',16);
+
 else
     SumFirings=[];
     Firings=[];
