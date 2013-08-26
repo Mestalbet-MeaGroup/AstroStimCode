@@ -28,7 +28,7 @@ bar(ratio,'k');
 lenLine = 0:1:14;
 line(lenLine,ones(length(lenLine)),'LineStyle','-.','Color','r','LineWidth',3);
 % ylabel('$\frac{''Spikes Post''}{''Spikes Pre''}$','interpreter','latex');
-ylabel(['Spikes Post:', sprintf('\n') 'Spikes Pre'],'position',[-0.150 -0.676]);
+ylabel(['Spikes Post:', sprintf('\n') 'Spikes Pre'],'position',[-0.37 0.555]);
 set(gca,'XTickLabel',[],'YTick',[1,3],'YTickLabel',{'1    ','3    '},'TickDir','in');
 set(gca, 'Ticklength', [0.008 0],'box','off');
 
@@ -102,7 +102,8 @@ bar([base;stim]','Stack');
 ylabel('Superburst per minute','position',[-0.385 0.492]);
 culTypes = {'Melanopsin ','OptoA1-EYFP ','OptoA1-P2A-tRFP ','ChR2 '};
 ylab = 0:0.2:1;
-for i=1:numel(ylab); ylab1{i}=[num2str(ylab(i)) ' ']; end;
+ylab1{1}=[num2str(ylab(1)) '    ']; 
+for i=2:numel(ylab); ylab1{i}=[num2str(ylab(i)) ' ']; end; 
 set(gca,'YTick',ylab,'YTickLabel',ylab1);
 cultLabels = {[culTypes{1} '(1)'] [culTypes{1} '(2)'] [culTypes{1} '(3)'] [culTypes{1} '(4)']...
               [culTypes{2} '(1)'] [culTypes{2} '(2)'] [culTypes{2} '(3)'] ...
