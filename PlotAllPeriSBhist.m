@@ -4,10 +4,11 @@ for i=1:size(DataSetStims,1)
     figure;
     [SumFirings,Firings] = CreatePeriSBhist(DataSetStims{i}.Trim.t,DataSetStims{i}.sbs,DataSetStims{i}.sbe);
 %     title(['Culture ' num2str(i)]);
-    set(gca,'FontSize',16);
+    set(findall(gcf,'-property','FontSize'),'FontSize',16);
     maximize(gcf);
-    set(gcf,'color','w');
-    export_fig(['PeriSBhist' num2str(i)]);
+    set(gcf,'color','none');
+%     plot2svg(['PeriSBhist' num2str(i) '.svg'], gcf,'png');
+    export_fig(['PeriSBhist' num2str(i) '.pdf']);
     close all;
 end
 subplot = @(m,n,p) subtightplot (m, n, p, [0.05 0.05], [0.05 0.05], [0.05 0.05]);
