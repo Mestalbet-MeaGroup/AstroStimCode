@@ -89,7 +89,7 @@ ylabel('Post/Pre number of spikes','FontSize',16);
 xlabel('Cultures','FontSize',16);
 set(gca,'FontSize',16);
 maximize(gcf);
-set(gcf,'color','w');
+set(gcf,'color','none');
 % export_fig 'FiringRateAllOpto.png';
 
 % print(gcf, '-r600', '-dpng', 'FiringRateAllOpto.png');

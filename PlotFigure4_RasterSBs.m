@@ -1,4 +1,4 @@
-load('DataSetOpto_trim4test2.mat');
+load('DataSetOpto_trim4HA.mat');
 for i=[1,4]
 figure;
 [SumFirings,Firings] = CreatePeriSBhist(DataSetStims{i}.Trim.t,DataSetStims{i}.sbs,DataSetStims{i}.sbe);

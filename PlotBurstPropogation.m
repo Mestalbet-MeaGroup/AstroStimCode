@@ -23,6 +23,7 @@ for j=1:Nbursts
     if (sqrt(Nbursts)-floor(sqrt(Nbursts)))>0
         subplot(floor(sqrt(Nbursts)),floor(sqrt(Nbursts))+1,j);
         imagescnan(m(:,:,j));
+        set(gca,'YDir','reverse','XDir','reverse');
         axis('off');
     else
         subplot(floor(sqrt(Nbursts)),floor(sqrt(Nbursts)),j);

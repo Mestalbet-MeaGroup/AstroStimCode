@@ -1,5 +1,5 @@
 function [SumFirings,Firings] = CreatePeriSBhist(t,sbs,sbe);
-subplot = @(m,n,p) subtightplot (m, n, p, [0.05 0.05], [0.05 0.05], [0.05 0.05]);
+% subplot = @(m,n,p) subtightplot (m, n, p, [0.05 0.05], [0.05 0.05], [0.05 0.05]);
 t=sort(t);
 f = savgol(10,1,0);
 if numel(sbs)>0
@@ -20,6 +20,7 @@ for i=1:numel(sbs)
 end
 sz=cellfun(@numel,frtemp);
 Firings=zeros(max(sz),numel(sbs));
+
 for i=1:numel(sbs);
     Firings(1:numel(frtemp{i}),i)=frtemp{i};
 end
@@ -36,10 +37,10 @@ for i=1:numel(sbs);
     Firings(1:numel(frtemp1{i}),i)=frtemp1{i};
 end
 
-s1 = subplot(4,1,1:3);
+% s1 = subplot(4,1,1:3);
 hold on;
 plot(Firings(starts(1)-dev+1:end,1));
-offset=0;
+offset=0;% Y offset (to plot on top)
 for i=2:size(Firings,2)
     offset = offset+max(Firings(:,i-1));
     plot(Firings(starts(i)-dev+1:end,i)+offset);
@@ -47,23 +48,27 @@ end
 hold off;
 set(gca,'XTick',[],'XTickLabel',[],'YTick',[],'YTickLabel',[]);
 ylim([-1 max(Firings(:))+offset]);
+
 for i=1:size(Firings,2)
 FRtemp{i} = Firings(starts(i)-dev+1:end,i);
 end
 SumFirings = zeros(max(cellfun(@numel,FRtemp)),1);
+
 for i=1:size(Firings,2)
 SumFirings(1:length(FRtemp{i}),i) = FRtemp{i};
 end
+
 SumFirings = sum(SumFirings,2);
 findstop=diff(SumFirings); 
 findstop = abs(findstop); thresh=mean(findstop)+std(findstop); [~,b]=findpeaks(findstop,'MinPeakHeight',thresh);
-% continue here
-s2 = subplot(4,1,4);
-plot(SumFirings);
+% 
+% s2 = subplot(4,1,4);
+% plot(SumFirings);
 set(gca,'XTick',round(linspace(0,length(SumFirings),6)),'XTickLabel',round((linspace(0,length(SumFirings),6)./12000)),'box','off','TickDir','out');
 xlabel('time [Sec]');
-xlim(s1,[0,b(end)]);
-xlim(s2,[0,b(end)]);
+% xlim(s1,[0,b(end)]);
+% xlim(s2,[0,b(end)]);
+xlim([0,b(end)]);
 else
     SumFirings=[];
     Firings=[];

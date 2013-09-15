@@ -135,7 +135,7 @@ set(gcf,'color','none');
 set(findall(gcf,'-property','FontSize'),'FontUnits','pixels','FontSize',fntSize);
 set(findall(gcf,'-property','LineWidth'),'LineWidth',lnWidth);
 maximize(gcf);
-plot2svg('Fig6_BurstDurationsD.svg', gcf,'png');
+% plot2svg('Fig6_BurstDurationsD.svg', gcf,'png');
 % export_fig 'Fig6_BurstDurationsD.pdf';
 close all;
 
@@ -232,7 +232,7 @@ set(gca,'XTickLabel',cultLabels);
 rotateXLabels(gca(),20);
 
 %%
-set(gcf,'color','w');
+set(gcf,'color','none');
 set(findall(gcf,'-property','FontSize'),'FontSize',16)
 maximize(gcf);
 
