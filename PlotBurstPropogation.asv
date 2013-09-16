@@ -13,11 +13,10 @@ for j=1:Nbursts
     a=find(t>=bs(j) & t<=be(j));
     ChannelOrder=unique(ic(a),'stable');
 %     ChannelOrder=ic(a);
-    
+    cmap = [1,1,1;jet(numel(ChannelOrder))];
     %     cmap = createcolormap(MeaMap,'intensity',1,'invert',1,'N',numel(MeaMap)+1);
     for i=1:size(ChannelOrder,2)
         [x,y]=find(MeaMap==ChannelOrder(i),1,'First');
-        cmap = colormap([[1 1 1];flipud(jet(numel(ChannelOrder)))]);
         if ~isempty(x)
             m(x,y,j)=i;
         end

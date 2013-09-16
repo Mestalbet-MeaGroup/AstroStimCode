@@ -139,7 +139,8 @@ maximize(gcf);
 % export_fig 'Fig6_BurstDurationsD.pdf';
 close all;
 
-%% Subplot Figure
+%% Subplot Figure - 
+% error here in plot function, plots superbursts from post on pre chart.
 figure;
 subplot(12,1,1);
 bar(ratio,'k');
