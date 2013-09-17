@@ -1,7 +1,11 @@
+% Function which prepares raster plots and peri-stimulus super burst
+% figures for figure 4 of the article.
+fclose('all');clear all; close all;clc;
 load('DataSetOpto_trim4HA.mat');
 for i=[1,4]
 figure;
-[SumFirings,Firings] = CreatePeriSBhist(DataSetStims{i}.Trim.t,DataSetStims{i}.sbs,DataSetStims{i}.sbe);
+% [SumFirings,Firings] = CreatePeriSBhist(DataSetStims{i}.Trim.t,DataSetStims{i}.sbs,DataSetStims{i}.sbe);
+rFirings = AlignSBs(DataSetStims{i}.Trim.t,DataSetStims{i}.sbs,DataSetStims{i}.sbe);
 set(findall(gcf,'-property','FontSize'),'FontSize',16);
 maximize(gcf);
 set(gcf,'color','none');
