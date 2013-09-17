@@ -81,9 +81,9 @@ set(gcf,'color','none');
 export_fig 'CM_PrePost_Distributions.png' -native
 
 for j=1:size(DataSetStims,1)
-[mBase,cBase] = PlotBurstPropogation(DataSetBase{j}.Trim.t,DataSetBase{j}.Trim.ic,sort([DataSetBase{j}.Trim.bs,DataSetBase{j}.sbs]),sort([DataSetBase{j}.Trim.be,DataSetBase{j}.sbe]));
+mBase = PlotBurstPropogation(DataSetBase{j}.Trim.t,DataSetBase{j}.Trim.ic,sort([DataSetBase{j}.Trim.bs,DataSetBase{j}.sbs]),sort([DataSetBase{j}.Trim.be,DataSetBase{j}.sbe]));
 figure;
-[mStim,cStim]= PlotBurstPropogation(DataSetStims{j}.Trim.t,DataSetStims{j}.Trim.ic,sort([DataSetStims{j}.Trim.bs,DataSetStims{j}.sbs]),sort([DataSetStims{j}.Trim.be,DataSetStims{j}.sbe]));
+mStim = PlotBurstPropogation(DataSetStims{j}.Trim.t,DataSetStims{j}.Trim.ic,sort([DataSetStims{j}.Trim.bs,DataSetStims{j}.sbs]),sort([DataSetStims{j}.Trim.be,DataSetStims{j}.sbe]));
 [X,Y] = meshgrid(1:1:16,1:1:16);
 [FXb,FYb,FZb] = gradient(mBase);
 [FXs,FYs,FZs] = gradient(mStim);
