@@ -46,7 +46,7 @@ BurstData.bursts = bursts;
 BurstData.prepost = prepost;
 BurstData.nsbsb = nsbsb;
 BurstData.cultId = cultId;
-BurstData.ClusterIDs = ClusterBursts(bursts);
+[BurstData.ClusterIDs,BurstData.CorrMat] = ClusterBursts(bursts);
 
     function m = CalcBurstSequence(t,ic,bs,be,MeaMap)
         
