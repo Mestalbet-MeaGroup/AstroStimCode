@@ -39,7 +39,7 @@ for i=1:2
     if i==2
         t=tpost;
         ic=icpost;
-        tcenter=t(1)+min/2*(12000*60);
+        tcenter=0+min/2*(12000*60);
     end
     
     res=10000; %Resolution of Image

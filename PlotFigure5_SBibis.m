@@ -17,16 +17,18 @@ CdfY=CdfY(2:end)';
 flo=flo(2:end)';
 fup=fup(2:end)';
 xPred = fitdist(SBibi', 'lognormal');
-yPred= cdf(xPred,CdfX);
-X = [CdfX,fliplr(CdfX),]; 
+[yPred,YLower,YUpper] = cdf(xPred,CdfX);
+X = [CdfX,fliplr(CdfX)]; 
 Y = [flo(1:end-1),CdfY(end),CdfY(end), fliplr(fup(1:end-1))];
 
-
-h=figure('Renderer','painter');
+% opengl('software');
+h=figure('Renderer','painters');
 hold on;
 loglog(CdfX,CdfY,'ok','MarkerSize',4,'MarkerFaceColor','k');
-loglog(CdfX,yPred,'-k');
+loglog(CdfX,yPred,'-r','LineWidth',3);
 patch(X,Y,'b','FaceAlpha',0.2,'EdgeColor','b');
+plot([CdfX(:); NaN; CdfX(:);NaN],[YLower(:); NaN; YUpper(:);NaN;],':r','LineWidth',2);
+
 title('cumulative density function');
 xlabel('interval between superbursts [sec]');
 ylabel('probability');
@@ -34,5 +36,5 @@ grid on;
 set(gcf,'color','none');
 maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16)
-% % print('-depsc2','-r300','Fig5_SBibiCDF.eps');
+print('-depsc2','-r300','Fig5_SBibiCDF.eps');
 

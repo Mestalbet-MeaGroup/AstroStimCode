@@ -18,7 +18,7 @@ figure;
 h = pcolor(X,Y,img'); 
 shading flat;
 % cmap = [[0,0,0];cmap];
-% set(gcf,'ColorMap',cmap);
+set(gcf,'ColorMap',cmap);
 set(gca,'YDir','reverse','PlotBoxAspectRatio',[size(img,2) size(img,1) 1]);
 end
 
