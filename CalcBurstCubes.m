@@ -28,6 +28,10 @@ a=a(end);
 if a<preSize
     a=preSize;
 end
+if a>size(m,3)
+    m=padarray(m,[0 0 a-size(m,3) 0],'post');
+else
 m=m(:,:,1:a,:);
+end
 end
 
