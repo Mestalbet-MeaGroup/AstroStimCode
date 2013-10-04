@@ -7,5 +7,5 @@ elseif size(cmat1,3)<size(cmat2,3)
     cmat1 = padarray(cmat2,[0 0 size(cmat2,3)-size(cmat1,3)],'post');
 end
 dp = cmat1.*cmat2;
-corr = sum(dp(:),'double')/( sum(cmat1(:),'double')*sum(cmat2(:),'double'));
+corr = sum(dp(:),'double')/sqrt( (sum(cmat1(:),'double'))^2 * (sum(cmat2(:),'double'))^2 );
 end

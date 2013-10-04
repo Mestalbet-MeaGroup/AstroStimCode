@@ -10,7 +10,7 @@ for i=1:length(bs)
 end
 maxfr=max(maxfr);
 % maxfr=2000;
-m=zeros(size(MeaMap,1),size(MeaMap,2),maxfr,length(bs),'single');
+m=zeros(size(MeaMap,1),size(MeaMap,2),maxfr,length(bs),'double');
 for i=1:size(ic1,2)
     ic1b=ic1{i};
     fra=fr{i};

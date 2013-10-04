@@ -36,11 +36,10 @@ end
 %% Calculate correlation along T dimension
 % combs = allcomb(1:size(mPre,4),1:size(mPost,4));
 % mPost=padarray(mPost,[0 0 size(mPre,3)-size(mPost,3) 0],'post');
-mPre=cat(4,mPre,mPost);
-clear DataSetBase; clear DataSetStims; clear mPre; clear mPost; 
+m=cat(4,mPre,mPost);
 sbVSnsb = [sbVSnsbPre;sbVSnsbPost];
-preVSpost=[zeros(size(mPre,4)),ones(size(mPost,4))];
-clear sbVSnsbPre; clear sbVSnsbPost;
+preVSpost=[zeros(size(mPre,4),1);ones(size(mPost,4),1)];
+clear DataSetBase; clear DataSetStims; clear mPre; clear mPost; clear sbVSnsbPre; clear sbVSnsbPost;
 combs = VChooseK(1:size(m,4),2);
 x = combs(:,1);
 y = combs(:,2);
