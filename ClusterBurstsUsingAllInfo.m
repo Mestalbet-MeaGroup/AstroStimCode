@@ -2,7 +2,7 @@
 % Q*R (electrodes, 16x16)
 % S FR (time in seconds)
 % T burst number
-function [mPre,mPost,sbVSnsbPre,sbVSnsbPost]=ClusterBurstsUsingAllInfo(DataSetBase,DataSetStims,MeaMap);
+function [mPre,mPost,sbVSnsbPre,sbVSnsbPost,corr]=ClusterBurstsUsingAllInfo(DataSetBase,DataSetStims,MeaMap);
 for k=1%:size(DataSetBase,1)
     bs = DataSetBase{k}.Trim.bs;
     be = DataSetBase{k}.Trim.be;
