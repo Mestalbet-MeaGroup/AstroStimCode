@@ -25,6 +25,7 @@
 *.log
 *.sql
 *.sqlite
+*.asv
 
 # OS generated files #
 ######################
@@ -42,6 +43,10 @@ Thumbs.db
 *.png
 *.eps
 *.jpg
+
+# DataFiles #
+######################
+*.mat
 
 # Auto detect text files and perform LF normalization
 * text=auto
@@ -65,7 +70,3 @@ Thumbs.db
 *.PDF  diff=astextplain
 *.rtf  diff=astextplain
 *.RTF  diff=astextplain
-
-# DataFiles #
-######################
-*.mat

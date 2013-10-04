@@ -1,4 +1,4 @@
-function m = CalcBurstCubes(t,ic,bs,be,MeaMap)
+function m = CalcBurstCubes(t,ic,bs,be,MeaMap,preSize)
 % matObj = matfile('myBigData.mat','Writable',true);
 % bin = 100;
 % m(1:size(MeaMap,1),1:size(MeaMap,2),1:ceil(max(t(ic(4,:))-t(ic(3,:)))/bin),1:length(bs))=0;
@@ -25,6 +25,9 @@ test=squeeze(test);
 test=test>0;
 [a,~]=initfin(test');
 a=a(end);
+if a<preSize
+    a=preSize;
+end
 m=m(:,:,1:a,:);
 end
 

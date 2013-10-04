@@ -16,8 +16,8 @@ for k=1%:size(DataSetBase,1)
         end
         
     end
-    mPre = CalcBurstCubes(DataSetBase{k}.Trim.t,DataSetBase{k}.Trim.ic,bs,be,MeaMap);
-    
+    mPre = CalcBurstCubes(DataSetBase{k}.Trim.t,DataSetBase{k}.Trim.ic,bs,be,MeaMap,[]);
+        
     bs=[]; be=[]; bs1=[]; be1=[];
     bs = DataSetStims{k}.Trim.bs;
     be = DataSetStims{k}.Trim.be;
@@ -30,12 +30,13 @@ for k=1%:size(DataSetBase,1)
             sbVSnsbPost = [sbVSnsbPost;ones(length(bs1),1)];
         end
     end
-    mPost = CalcBurstCubes(DataSetStims{k}.Trim.t,DataSetStims{k}.Trim.ic,bs,be,MeaMap);
+    mPost = CalcBurstCubes(DataSetStims{k}.Trim.t,DataSetStims{k}.Trim.ic,bs,be,MeaMap,size(mPre,3));
 end
 
 %% Calculate correlation along T dimension
 % combs = allcomb(1:size(mPre,4),1:size(mPost,4));
-m=cat(4,mPre,Mpost);
+% mPost=padarray(mPost,[0 0 size(mPre,3)-size(mPost,3) 0],'post');
+m=cat(4,mPre,mPost);
 sbVSnsb = [sbVSnsbPre;sbVSnsbPost];
 preVSpost=[zeros(size(mPre,4)),ones(size(mPost,4))];
 clear DataSetBase; clear DataSetStims; clear mPre; clear mPost; clear sbVSnsbPre; clear sbVSnsbPost;
