@@ -7,7 +7,7 @@ cultLabels = {[culTypes{1} '(1)'] [culTypes{1} '(2)'] [culTypes{1} '(3)'] [culTy
     [culTypes{3} '(1)'] [culTypes{3} '(2)']...
     [culTypes{4} '(1)'] [culTypes{4} '(2)'] [culTypes{4} '(3)'] [culTypes{4} '(4)']};
 
-
+diffs=nan(40,max(BurstData.cultId));
 for i=1:max(BurstData.cultId)
     subplot(4,4,i);
     prepost=BurstData.prepost(BurstData.cultId==i);
@@ -18,7 +18,7 @@ for i=1:max(BurstData.cultId)
     numPre=numPre./sum(numPre);
     [numPost]=histc(clustPost,1:numclust);
     numPost=numPost./sum(numPost);
-    [diffs(:,i),ix] = sort(numPost-numPre);
+    [diffs(1:length(sort(numPost-numPre)),i),ix] = sort(numPost-numPre);
     row=zeros(max(unique([clustPre;clustPost])),length(clustPre)+length(clustPost));
     for idx=1:numel(unique([clustPre;clustPost]))
         k=ix(idx);

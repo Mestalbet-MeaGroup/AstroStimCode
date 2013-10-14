@@ -1,18 +1,23 @@
 %% Initialize
-fclose('all');clear all; close all;clc;
+% fclose('all');clear all; close all;clc;
 % matlabpool open 8;
 subplot = @(m,n,p) subtightplot (m, n, p, [0.03 0.02], [0.05 0.05], [0.01 0.01]);
 load('16x16MeaMap_90CW_Inverted.mat');
 load('tempBurstsWithClusters.mat', 'BurstData')
 %% Calculate Clusters
-% h = waitbarwithtime(0,'Calculating...');
+h = waitbarwithtime(0,'Calculating...');
 numtypes=5;
 % tic
-parfor i=1:max(BurstData.cultId)
-    [ClusterIDs{i},CorrMat{i}] = ClusterBursts2(BurstData.bursts(:,:,BurstData.cultId==i),numtypes);
-    %     waitbarwithtime(i/max(BurstData.cultId),h);
-end
+% parfor i=1:max(BurstData.cultId)
+%     [ClusterIDs{i},CorrMat{i}] = ClusterBursts2(BurstData.bursts(:,:,BurstData.cultId==i),numtypes);
+%     %     waitbarwithtime(i/max(BurstData.cultId),h);
+% end
 % toc
+
+for i=1:max(BurstData.cultId)
+    [ClusterIDs{i},~,~] = ClusterBurstsKmeans2(BurstData.bursts(:,:,BurstData.cultId==i));
+        waitbarwithtime(i/max(BurstData.cultId),h);
+end
 %% Plot Sample Burst Clusters
 % for k=1:max(BurstData.cultId);
 k=4; figure;
