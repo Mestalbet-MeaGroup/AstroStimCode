@@ -26,18 +26,20 @@ for i=1:max(BurstData.cultId)
         row(idx,length(clustPre)+1:end) = (clustPost==k)*2;
     end
     row(find(row==0))=nan;
-    if i==13
-        row(:,200:1400)=[];
-    end
-    row = CropReOrderBurstTypeClusters(row);
+%     if i==13
+%         row(:,200:1400)=[];
+%     end
+%     row = CropReOrderBurstTypeClusters(row);
     
     for j=1:size(row,1)
         numPres = sum(row(j,:)==1)/sum(row(:)==1);
         numPosts = sum(row(j,:)==2)/sum(row(:)==2);
         diffs(j,i) = sort(numPosts-numPres);
     end
-    
-    pcolor(row)
+%     row1=nan(size(row,1)*2,size(row,2));
+%     figure;
+%     imagescnan(row);
+    pcolor([row;nan(1,size(row,2))])
     shading flat;
     set(gca,'ydir','reverse');
     %     imagescnan(row,'nancolor',[1,1,1]);

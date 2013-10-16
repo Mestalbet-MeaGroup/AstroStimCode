@@ -21,9 +21,10 @@ cmat=CalcCorr(m);
 %     imagescnan(nanmean(m(:,:,CID==ii),3));
 %     title(num2str(ii));
 % end
-% 
+%
 
 %% Merge clusters which correlate more than 70%
+
 numClust = max(CID);
 if numClust >1
     for k=1:numClust
@@ -33,22 +34,26 @@ if numClust >1
     end
 else
     CID1=CID;
-    return;
+    %     return;
 end
-% [CID2,mat2,r2,ins2,outs2] = KmeansClust(newMat);
-corrMat=CalcNewCorr(newMat);
-corrMat(corrMat<0)=0;
-[a,~]=find(corrMat(:,3)>0.7);
-CID1=CID;
-merge=corrMat(a,1:2);
-merge=merge(~(ismember(merge(:,1),merge(:,2))),:);
-for kkk=1:size(merge,1)
-    CID1( (CID==merge(kkk,1))|(CID==merge(kkk,2)) ) = merge(kkk,1)+100;
+[CID2,mat2,r2,ins2,outs2] = KmeansClust(CalcCorr(newMat));
+
+for k=1:size(CID2,1)
+    CID(CID==CID2(k))=k;
 end
-newIds=unique(CID1);
-for r=1:numel(newIds)
-    CID1(CID1==newIds(r))=r;
-end
+% corrMat=CalcNewCorr(newMat);
+% corrMat(corrMat<0)=0;
+% [a,~]=find(corrMat(:,3)>0.7);
+% CID1=CID;
+% merge=corrMat(a,1:2);
+% merge=merge(~(ismember(merge(:,1),merge(:,2))),:);
+% for kkk=1:size(merge,1)
+%     CID1( (CID==merge(kkk,1))|(CID==merge(kkk,2)) ) = merge(kkk,1)+100;
+% end
+% newIds=unique(CID1);
+% for r=1:numel(newIds)
+%     CID1(CID1==newIds(r))=r;
+% end
 
 %% Plot Merged Clusters
 % f2 = figure('name','Clusters After Merge');
@@ -78,7 +83,7 @@ end
     function [CID,mat,r,ins,outs] = KmeansClust(mat)  %Fix here
         r(1)=0;
         for i=2:size(mat,2)-1
-            [CID,~,ins,outs] = kmeans(mat,i,'distance','cityblock','emptyaction','drop');               
+            [CID,~,ins,outs] = kmeans(mat,i,'distance','cityblock','emptyaction','drop');
             in=mean(ins);
             vec=1:size(outs,2);
             vec(vec==i)=[];
@@ -89,7 +94,7 @@ end
             r(i)=in/out;
         end
         [r,ix]=max(r);
-        [CID,~,ins,outs] = kmeans(mat,ix,'distance','cityblock','emptyaction','drop'); 
+        [CID,~,ins,outs] = kmeans(mat,ix,'distance','cityblock','emptyaction','drop');
     end
 
     function mat=CalcCorr(m)
