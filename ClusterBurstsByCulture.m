@@ -1,7 +1,7 @@
 %% Initialize
 % fclose('all');clear all; close all;clc;
 % matlabpool open 8;
-subplot = @(m,n,p) subtightplot (m, n, p, [0.03 0.02], [0.05 0.05], [0.01 0.01]);
+subplot = @(m,n,p) subtightplot (m, n, p, [0.05 0.05], [0.05 0.05], [0.01 0.01]);
 load('16x16MeaMap_90CW_Inverted.mat');
 load('tempBurstsWithClusters.mat', 'BurstData')
 %% Calculate Clusters
@@ -20,8 +20,16 @@ for i=1:max(BurstData.cultId)
 end
 %% Plot Sample Burst Clusters
 % for k=1:max(BurstData.cultId);
-k=4; figure;
-for i=1:numtypes
+k=2; figure;
+
+%Find top 6 clusters;
+for i=1:max(ClusterIDs{k})
+num(i) = sum(ClusterIDs{k}==i);
+end
+[val,ix]=sort(num,'descend');
+vec=ix(1:6);
+
+for i=1:numel(vec);
     %         %         figure;
     bursts = BurstData.bursts(:,:,BurstData.cultId==k);
     %     b2plot = bursts(:,:,ClusterIDs{k}==i);
@@ -31,7 +39,8 @@ for i=1:numtypes
     %         set(gca,'XTick',[],'YTick',[]);
     %     end
     burstType=nanmean(bursts(:,:,ClusterIDs{k}==i),3);
-    subplot(1,numtypes,i);
+%     subplot(3,ceil(max(ClusterIDs{k})/3),i);
+subplot(2,3,i);
     imagescnan(burstType);
     title(['Burst Propogation Cluster ' num2str(i)]);
     set(gca,'XTick',[],'YTick',[],'PlotBoxAspectRatio',[1 1 1]);
@@ -62,6 +71,8 @@ diffs  = PlotSequentialBurstGroups(BurstData,ClusterIDs);
 subplot(4,4,14:16);
 hold on;
 for j=1:max(BurstData.cultId)
+%     numtypes = max(ClusterIDs{j});
+    numtypes = 6;
     bars=bar((1:numtypes)+(j-1)*(numtypes+1),diffs(:,j)','BarWidth',1);
     ch = get(bars,'Children'); %get children of the bar group
     fvd = get(ch,'Faces'); %get faces data
@@ -78,10 +89,13 @@ cultLabels = {[culTypes{1} '(1)'] [culTypes{1} '(2)'] [culTypes{1} '(3)'] [culTy
     [culTypes{2} '(1)'] [culTypes{2} '(2)'] [culTypes{2} '(3)'] ...
     [culTypes{3} '(1)'] [culTypes{3} '(2)']...
     [culTypes{4} '(1)'] [culTypes{4} '(2)'] [culTypes{4} '(3)'] [culTypes{4} '(4)']};
-set(gca,'XTick',(numtypes+1)/2:(numtypes+1):(max(BurstData.cultId)*(numtypes+1)),'XTickLabel',cultLabels,'FontSize',8) %The plus one after numtypes accounts for a space between groups
-box off;
+set(gca,'XTick',(numtypes+1)/2:(numtypes+1):(max(BurstData.cultId)*(numtypes+1)),'XTickLabel',cultLabels,'FontSize',8,'XColor',[1 1 1],'YColor',[1 1 1]) %The plus one after numtypes accounts for a space between groups
+axis tight; 
+% box off;
+set(gcf,'color','k');
 maximize(gcf);
-print('-depsc2','-r300','Fig6_BurstClusterDifferences.eps');
+export_fig 'Fig6_BurstClusterDifferencesWithCorr.png';
+% print('-depsc2','-r300','Fig6_BurstClusterDifferencesWithCorr.eps');
 close all;
 %% Plot burst propogation (color by location on MEA)
 %--------------------------------%

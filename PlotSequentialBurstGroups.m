@@ -7,7 +7,7 @@ cultLabels = {[culTypes{1} '(1)'] [culTypes{1} '(2)'] [culTypes{1} '(3)'] [culTy
     [culTypes{3} '(1)'] [culTypes{3} '(2)']...
     [culTypes{4} '(1)'] [culTypes{4} '(2)'] [culTypes{4} '(3)'] [culTypes{4} '(4)']};
 
-diffs=nan(40,max(BurstData.cultId));
+% diffs=nan(40,max(BurstData.cultId));
 for i=1:max(BurstData.cultId)
     subplot(4,4,i);
     prepost=BurstData.prepost(BurstData.cultId==i);
@@ -18,7 +18,7 @@ for i=1:max(BurstData.cultId)
     numPre=numPre./sum(numPre);
     [numPost]=histc(clustPost,1:numclust);
     numPost=numPost./sum(numPost);
-    [diffs(1:length(sort(numPost-numPre)),i),ix] = sort(numPost-numPre);
+    [~,ix] = sort(numPost-numPre);
     row=zeros(max(unique([clustPre;clustPost])),length(clustPre)+length(clustPost));
     for idx=1:numel(unique([clustPre;clustPost]))
         k=ix(idx);
@@ -26,13 +26,26 @@ for i=1:max(BurstData.cultId)
         row(idx,length(clustPre)+1:end) = (clustPost==k)*2;
     end
     row(find(row==0))=nan;
-    imagescnan(row,'nancolor',[1,1,1]);
-    set(gca,'XTick',[],'YTick',1:numclust);
-%     ylabel('Burst Clusters');
-%     xlabel('Burst Number');
-    box off;
-    axis tight;
-    title(cultLabels{i});
+    if i==13
+        row(:,200:1400)=[];
+    end
+    row = CropReOrderBurstTypeClusters(row);
+    
+    for j=1:size(row,1)
+        numPres = sum(row(j,:)==1)/sum(row(:)==1);
+        numPosts = sum(row(j,:)==2)/sum(row(:)==2);
+        diffs(j,i) = sort(numPosts-numPres);
+    end
+    
+    pcolor(row)
+    shading flat;
+    set(gca,'ydir','reverse');
+    %     imagescnan(row,'nancolor',[1,1,1]);
+    set(gca,'XTick',[],'YTick',[]);
+    %     ylabel('Burst Clusters');
+    %     xlabel('Burst Number');
+    box on; axis tight; %axis off; 
+    title(cultLabels{i},'color','w');
     freezeColors;
     clear row;
 end

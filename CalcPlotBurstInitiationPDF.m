@@ -58,11 +58,11 @@ for i=1:13
     set(gca,'PlotBoxAspectRatio',[2 1 1]);
 end
 colorbar;
-subplot(4,4,14:15);
-barwitherr([cellfun(@std,distpre);cellfun(@std,distpost)]',[cellfun(@mean,distpre);cellfun(@mean,distpost)]','grouped');
+% subplot(4,4,14:15);
+% barwitherr([cellfun(@std,distpre);cellfun(@std,distpost)]',[cellfun(@mean,distpre);cellfun(@mean,distpost)]','grouped');
 maximize(gcf);
-% export_fig 'BurstInitiationPDF_SBvsNSB.png';
-% close all;
+export_fig 'BurstInitiationPDF_SBvsNSB.png';
+close all;
 %% Control
 bursts=[];
 for j=1:1000 %Create random seperations between non-sb bursts 
@@ -110,7 +110,7 @@ subplot(4,4,16);
 notBoxPlot([divcontrol;divpreppost]');
 set(gca,'XTickLabel',{'Control','Stimulation'});
 maximize(gcf);
-% export_fig 'BurstInitiationPDF_Control.png';
+export_fig 'BurstInitiationPDF_Control.png';
 % close all;
 % [h,p]=ttest2(divcontrol,divpreppost,'Alpha',0.1)
 end
