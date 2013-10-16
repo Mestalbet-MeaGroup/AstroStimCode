@@ -36,43 +36,43 @@ for k=1:max(BurstData.cultId)
 %     maximize(gcf);
     
     %% Additional Cluster Merge Step
-    [~,list]=CalcDiffsBetBurstsProp(burstType); %Calculates the element-wise absolute difference between clustergroups
-    list(:,3)=list(:,3)./max(list(:,3));
-    list(:,4)=list(:,4)./max(list(:,4));
-    merge = list(((list(:,3)<=0.6)&(list(:,4)<0.95)),1:2);
-    MergedClusts = ClusterIDs{k};
-    for kkk=1:size(merge,1)
-        MergedClusts( (MergedClusts==merge(kkk,1))|(MergedClusts==merge(kkk,2)) ) = merge(kkk,1)+100;
-    end
-    newIds=unique(MergedClusts);
-    for r=1:numel(newIds)
-        MergedClusts(MergedClusts==newIds(r))=r;
-    end
-    figure('name',['Final Burst Clusters: Culture ' num2str(k)]);
-    newNumTypes =max(MergedClusts);
-    for i=1:newNumTypes
-        bursts = BurstData.bursts(:,:,BurstData.cultId==k);
-        MergedBurstType(:,:,i)=nanmean(bursts(:,:,MergedClusts==i),3);
-        subplot(ceil(sqrt(newNumTypes)),ceil(sqrt(newNumTypes)),i);
-        imagescnan(MergedBurstType(:,:,i));
-        title([num2str(i) ' - ' num2str(size(bursts(:,:,MergedClusts==i),3))]);
-        set(gca,'XTick',[],'YTick',[],'PlotBoxAspectRatio',[1 1 1]);
-    end
-    % ClusterCorr = ClusterCorr + ClusterCorr'+eye(size(ClusterCorr));
-    % test=pdist(ClusterCorr);
-    % tree=linkage(test,'average');
-    % subplot(2,numtypes,i+1:2*numtypes);
-    % [~,~,~] = dendrogram(tree,size(ClusterCorr,1));
-    % [~,thresh] = ginput(1);
-    % close f1;
-    % MergeIDs  = cluster(tree,'CutOff',thresh,'Criterion','distance');
-    % MergedClusts = ClusterIDs{k};
-    % for i=1:numtypes
-    %     MergedClusts(ClusterIDs{k}==i)=MergeIDs(i);
-    % end
-    % NewClusterIDs{k}=MergedClusts;
-    
-    clear newIds; clear burstType; clear MergedBurstType; clear test; clear tree; clear ClusterCorr;
+%     [~,list]=CalcDiffsBetBurstsProp(burstType); %Calculates the element-wise absolute difference between clustergroups
+%     list(:,3)=list(:,3)./max(list(:,3));
+%     list(:,4)=list(:,4)./max(list(:,4));
+%     merge = list(((list(:,3)<=0.6)&(list(:,4)<0.95)),1:2);
+%     MergedClusts = ClusterIDs{k};
+%     for kkk=1:size(merge,1)
+%         MergedClusts( (MergedClusts==merge(kkk,1))|(MergedClusts==merge(kkk,2)) ) = merge(kkk,1)+100;
+%     end
+%     newIds=unique(MergedClusts);
+%     for r=1:numel(newIds)
+%         MergedClusts(MergedClusts==newIds(r))=r;
+%     end
+%     figure('name',['Final Burst Clusters: Culture ' num2str(k)]);
+%     newNumTypes =max(MergedClusts);
+%     for i=1:newNumTypes
+%         bursts = BurstData.bursts(:,:,BurstData.cultId==k);
+%         MergedBurstType(:,:,i)=nanmean(bursts(:,:,MergedClusts==i),3);
+%         subplot(ceil(sqrt(newNumTypes)),ceil(sqrt(newNumTypes)),i);
+%         imagescnan(MergedBurstType(:,:,i));
+%         title([num2str(i) ' - ' num2str(size(bursts(:,:,MergedClusts==i),3))]);
+%         set(gca,'XTick',[],'YTick',[],'PlotBoxAspectRatio',[1 1 1]);
+%     end
+%     % ClusterCorr = ClusterCorr + ClusterCorr'+eye(size(ClusterCorr));
+%     % test=pdist(ClusterCorr);
+%     % tree=linkage(test,'average');
+%     % subplot(2,numtypes,i+1:2*numtypes);
+%     % [~,~,~] = dendrogram(tree,size(ClusterCorr,1));
+%     % [~,thresh] = ginput(1);
+%     % close f1;
+%     % MergeIDs  = cluster(tree,'CutOff',thresh,'Criterion','distance');
+%     % MergedClusts = ClusterIDs{k};
+%     % for i=1:numtypes
+%     %     MergedClusts(ClusterIDs{k}==i)=MergeIDs(i);
+%     % end
+%     % NewClusterIDs{k}=MergedClusts;
+%     
+%     clear newIds; clear burstType; clear MergedBurstType; clear test; clear tree; clear ClusterCorr;
 end
 %% Plot Burst types per culture
 figure;
@@ -83,20 +83,22 @@ cmap=[];
 for k=1:size(colors,2)
     cmap = [cmap;cbrewer('seq', colors{k}, 5)];
 end
-
+figure;
 diffs  = PlotSequentialBurstGroups(BurstData,ClusterIDs);
 
 %% Plot bar chart of differences
 
 subplot(4,4,14:16);
 hold on;
+numtypes=0;
 for j=1:max(BurstData.cultId)
-    bars=bar((1:numtypes)+(j-1)*(numtypes+1),diffs(:,j)','BarWidth',1);
+    numtypes(j+1)=max(ClusterIDs{j});
+    bars=bar(sum(numtypes(1:j))+1:sum(numtypes(1:j+1)),diffs(1:numtypes(j+1),j)','BarWidth',1);
     ch = get(bars,'Children'); %get children of the bar group
     fvd = get(ch,'Faces'); %get faces data
     fvcd = get(ch,'FaceVertexCData');
     for i=1:size(fvd,1)
-        fvcd(fvd(i,:)) = i+(j-1)*numtypes;
+        fvcd(fvd(i,:)) = i+(j-1)*numtypes(j);
     end
     set(ch,'FaceVertexCData',fvcd)
     colormap(cmap);
