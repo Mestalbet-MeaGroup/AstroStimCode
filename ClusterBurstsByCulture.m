@@ -1,6 +1,6 @@
 %% Initialize
-% fclose('all');clear all; close all;clc;
-% matlabpool open 8;
+fclose('all');clear all; close all;clc;
+matlabpool open 8;
 subplot = @(m,n,p) subtightplot (m, n, p, [0.03 0.02], [0.05 0.05], [0.01 0.01]);
 load('16x16MeaMap_90CW_Inverted.mat');
 load('tempBurstsWithClusters.mat', 'BurstData')
@@ -14,36 +14,66 @@ numtypes=5;
 % end
 % toc
 
-for i=1:max(BurstData.cultId)
-    [ClusterIDs{i},~,~] = ClusterBurstsKmeans2(BurstData.bursts(:,:,BurstData.cultId==i));
-        waitbarwithtime(i/max(BurstData.cultId),h);
+parfor i=1:max(BurstData.cultId)
+    ClusterIDs{i} = ClusterBurstsKmeans3(BurstData.bursts(:,:,BurstData.cultId==i));
+    %         waitbarwithtime(i/max(BurstData.cultId),h);
 end
 %% Plot Sample Burst Clusters
 % for k=1:max(BurstData.cultId);
-k=4; figure;
-for i=1:numtypes
-    %         %         figure;
-    bursts = BurstData.bursts(:,:,BurstData.cultId==k);
-    %     b2plot = bursts(:,:,ClusterIDs{k}==i);
-    %     for j=1:size(b2plot,3)
-    %         subplot(10,10,j);
-    %         imagescnan(b2plot(:,:,j));
-    %         set(gca,'XTick',[],'YTick',[]);
-    %     end
-    burstType=nanmean(bursts(:,:,ClusterIDs{k}==i),3);
-    subplot(1,numtypes,i);
-    imagescnan(burstType);
-    title(['Burst Propogation Cluster ' num2str(i)]);
-    set(gca,'XTick',[],'YTick',[],'PlotBoxAspectRatio',[1 1 1]);
+opengl('software');
+k=8
+for k=1:max(BurstData.cultId)
+    f1 = figure('name',['UnMerged Burst Clusters: Culture ' num2str(k)]);
+    numtypes=max(ClusterIDs{k});
+    for i=1:numtypes
+        bursts = BurstData.bursts(:,:,BurstData.cultId==k);
+        burstType(:,:,i)=nanmean(bursts(:,:,ClusterIDs{k}==i),3);
+        subplot(ceil(sqrt(numtypes)),ceil(sqrt(numtypes)),i);
+        imagescnan(burstType(:,:,i));
+        title([num2str(i) ' - ' num2str(size(bursts(:,:,ClusterIDs{k}==i),3))]);
+        set(gca,'XTick',[],'YTick',[],'PlotBoxAspectRatio',[1 1 1]);
+    end
+%     maximize(gcf);
+    
+    %% Additional Cluster Merge Step
+    [~,list]=CalcDiffsBetBurstsProp(burstType); %Calculates the element-wise absolute difference between clustergroups
+    list(:,3)=list(:,3)./max(list(:,3));
+    list(:,4)=list(:,4)./max(list(:,4));
+    merge = list(((list(:,3)<=0.6)&(list(:,4)<0.95)),1:2);
+    MergedClusts = ClusterIDs{k};
+    for kkk=1:size(merge,1)
+        MergedClusts( (MergedClusts==merge(kkk,1))|(MergedClusts==merge(kkk,2)) ) = merge(kkk,1)+100;
+    end
+    newIds=unique(MergedClusts);
+    for r=1:numel(newIds)
+        MergedClusts(MergedClusts==newIds(r))=r;
+    end
+    figure('name',['Final Burst Clusters: Culture ' num2str(k)]);
+    newNumTypes =max(MergedClusts);
+    for i=1:newNumTypes
+        bursts = BurstData.bursts(:,:,BurstData.cultId==k);
+        MergedBurstType(:,:,i)=nanmean(bursts(:,:,MergedClusts==i),3);
+        subplot(ceil(sqrt(newNumTypes)),ceil(sqrt(newNumTypes)),i);
+        imagescnan(MergedBurstType(:,:,i));
+        title([num2str(i) ' - ' num2str(size(bursts(:,:,MergedClusts==i),3))]);
+        set(gca,'XTick',[],'YTick',[],'PlotBoxAspectRatio',[1 1 1]);
+    end
+    % ClusterCorr = ClusterCorr + ClusterCorr'+eye(size(ClusterCorr));
+    % test=pdist(ClusterCorr);
+    % tree=linkage(test,'average');
+    % subplot(2,numtypes,i+1:2*numtypes);
+    % [~,~,~] = dendrogram(tree,size(ClusterCorr,1));
+    % [~,thresh] = ginput(1);
+    % close f1;
+    % MergeIDs  = cluster(tree,'CutOff',thresh,'Criterion','distance');
+    % MergedClusts = ClusterIDs{k};
+    % for i=1:numtypes
+    %     MergedClusts(ClusterIDs{k}==i)=MergeIDs(i);
+    % end
+    % NewClusterIDs{k}=MergedClusts;
+    
+    clear newIds; clear burstType; clear MergedBurstType; clear test; clear tree; clear ClusterCorr;
 end
-% end
-
-% colors = {'Reds','Blues','Oranges','Greens','Purples',...
-%           'YlOrRd','YlGnBu','Greys','RdPu','PuBuGn',...
-%           'Greys','BuGn','YlGn'};
-maximize(gcf);
-print('-dpng','-r300','Fig6_BurstClusters.png');
-close all;
 %% Plot Burst types per culture
 figure;
 colors = {'Purples','Purples','Purples','Purples','Purples',...
@@ -54,7 +84,6 @@ for k=1:size(colors,2)
     cmap = [cmap;cbrewer('seq', colors{k}, 5)];
 end
 
-opengl('software');
 diffs  = PlotSequentialBurstGroups(BurstData,ClusterIDs);
 
 %% Plot bar chart of differences
@@ -112,7 +141,7 @@ close all;
 % Burst Propagation
 
 for i=1:13
-% i=8;
+    % i=8;
     if ~isempty(StimSite{i})
         figure;
         bursts  = BurstData.bursts(:,:,(BurstData.cultId==i)&(BurstData.prepost==1));
