@@ -25,7 +25,7 @@ end
 
 for k=1:size(DataSetStims,1)
     m = CalcBurstCubes(DataSetStims{k}.Trim.t,DataSetStims{k}.Trim.ic,DataSetStims{k}.Trim.bs,DataSetStims{k}.Trim.be,MeaMap);
-    bursts  =  cat(3,bursts,m);
+    bursts  =  cat(4,bursts,m);
     prepost = [prepost,ones(1,size(m,4))]; % 0 = pre, 1 = post
     nsbsb   = [nsbsb,zeros(1,size(m,4))]; % 0 = not within superburst, 1 = within superburst
     cultId  = [cultId,ones(1,size(m,4)).*k];

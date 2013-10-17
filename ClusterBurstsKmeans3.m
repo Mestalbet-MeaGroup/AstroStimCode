@@ -13,10 +13,10 @@ cmat(cmat<0)=0;
 
 % [CID,score] = KmeansClust(cmat,m);
 %% Partition data into clusters
-% options = gaoptimset('PlotFcns',{@gaplotbestf,@gaplotmaxconstr},'Display','iter');
+options = gaoptimset('Generations',200);
 rng(1,'twister');
 fun = @(x)KmeansClust(cmat,m,1,x);
-[MinCost,fval]=ga(fun,1,[],[],[],[],2,50,[],1);
+[MinCost,fval]=ga(fun,1,[],[],[],[],2,50,[],1,options);
 CID = KmeansClust(cmat,m,0,MinCost);
 
 %% Nested Functions

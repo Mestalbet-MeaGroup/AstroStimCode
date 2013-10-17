@@ -2,7 +2,7 @@ function [cost] = KmeansClust(mat,bursts,costorCID,ix)
 % display(size(mat));
 % display(ix);
 try
-[CID,~,ins,outs] = kmeans(mat,ix,'distance','cityblock','emptyaction','drop');
+    [CID,~,ins,outs] = kmeans(mat,ix,'distance','cityblock','emptyaction','drop');
 catch
     cost=Inf;
     return;
@@ -18,18 +18,28 @@ if costorCID==1
     end
     out=min(tt);
     r=out/in;
-
+    
     if numClust >1
         for k=1:numClust
-            temp=nanmean(bursts(:,:,CID==k),3);
-            temp = (temp - min(temp(:)))./(max(temp(:))-min(temp(:)));
-            newMat(:,:,k) = temp;
+            temp=nanvar(bursts(:,:,CID==k),0,3);
+            newMat(k) = max(temp(:));
         end
+        corr=mean(newMat);
+        
+        %         for k=1:numClust
+        %             temp=nanmean(bursts(:,:,CID==k),3);
+        %             temp = (temp - min(temp(:)))./(max(temp(:))-min(temp(:)));
+        %             newMat(:,:,k) = temp;
+        %         end
+        %     end
+        % %     [~,list]=CalcDiffsBetBurstsProp(burstType);
+        % %     corr=1./min(list(:,3));
+        %     corr=CalcNewCorr(newMat);
+%         display(corr);  display(r); display(numClust^(1/3));
+        cost=corr+r+numClust^(1/3);
+    else
+        cost=r+numClust^(1/3)+1;
     end
-%     [~,list]=CalcDiffsBetBurstsProp(burstType); 
-%     corr=1./min(list(:,3));
-    corr=CalcNewCorr(newMat);
-    cost=(corr*r)*(numClust);
 else
     numClust = max(CID);
     if numClust >1
@@ -44,7 +54,7 @@ else
     end
     corrMat=CalcNewCorr2(newMat);
     corrMat(corrMat<0)=0;
-    [a,~]=find(corrMat(:,3)>0.7);
+    [a,~]=find(corrMat(:,3)>0.8);
     CID1=CID;
     merge=corrMat(a,1:2);
     merge=merge(~(ismember(merge(:,1),merge(:,2))),:);
