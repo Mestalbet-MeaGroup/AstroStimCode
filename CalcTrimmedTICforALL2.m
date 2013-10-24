@@ -3,7 +3,7 @@
 % load('DataSetOpto.mat', 'DataSetBase', 'DataSetStims')
 % DataSetBase{1}.sbs=[];DataSetBase{1}.sbe=[];DataSetBase{1}.sbw=[];
 h = waitbarwithtime(0,'Please Wait...');
-for i=1:13
+for i=1:size(DataSetBase,1)
     [t,ic,DataSetBase{i}.Trim.bs,DataSetBase{i}.Trim.be,DataSetBase{i}.Trim.bw] = SortChannelsByFR2(DataSetBase{i}.t,DataSetBase{i}.ic,DataSetBase{i}.bs,DataSetBase{i}.be,DataSetBase{i}.bw);
     for j=1:numel(DataSetBase{i}.sbs)
         delete = find( (DataSetBase{i}.Trim.bs>=DataSetBase{i}.sbs(j)) & (DataSetBase{i}.Trim.bs<DataSetBase{i}.sbe(j)) );
@@ -21,7 +21,7 @@ for i=1:13
         DataSetStims{i}.Trim.bw(delete)=[];
     end
     [DataSetStims{i}.Trim.t,DataSetStims{i}.Trim.ic] = OnlyNonHA(t,ic,[DataSetStims{i}.Trim.bs,DataSetStims{i}.sbs],[DataSetStims{i}.Trim.be,DataSetStims{i}.sbe]);
-    waitbarwithtime(i/13,h);
+    waitbarwithtime(i/size(DataSetBase,1),h);
 end
 
 %% Burst Detection Verification

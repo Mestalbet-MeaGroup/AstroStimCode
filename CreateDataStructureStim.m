@@ -7,13 +7,13 @@ counter3=counter;
 for i=1:size(fileList,1)
     k = findstr(fileList{i}, 'baseline');
     k1 = findstr(fileList{i}, 'baseline1');
-    kk = findstr(fileList{i}, 'post');
+    kk = findstr(fileList{i}, 'MelStim');
     kk1 = findstr(fileList{i}, 'Post');
     
     if (~isempty(k)||~isempty(k1))&&( isempty(kk)||isempty(kk1) )
         baselines(counter) = i;
         counter=counter+1;
-    else if ~(~isempty(kk)||~isempty(kk1))
+    else if (~isempty(kk)||~isempty(kk1))
             stims(counter3)=i;
             counter3=counter3+1;
         end
