@@ -13,8 +13,11 @@ bursts=[];
 prepost=[];
 nsbsb=[];
 cultId=[];
-Outliers = 1:2;
-% Outliers = [7,8,11,12,13];
+%------------Choose Cultures to Analyze-----------%
+% Outliers = 1:2;
+Outliers = [7,8,11,12,13];
+% Outliers = 1:13;
+% Outliers([7,8,11,12,13])=[];
 %% Calculate burst propagation maps from t,ic of bursts
 for i=1:size(Outliers,2)
     k=Outliers(i);
@@ -61,25 +64,29 @@ BurstData.nsbsb = nsbsb;
 BurstData.cultId = cultId;
 
 clear_all_but('BurstData','MeaMap','Outliers');
-%% Calculate Clusters
-% Comment out if you want to calculate clusters
+%% Calculate Clustering
+% Comment out if you want to calculate clusters:
+%---------------------------------------------%
 % load('ClusterIDs_backup.mat')
+%---------------------------------------------%
 
-% Comment out one of the following if Clusters already calculated
-parfor i=1:size(Outliers,2)
-    ClusterIDs{i} = ClusterBurstsKmeans3(BurstData.bursts(:,:,BurstData.cultId==Outliers(i))); %Allbursts%
-end
-%
-save('ClusterIDs_backupControl.mat','ClusterIDs');
-
+% Comment out one of the following if Clusters already calculated:
+%---------------W\SBs---------------------%
 % parfor i=1:size(Outliers,2)
-%     ClusterIDs{i} = ClusterBurstsKmeans3(BurstData.bursts(:,:,(BurstData.cultId==Outliers(i))&(BurstData.nsbsb==0))); %Just regular bursts
+%     ClusterIDs{i} = ClusterBurstsKmeans3(BurstData.bursts(:,:,BurstData.cultId==Outliers(i))); %Allbursts%
 % end
-% 
-% save('ClusterIDs_backup.mat','ClusterIDs');
+% %
+% save('ClusterIDs_backupControl.mat','ClusterIDs');
+%---------------No_SBs---------------------%
+parfor i=1:size(Outliers,2)
+%     display(Outliers(i));
+    ClusterIDs{i} = ClusterBurstsKmeans3(BurstData.bursts(:,:,(BurstData.cultId==Outliers(i))&(BurstData.nsbsb==0))); %Just regular bursts
+end
 
+save('ClusterIDs_backup.mat','ClusterIDs');
+%---------------------------------------------%
 
-%% Plot Burst Clusters
+%% Plot Burst Clusters (for each culture)
 for k=1:size(Outliers,2)
     f1 = figure('name',['UnMerged Burst Clusters: Culture ' num2str(k)]);
     numtypes=max(ClusterIDs{k});
@@ -110,7 +117,7 @@ numClusts = cellfun(@max,ClusterIDs);
 for i=1:size(Outliers,2)
     subplot(4,3,i);
     prepost=BurstData.prepost((BurstData.cultId==Outliers(i))&(BurstData.nsbsb==0)); %Uncomment if you want to limit to non-SB bursts
-    %     prepost=BurstData.prepost(BurstData.cultId==Outliers(i)); %Uncomment if you want to limit to non-SB bursts
+%         prepost=BurstData.prepost(BurstData.cultId==Outliers(i)); %Uncomment if you do not want to limit to non-SB bursts
     clustPre=ClusterIDs{i}(prepost==0);
     clustPost=ClusterIDs{i}(prepost==1);
     numclust = max([clustPre;clustPost]);
@@ -126,14 +133,21 @@ for i=1:size(Outliers,2)
         row(idx,length(clustPre)+1:end) = (clustPost==k)*2;
     end
     row(find(row==0))=nan;
-    
+    testPre=zeros(1,size(row,2));
+    testPost=zeros(1,size(row,2));
     for j=1:size(row,1)
         numPres = sum(row(j,:)==1)/sum(row(:)==1);
         numPosts = sum(row(j,:)==2)/sum(row(:)==2);
         diffs(j,i) = sort(numPosts-numPres);
+        testPre = testPre+(row(j,:)==1)*j;
+        testPost = testPost+(row(j,:)==2)*j;
     end
-    pcolor([row;nan(1,size(row,2))])
-    shading flat;
+    [a,b]=find(row==1);
+    numTransPre(i) = sum(diff(testPre)>0)/(max(b)-1);
+    numTransPost(i) = sum(diff(testPost)>0)/(abs(size(row,2)-max(b))-1);
+%     pcolor([row;nan(1,size(row,2))])
+    imagescnan(row);
+%     shading flat;
     set(gca,'ydir','reverse');
     set(gca,'XTick',[],'YTick',[]);
     box on; axis tight;
@@ -145,19 +159,14 @@ end
 subplot(4,3,size(Outliers,2)+2:(4*3));
 hold on;
 numtypes=0;
-color = [[0.8,0.8,0.8];[0,0,0];[0.8,0.8,0.8];[0,0,0];[0,0,0]];
+% color = [[0.8,0.8,0.8];[0,0,0];[0.8,0.8,0.8];[0,0,0];[0,0,0]]; % For outlier cultures 
+color=zeros(size(Outliers,2),3)+0.8; % Make bars grey
 for j=1:size(Outliers,2)
     numtypes(j+1)=max(ClusterIDs{j});
     bars=bar(sum(numtypes(1:j))+1:sum(numtypes(1:j+1))+1,[diffs(1:numtypes(j+1),j)',nan],'BarWidth',1,'FaceColor',color(j,:));
     ch = get(bars,'Children'); %get children of the bar group
     fvd = get(ch,'Faces'); %get faces data
-    %     fvcd = get(ch,'FaceVertexCData');
-    %     for i=1:size(fvd,1)
-    %         fvcd(fvd(i,:)) = i+(j-1)*numClusts(j);
-    %     end
-    %     set(ch,'FaceVertexCData',fvcd)
     xlbls{j}=cultLabels{Outliers(j)};
-    %     colormap(cmap);
 end
 xticks = cumsum(numtypes(1:end-1))+numClusts/2+0.5;
 set(gca,'TickDir','out');
@@ -169,6 +178,11 @@ close all;
 
 
 %---------Transitions Probability Per Culture--------------%
-
+figure;
+bar([numTransPre;numTransPost]','grouped');
+set(gca,'XTick',1:size(Outliers,2),'XTickLabel',xlbls,'FontSize',16);
+ylabel('Transitions Between Burst Types / Total Possible Transitions');
+box off; axis tight; set(gcf,'color','none'); maximize(gcf);
+export_fig('BurstTypeTransitionProb.png');
 
 end
