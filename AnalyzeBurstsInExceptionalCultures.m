@@ -14,6 +14,7 @@ prepost=[];
 nsbsb=[];
 cultId=[];
 %------------Choose Cultures to Analyze-----------%
+% Outliers=8;
 % Outliers = 1:2;
 Outliers = [7,8,11,12,13];
 % Outliers = 1:13;
@@ -64,6 +65,34 @@ BurstData.nsbsb = nsbsb;
 BurstData.cultId = cultId;
 
 clear_all_but('BurstData','MeaMap','Outliers');
+
+%% Test Plots
+% for i=1:size(Outliers,2)
+%     [BurstVecSB,DistSB] = CalcBurstPropVec(BurstData.bursts(:,:,(BurstData.cultId==Outliers(i))&(BurstData.nsbsb==1)&(BurstData.prepost==1)));
+%     [BurstVecNSB,DistNSB] = CalcBurstPropVec(BurstData.bursts(:,:,(BurstData.cultId==Outliers(i))&(BurstData.nsbsb==0)&(BurstData.prepost==1)));
+%     subplot(4,4,i);
+%     %     if ~isempty(BurstVecNSB)&&~isempty(BurstVecSB)
+%     if ~isempty(DistSB)&&~isempty(DistNSB)
+%         hold all;
+%         %         quiver(BurstVecSB(:,1),BurstVecSB(:,2),BurstVecSB(:,3)-BurstVecSB(:,1),BurstVecSB(:,4)-BurstVecSB(:,2),'r');
+%         %         quiver(BurstVecNSB(:,1),BurstVecNSB(:,2),BurstVecNSB(:,3)-BurstVecNSB(:,1),BurstVecNSB(:,4)-BurstVecNSB(:,2),'b');
+%         %         scatter(BurstVecSB(:,1),BurstVecSB(:,2),'r');
+%         %         scatter(BurstVecNSB(:,1),BurstVecNSB(:,2),'b')
+%         %         [n1, x1] = hist(DistSB(:));
+%         %         [n2, x2] = hist(DistNSB(:));
+%         %         bar(x1,n1,'r');
+%         %         bar(x2,n2,'b');
+%         triplot(DistSB,BurstVecSB(:,1),BurstVecSB(:,2),'r');
+%         triplot(DistNSB,BurstVecNSB(:,1),BurstVecNSB(:,2),'b');
+%         hold off;
+%     end
+%     set(gca,'PlotBoxAspectRatio',[1 1 1]);
+%     title(cultLabels{Outliers(i)},'color','k');
+% end
+
+
+
+
 %% Calculate Clustering
 % Comment out if you want to calculate clusters:
 %---------------------------------------------%
@@ -79,11 +108,11 @@ clear_all_but('BurstData','MeaMap','Outliers');
 % save('ClusterIDs_backupControl.mat','ClusterIDs');
 %---------------No_SBs---------------------%
 parfor i=1:size(Outliers,2)
-%     display(Outliers(i));
+    %     display(Outliers(i));
     ClusterIDs{i} = ClusterBurstsKmeans3(BurstData.bursts(:,:,(BurstData.cultId==Outliers(i))&(BurstData.nsbsb==0))); %Just regular bursts
 end
 
-save('ClusterIDs_backup.mat','ClusterIDs');
+% save('ClusterIDs_backup.mat','ClusterIDs');
 %---------------------------------------------%
 
 %% Plot Burst Clusters (for each culture)
@@ -99,8 +128,8 @@ for k=1:size(Outliers,2)
         set(gca,'XTick',[],'YTick',[],'PlotBoxAspectRatio',[1 1 1]);
     end
     maximize(gcf);
-    export_fig(['UnMergedBurstClusters_Culture' num2str(k) '.png']);
-    close all;
+%     export_fig(['UnMergedBurstClusters_Culture' num2str(k) '.png']);
+%     close all;
 end
 
 %% Plot Burst Types: Pre vs. Post
@@ -117,7 +146,7 @@ numClusts = cellfun(@max,ClusterIDs);
 for i=1:size(Outliers,2)
     subplot(4,3,i);
     prepost=BurstData.prepost((BurstData.cultId==Outliers(i))&(BurstData.nsbsb==0)); %Uncomment if you want to limit to non-SB bursts
-%         prepost=BurstData.prepost(BurstData.cultId==Outliers(i)); %Uncomment if you do not want to limit to non-SB bursts
+    %         prepost=BurstData.prepost(BurstData.cultId==Outliers(i)); %Uncomment if you do not want to limit to non-SB bursts
     clustPre=ClusterIDs{i}(prepost==0);
     clustPost=ClusterIDs{i}(prepost==1);
     numclust = max([clustPre;clustPost]);
@@ -145,9 +174,9 @@ for i=1:size(Outliers,2)
     [a,b]=find(row==1);
     numTransPre(i) = sum(diff(testPre)>0)/(max(b)-1);
     numTransPost(i) = sum(diff(testPost)>0)/(abs(size(row,2)-max(b))-1);
-%     pcolor([row;nan(1,size(row,2))])
-    imagescnan(row);
-%     shading flat;
+    pcolor([row;nan(1,size(row,2))])
+%     imagescnan(row);
+    %     shading flat;
     set(gca,'ydir','reverse');
     set(gca,'XTick',[],'YTick',[]);
     box on; axis tight;
@@ -159,7 +188,7 @@ end
 subplot(4,3,size(Outliers,2)+2:(4*3));
 hold on;
 numtypes=0;
-% color = [[0.8,0.8,0.8];[0,0,0];[0.8,0.8,0.8];[0,0,0];[0,0,0]]; % For outlier cultures 
+% color = [[0.8,0.8,0.8];[0,0,0];[0.8,0.8,0.8];[0,0,0];[0,0,0]]; % For outlier cultures
 color=zeros(size(Outliers,2),3)+0.8; % Make bars grey
 for j=1:size(Outliers,2)
     numtypes(j+1)=max(ClusterIDs{j});
@@ -172,8 +201,8 @@ xticks = cumsum(numtypes(1:end-1))+numClusts/2+0.5;
 set(gca,'TickDir','out');
 set(gca,'XTick',xticks,'XTickLabel',xlbls,'FontSize',8,'XColor',[1 1 1],'YColor',[1 1 1]) %The plus one after numtypes accounts for a space between groups
 box off; axis tight; set(gcf,'color','k'); maximize(gcf);
-export_fig('BurstTypeTransitions.png');
-close all;
+% export_fig('BurstTypeTransitions.png');
+% close all;
 %---------Transitions over Time---------------%
 
 
@@ -183,6 +212,6 @@ bar([numTransPre;numTransPost]','grouped');
 set(gca,'XTick',1:size(Outliers,2),'XTickLabel',xlbls,'FontSize',16);
 ylabel('Transitions Between Burst Types / Total Possible Transitions');
 box off; axis tight; set(gcf,'color','none'); maximize(gcf);
-export_fig('BurstTypeTransitionProb.png');
+% export_fig('BurstTypeTransitionProb.png');
 
 end
