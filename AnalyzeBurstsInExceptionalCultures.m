@@ -1,4 +1,4 @@
-function [BurstData,ClusterIDs] = AnalyzeBurstsInExceptionalCultures(DataSetBase,DataSetStims,MeaMap);
+function [BurstData,ClusterIDs] = AnalyzeBurstsInExceptionalCultures(DataSetBase,DataSetStims,MeaMap,Outliers);
 % Function which takes burst information and creates a propagation map and
 % then searches for clusters using a genetic algorithm and kmeans.
 %% Initialize variables
@@ -6,8 +6,8 @@ subplot = @(m,n,p) subtightplot (m, n, p, [0.05 0.05], [0.05 0.05], [0.05 0.05])
 culTypes = {'Melanopsin ','OptoA1-EYFP ','OptoA1-p2a-tRFP ','ChR2 '};
 cultLabels = {[culTypes{1} '(1)'] [culTypes{1} '(2)'] [culTypes{1} '(3)'] [culTypes{1} '(4)']...
     [culTypes{2} '(1)'] [culTypes{2} '(2)'] [culTypes{2} '(3)'] ...
-    [culTypes{3} '(1)'] [culTypes{3} '(2)']...
-    [culTypes{4} '(1)'] [culTypes{4} '(2)'] [culTypes{4} '(3)'] [culTypes{4} '(4)']};
+    [culTypes{3} '(1)*'] [culTypes{3} '(2)']...
+    [culTypes{4} '(1)'] [culTypes{4} '(2)*'] [culTypes{4} '(3)'] [culTypes{4} '(4)'], 'Control (1)', 'Control (2)'};
 
 bursts=[];
 prepost=[];
@@ -16,21 +16,21 @@ cultId=[];
 %------------Choose Cultures to Analyze-----------%
 % Outliers=8;
 % Outliers = 1:2;
-Outliers = [7,8,11,12,13];
+% Outliers = [7,8,11,12,13];
 % Outliers = 1:13;
 % Outliers([7,8,11,12,13])=[];
 %% Calculate burst propagation maps from t,ic of bursts
 for i=1:size(Outliers,2)
     k=Outliers(i);
-    m=CalcBurstPropogation(DataSetBase{k}.t,DataSetBase{k}.ic,DataSetBase{k}.Trim.bs,DataSetBase{k}.Trim.be,MeaMap);
+    m=CalcBurstPropogation(DataSetBase{k}.Trim.t,DataSetBase{k}.Trim.ic,DataSetBase{k}.Trim.bs,DataSetBase{k}.Trim.be,MeaMap);
     bursts  =  cat(3,bursts,m);
     prepost = [prepost,zeros(1,size(m,3))]; % 0 = pre, 1 = post
     nsbsb   = [nsbsb,zeros(1,size(m,3))]; % 0 = not within superburst, 1 = within superburst
     cultId  = [cultId,ones(1,size(m,3)).*k];
     if ~isempty(DataSetBase{k}.sbs)
         for kk=1:numel(DataSetBase{k}.sbs)
-            [bs1,be1] = FindBurstsWithinSBs(DataSetBase{k}.t,DataSetBase{k}.ic,DataSetBase{k}.sbs(kk),DataSetBase{k}.sbe(kk));
-            m1 = CalcBurstPropogation(DataSetBase{k}.t,DataSetBase{k}.ic,bs1,be1,MeaMap);
+            [bs1,be1] = FindBurstsWithinSBs(DataSetBase{k}.Trim.t,DataSetBase{k}.Trim.ic,DataSetBase{k}.sbs(kk),DataSetBase{k}.sbe(kk));
+            m1 = CalcBurstPropogation(DataSetBase{k}.Trim.t,DataSetBase{k}.Trim.ic,bs1,be1,MeaMap);
             bursts  =  cat(3,bursts,m1);
             prepost = [prepost,zeros(1,size(m1,3))]; % 0 = pre, 1 = post
             nsbsb   = [nsbsb,ones(1,size(m1,3))]; % 0 = not within superburst, 1 = within superburst
@@ -41,15 +41,15 @@ end
 
 for i=1:size(Outliers,2)
     k=Outliers(i);
-    m = CalcBurstPropogation(DataSetStims{k}.t,DataSetStims{k}.ic,DataSetStims{k}.Trim.bs,DataSetStims{k}.Trim.be,MeaMap);
+    m = CalcBurstPropogation(DataSetStims{k}.Trim.t,DataSetStims{k}.Trim.ic,DataSetStims{k}.Trim.bs,DataSetStims{k}.Trim.be,MeaMap);
     bursts  =  cat(3,bursts,m);
     prepost = [prepost,ones(1,size(m,3))]; % 0 = pre, 1 = post
     nsbsb   = [nsbsb,zeros(1,size(m,3))]; % 0 = not within superburst, 1 = within superburst
     cultId  = [cultId,ones(1,size(m,3)).*k];
     if ~isempty(DataSetStims{k}.sbs)
         for kk=1:numel(DataSetStims{k}.sbs)
-            [bs1,be1] = FindBurstsWithinSBs(DataSetStims{k}.t,DataSetStims{k}.ic,DataSetStims{k}.sbs(kk),DataSetStims{k}.sbe(kk));
-            m1 = CalcBurstPropogation(DataSetStims{k}.t,DataSetStims{k}.ic,bs1,be1,MeaMap);
+            [bs1,be1] = FindBurstsWithinSBs(DataSetStims{k}.Trim.t,DataSetStims{k}.Trim.ic,DataSetStims{k}.sbs(kk),DataSetStims{k}.sbe(kk));
+            m1 = CalcBurstPropogation(DataSetStims{k}.Trim.t,DataSetStims{k}.Trim.ic,bs1,be1,MeaMap);
             bursts  =  cat(3,bursts,m1);
             prepost = [prepost,ones(1,size(m1,3))]; % 0 = pre, 1 = post
             nsbsb   = [nsbsb,ones(1,size(m1,3))]; % 0 = not within superburst, 1 = within superburst
@@ -101,16 +101,16 @@ clear_all_but('BurstData','MeaMap','Outliers');
 
 % Comment out one of the following if Clusters already calculated:
 %---------------W\SBs---------------------%
-% parfor i=1:size(Outliers,2)
-%     ClusterIDs{i} = ClusterBurstsKmeans3(BurstData.bursts(:,:,BurstData.cultId==Outliers(i))); %Allbursts%
-% end
-% %
-% save('ClusterIDs_backupControl.mat','ClusterIDs');
-%---------------No_SBs---------------------%
 parfor i=1:size(Outliers,2)
-    %     display(Outliers(i));
-    ClusterIDs{i} = ClusterBurstsKmeans3(BurstData.bursts(:,:,(BurstData.cultId==Outliers(i))&(BurstData.nsbsb==0))); %Just regular bursts
+    ClusterIDs{i} = ClusterBurstsKmeans3(BurstData.bursts(:,:,BurstData.cultId==Outliers(i))); %Allbursts%
 end
+%
+save('ClusterIDs_backup.mat','ClusterIDs','BurstData');
+%---------------No_SBs---------------------%
+% parfor i=1:size(Outliers,2)
+%     %     display(Outliers(i));
+%     ClusterIDs{i} = ClusterBurstsKmeans3(BurstData.bursts(:,:,(BurstData.cultId==Outliers(i))&(BurstData.nsbsb==0))); %Just regular bursts
+% end
 
 % save('ClusterIDs_backup.mat','ClusterIDs');
 %---------------------------------------------%
@@ -128,11 +128,12 @@ for k=1:size(Outliers,2)
         set(gca,'XTick',[],'YTick',[],'PlotBoxAspectRatio',[1 1 1]);
     end
     maximize(gcf);
-%     export_fig(['UnMergedBurstClusters_Culture' num2str(k) '.png']);
-%     close all;
+    export_fig(['UnMergedBurstClusters_Culture' num2str(k) '.png']);
+    close all;
 end
 
 %% Plot Burst Types: Pre vs. Post
+opengl('software');
 figure;
 %-----------Color Map-------------%
 % colors = {'Greys','Purples','Greys','Purples','Purples'};
@@ -144,9 +145,9 @@ numClusts = cellfun(@max,ClusterIDs);
 % end
 %-----------Burst Type per Culture-------------%
 for i=1:size(Outliers,2)
-    subplot(4,3,i);
-    prepost=BurstData.prepost((BurstData.cultId==Outliers(i))&(BurstData.nsbsb==0)); %Uncomment if you want to limit to non-SB bursts
-    %         prepost=BurstData.prepost(BurstData.cultId==Outliers(i)); %Uncomment if you do not want to limit to non-SB bursts
+    subplot(4,4,i);
+%     prepost=BurstData.prepost((BurstData.cultId==Outliers(i))&(BurstData.nsbsb==0)); %Uncomment if you want to limit to non-SB bursts
+            prepost=BurstData.prepost(BurstData.cultId==Outliers(i)); %Uncomment if you do not want to limit to non-SB bursts
     clustPre=ClusterIDs{i}(prepost==0);
     clustPost=ClusterIDs{i}(prepost==1);
     numclust = max([clustPre;clustPost]);
@@ -176,7 +177,7 @@ for i=1:size(Outliers,2)
     numTransPost(i) = sum(diff(testPost)>0)/(abs(size(row,2)-max(b))-1);
     pcolor([row;nan(1,size(row,2))])
 %     imagescnan(row);
-    %     shading flat;
+        shading flat;
     set(gca,'ydir','reverse');
     set(gca,'XTick',[],'YTick',[]);
     box on; axis tight;
@@ -185,7 +186,7 @@ for i=1:size(Outliers,2)
     clear row;
 end
 %-----------Bar Chart of Differences-------------%
-subplot(4,3,size(Outliers,2)+2:(4*3));
+subplot(4,4,size(Outliers,2)+1:(4*4));
 hold on;
 numtypes=0;
 % color = [[0.8,0.8,0.8];[0,0,0];[0.8,0.8,0.8];[0,0,0];[0,0,0]]; % For outlier cultures
@@ -201,10 +202,20 @@ xticks = cumsum(numtypes(1:end-1))+numClusts/2+0.5;
 set(gca,'TickDir','out');
 set(gca,'XTick',xticks,'XTickLabel',xlbls,'FontSize',8,'XColor',[1 1 1],'YColor',[1 1 1]) %The plus one after numtypes accounts for a space between groups
 box off; axis tight; set(gcf,'color','k'); maximize(gcf);
-% export_fig('BurstTypeTransitions.png');
-% close all;
-%---------Transitions over Time---------------%
-
+export_fig('BurstTypeTransitions.png');
+close all;
+%---------Number of Different Burst Types---------------%
+figure;
+for i=1:size(ClusterIDs,2)
+     prepost=BurstData.prepost((BurstData.cultId==Outliers(i))&(BurstData.nsbsb==0));
+    for j=1:max(ClusterIDs{i})
+        numTypes{i}.pre(j) = sum(ClusterIDs{i}(prepost==0)==j)/numel(ClusterIDs{i}(prepost==0));
+        numTypes{i}.post(j) = sum(ClusterIDs{i}(prepost==1)==j)/numel(ClusterIDs{i}(prepost==1));
+    end
+    subplot(4,4,i);
+    bar([numTypes{i}.pre;numTypes{i}.post]','grouped');
+     title(cultLabels{Outliers(i)},'color','k');
+end
 
 %---------Transitions Probability Per Culture--------------%
 figure;

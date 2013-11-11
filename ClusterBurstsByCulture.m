@@ -16,7 +16,7 @@ numtypes=5;
 
 for i=1:max(BurstData.cultId)
     [ClusterIDs{i},~,~] = ClusterBurstsKmeans2(BurstData.bursts(:,:,BurstData.cultId==i));
-        waitbarwithtime(i/max(BurstData.cultId),h);
+    waitbarwithtime(i/max(BurstData.cultId),h);
 end
 %% Plot Sample Burst Clusters
 % for k=1:max(BurstData.cultId);
@@ -24,7 +24,7 @@ k=2; figure;
 
 %Find top 6 clusters;
 for i=1:max(ClusterIDs{k})
-num(i) = sum(ClusterIDs{k}==i);
+    num(i) = sum(ClusterIDs{k}==i);
 end
 [val,ix]=sort(num,'descend');
 vec=ix(1:6);
@@ -39,8 +39,8 @@ for i=1:numel(vec);
     %         set(gca,'XTick',[],'YTick',[]);
     %     end
     burstType=nanmean(bursts(:,:,ClusterIDs{k}==i),3);
-%     subplot(3,ceil(max(ClusterIDs{k})/3),i);
-subplot(2,3,i);
+    %     subplot(3,ceil(max(ClusterIDs{k})/3),i);
+    subplot(2,3,i);
     imagescnan(burstType);
     title(['Burst Propogation Cluster ' num2str(i)]);
     set(gca,'XTick',[],'YTick',[],'PlotBoxAspectRatio',[1 1 1]);
@@ -71,7 +71,7 @@ diffs  = PlotSequentialBurstGroups(BurstData,ClusterIDs);
 subplot(4,4,14:16);
 hold on;
 for j=1:max(BurstData.cultId)
-%     numtypes = max(ClusterIDs{j});
+    %     numtypes = max(ClusterIDs{j});
     numtypes = 6;
     bars=bar((1:numtypes)+(j-1)*(numtypes+1),diffs(:,j)','BarWidth',1);
     ch = get(bars,'Children'); %get children of the bar group
@@ -90,7 +90,7 @@ cultLabels = {[culTypes{1} '(1)'] [culTypes{1} '(2)'] [culTypes{1} '(3)'] [culTy
     [culTypes{3} '(1)'] [culTypes{3} '(2)']...
     [culTypes{4} '(1)'] [culTypes{4} '(2)'] [culTypes{4} '(3)'] [culTypes{4} '(4)']};
 set(gca,'XTick',(numtypes+1)/2:(numtypes+1):(max(BurstData.cultId)*(numtypes+1)),'XTickLabel',cultLabels,'FontSize',8,'XColor',[1 1 1],'YColor',[1 1 1]) %The plus one after numtypes accounts for a space between groups
-axis tight; 
+axis tight;
 % box off;
 set(gcf,'color','k');
 maximize(gcf);
@@ -121,48 +121,56 @@ set(gcf,'color','none');
 maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16);
 % print('-dpng','-r300','Fig6_ColorMap.png');
-close all;
+% close all;
 %---------------------------------------%
 % Burst Propagation
 
-for i=1:13
-% i=8;
-    if ~isempty(StimSite{i})
-        figure;
-        bursts  = BurstData.bursts(:,:,(BurstData.cultId==i)&(BurstData.prepost==1));
-        SpikeOrders=[];
-        for j=1:size(bursts,3)
-            b = bursts(:,:,j);
-            for k=1:max(b(:))
-                SpikeOrders(k,j) = MeaMap(find(b==k));
-            end
-        end
-        
-        %--------------------%
-        % Stimulation Sight Location by Color
-        s=subplot(4,1,2:4);
-        f=figure;
-        h=PlotSequentialSpikeOrder(MeaMap,SpikeOrders);
-        axis tight;
-        axis off;
-        copyobj(h,s);
-        close(f);
-        axis tight;
-        axis off;
-        [a,b]=find(MeaMap==StimSite{i});
-        img(1:10,1:size(SpikeOrders,2))=Z1(a,b)+1;
-        [X,Y] = meshgrid(1:1:size(img,1),1:1:size(img,2));
-        subplot(4,1,1);
-        imshow(img,cmap);
-        shading flat;
-        axis off;
-        set(gcf,'ColorMap',[[0,0,0];cmap]);
-        set(gcf,'color','w');
-        maximize(gcf);
-    end
-    img=[];
+for i=1:15
+    % i=8;
+    %     if ~isempty(StimSite{i})
+    
+    bursts  = BurstData.bursts(:,:,(BurstData.cultId==i)&(BurstData.prepost==1));
     SpikeOrders=[];
-    bursts=[];
+    for j=1:size(bursts,3)
+        b = bursts(:,:,j);
+        for k=1:max(b(:))
+            SpikeOrders(k,j) = MeaMap(find(b==k));
+        end
+    end
+    s=subplot(4,4,i);
+    f=figure;
+    h=PlotSequentialSpikeOrder(MeaMap,SpikeOrders);
+    set(f,'ColorMap',[[0,0,0];cmap]);
+    axis(h,'tight');
+%     axis(h,'off');
+    copyobj(h,s);
+    close(f);
+end
+%--------------------%
+% Stimulation Sight Location by Color
+s=subplot(4,1,2:4);
+f=figure;
+h=PlotSequentialSpikeOrder(MeaMap,SpikeOrders);
+axis tight;
+axis off;
+copyobj(h,s);
+close(f);
+axis tight;
+axis off;
+%         [a,b]=find(MeaMap==StimSite{i});
+%         img(1:10,1:size(SpikeOrders,2))=Z1(a,b)+1;
+%         [X,Y] = meshgrid(1:1:size(img,1),1:1:size(img,2));
+%         subplot(4,1,1);
+%         imshow(img,cmap);
+%         shading flat;
+%         axis off;
+%         set(gcf,'ColorMap',[[0,0,0];cmap]);
+%         set(gcf,'color','w');
+%         maximize(gcf);
+%     end
+img=[];
+SpikeOrders=[];
+bursts=[];
 end
 % export_fig 'Fig6_BurstPropogation.png';
 % print('-dpng','-r300','Fig6_BurstPropogation.png');
