@@ -1,11 +1,11 @@
 function [spks,time1] = MakeRaster(t,ic,startframe,endframe)
 t=round(t);
 numC = size(ic,2);
-m=nan(max(t),numC);
+m=nan(endframe,numC);
 starts = ic(3,:);
 stops = ic(4,:);
 for i=1:numC
-    display(stops(i)-starts(i));
+    %     display(stops(i)-starts(i));
     locs = t(starts(i):stops(i));
     m(locs,i)=ic(1,i);
 end
