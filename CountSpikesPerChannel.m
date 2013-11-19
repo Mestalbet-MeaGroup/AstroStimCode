@@ -1,4 +1,5 @@
 function numspikes = CountSpikesPerChannel(t,ic,bs,be);
+% Calculates the percentage of maximum firing for each channel for each burst and takes the mean across bursts. 
 numspikes=[];
 for i=1:numel(bs)
 [t1,ic1] = CutSortChannel2(t,ic,bs(i),be(i));

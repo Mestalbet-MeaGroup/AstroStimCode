@@ -18,7 +18,8 @@ end
 [X,Y] = meshgrid(1:1:size(img,1),1:1:size(img,2));
 figure;
 if (size(img,1)>1)&&(size(img,2)>1)
-    h = pcolor(X,Y,img');
+%     h = pcolor(X,Y,img');
+   h = imagesc(img');
     shading flat;
     set(gcf,'ColorMap',cmap);
     set(gca,'YDir','reverse','PlotBoxAspectRatio',[size(img,2) size(img,1) 1]);

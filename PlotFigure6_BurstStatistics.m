@@ -1,7 +1,7 @@
 
-load('DataSetOpto_withControlCults.mat')
-load('16x16MeaMap_90CW_Inverted.mat');
-BurstData = GenerateBurstData(DataSetBase,DataSetStims,MeaMap);
+% load('DataSetOpto_withControlCults.mat')
+% load('16x16MeaMap_90CW_Inverted.mat');
+% BurstData = GenerateBurstData(DataSetBase,DataSetStims,MeaMap);
 subplot = @(m,n,p) subtightplot (m, n, p, [0.05 0.001], [0.05 0.05], [0.05 0.05]);
 
 %% Plot Burst Width CDFs
@@ -51,7 +51,9 @@ legend('regular bursts','95% confidence bounds','bursts within superbursts','95%
 set(gcf,'color','none');
 maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16)
-print('-depsc2','-r300','Fig6_CDFburstdurations.eps');
+set(gca,'PlotBoxAspectRatio',[1 1 1]);
+export_fig('Fig6_CDFburstdurations.eps');
+% print('-depsc2','-r300','Fig6_CDFburstdurations.eps');
 % print('-dpng','-r300','Fig6_CDFburstdurations.png');
 % export_fig -native 'Fig6_CDFburstdurations.png'
 close all;
@@ -84,7 +86,9 @@ hold off
 set(gcf,'color','none');
 maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16);
-print('-depsc2','-r300','Fig6_CDFspikecount.eps');
+set(gca,'PlotBoxAspectRatio',[1 1 1]);
+export_fig('Fig6_CDFspikecount.eps');
+% print('-depsc2','-r300','Fig6_CDFspikecount.eps');
 % print('-dpng','-r300','Fig6_CDFspikecount.png');
 % export_fig -native 'Fig6_CDFspikecount.png';
 
@@ -108,7 +112,7 @@ loglog(sbCDFx,sbCDFy,'ok','MarkerSize',2,'MarkerFaceColor','r','MarkerEdgeColor'
 % patch(limSBX,limSBY,'r','FaceAlpha',0.2,'EdgeColor','r');
 patch(limSBX,limSBY,'r','FaceColor','none','EdgeColor','r');
 xlimtest = [max(sbCDFx),max(regCDFx)];
-xlim([0 min(xlimtest)/3]);
+xlim([0 min(xlimtest)]);
 ylim([0 max(regCDFy)+0.02]);
 c = -1; 
 tit = sprintf('spikes*(seconds*channels)^{%.0f}', c);
@@ -120,17 +124,19 @@ hold off
 set(gcf,'color','none');
 maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16);
-print('-depsc2','-r300','Fig6_CDFfiringrates.eps');
+set(gca,'PlotBoxAspectRatio',[1 1 1]);
+export_fig('Fig6_CDFfiringrates.eps');
+% print('-depsc2','-r300','Fig6_CDFfiringrates.eps');
 % print('-dpng','-r300','Fig6_CDFfiringrates.png');
 % export_fig -native 'Fig6_CDFfiringrates.png';
 close all;
-%% Plot Average Spike Rate per burst CDFs
+%% Plot Average Channel Participation per burst
 
 regfr  = BurstData.spikesPcntMax(BurstData.nsbsb==0); %Outside of SBs
 sbfr   = BurstData.spikesPcntMax(BurstData.nsbsb==1); %Inside of SBs
 
-[regCDFx,regCDFy,limRegX,limRegY]=CalcCdf(regfr'.*12000);
-[sbCDFx,sbCDFy,limSBX,limSBY]=CalcCdf(sbfr'.*12000);
+[regCDFx,regCDFy,limRegX,limRegY]=CalcCdf(regfr');
+[sbCDFx,sbCDFy,limSBX,limSBY]=CalcCdf(sbfr');
 
 figure('renderer','opengl');
 %----Baseline----%
@@ -141,9 +147,9 @@ patch(limRegX,limRegY,'b','FaceColor','none','EdgeColor','b');
 loglog(sbCDFx,sbCDFy,'ok','MarkerSize',2,'MarkerFaceColor','r','MarkerEdgeColor','r');
 patch(limSBX,limSBY,'r','FaceColor','none','EdgeColor','r');
 xlimtest = [max(sbCDFx),max(regCDFx)];
-xlim([0 min(xlimtest)/3]);
+xlim([0 min(xlimtest)]);
 ylim([0 max(regCDFy)+0.02]);
-xlabel('Percentage Burst Participation');
+xlabel('recruitment [%]');
 ylabel('probability');
 title('cumulative density function: Percentage Participation per Burst');
 hold off
@@ -151,7 +157,9 @@ hold off
 set(gcf,'color','none');
 maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16);
-print('-depsc2','-r300','Fig6_CDFprecentageburstparticipation.eps');
+set(gca,'PlotBoxAspectRatio',[1 1 1]);
+export_fig('Fig6_CDFprecentageburstparticipation.eps');
+% print('-depsc2','-r300','Fig6_CDFprecentageburstparticipation.eps');
 % print('-dpng','-r300','Fig6_CDFprecentageburstparticipation.png');
 % export_fig -native 'Fig6_CDFprecentageburstparticipation.png';
 close all;
@@ -194,7 +202,9 @@ set(gcf,'color','none');
 shading flat;
 maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16)
-print('-depsc2','-r300',['Fig6_BurstInitiation',type, '.eps']);
+saveas(gcf,['Fig6_BurstInitiation',type, '.eps'], 'epsc2');
+fix_pcolor_eps(['Fig6_BurstInitiation',type, '.eps']);
+% print('-depsc2','-r300',['Fig6_BurstInitiation',type, '.eps']);
 % print('-dpng','-r300',['Fig6_BurstInitiation',type, '.png']);
 % export_fig -native ['Fig6_BurstInitiation',type, '.png'];
 close all;
@@ -228,7 +238,9 @@ legend('Baseline','Stimulation','Location','NorthEast');
 set(gcf,'color','none');
 maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16)
-print('-depsc2','-r300',['Fig6_SpotBurstInitiation',type, '.eps']);
+saveas(gcf,['Fig6_SpotBurstInitiation',type, '.eps'], 'epsc2');
+fix_pcolor_eps(['Fig6_SpotBurstInitiation',type, '.eps']);
+% print('-depsc2','-r300',['Fig6_SpotBurstInitiation',type, '.eps']);
 % print('-dpng','-r300',['Fig6_SpotBurstInitiation',type, '.png']);
 % export_fig -native ['Fig6_SpotBurstInitiation',type, '.png'];
 close all;
@@ -243,7 +255,9 @@ set(gcf,'color','none');
 shading flat;
 maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16)
-print('-depsc2','-r300',['Fig6_BurstInitiation',type, '.eps']);
+saveas(gcf,['Fig6_BurstInitiation',type, '.eps'], 'epsc2');
+fix_pcolor_eps(['Fig6_BurstInitiation',type, '.eps']);
+% print('-depsc2','-r300',['Fig6_BurstInitiation',type, '.eps']);
 % print('-dpng','-r300',['Fig6_BurstInitiation',type, '.png']);
 % export_fig -native ['Fig6_BurstInitiation',type, '.png'];
 close all;
@@ -277,7 +291,9 @@ legend('Baseline','Stimulation','Location','NorthEast');
 set(gcf,'color','none');
 maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16)
-print('-depsc2','-r300',['Fig6_SpotBurstInitiation',type, '.eps']);
+% print('-depsc2','-r300',['Fig6_SpotBurstInitiation',type, '.eps']);
+saveas(gcf,['Fig6_SpotBurstInitiation',type, '.eps'], 'epsc2');
+fix_pcolor_eps(['Fig6_SpotBurstInitiation',type, '.eps']);
 % print('-dpng','-r300',['Fig6_SpotBurstInitiation',type, '.png']);
 % export_fig -native ['Fig6_SpotBurstInitiation',type, '.png'];
 close all;
@@ -285,13 +301,17 @@ close all;
 %% Burst Propogation
 
 %-----Color Coded Mea Map------%
-figure;
+figure('renderer','zbuffer');
+% opengl('software');
 [cmap,Z1]=MeaColorMap;
 set(gca,'PlotBoxAspectRatio',[1 1 1]);
 set(gcf,'color','none');
 maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16);
-print('-dpng','-r300','Fig6_ColorMap.png');
+% print('-dpng','-r300','Fig6_ColorMap.png');
+% export_fig('Fig6_ColorMap.eps');
+saveas(gcf,'Fig6_ColorMap.eps', 'epsc2');
+fix_pcolor_eps('Fig6_ColorMap.eps');
 close all;
 
 %-----Sequential Burst Propogation-----%
@@ -304,7 +324,7 @@ for j=1:size(bursts,3)
         SpikeOrders(k,j) = MeaMap(find(b==k));
     end
 end
-f=figure;
+figure('renderer','zbuffer');
 h=PlotSequentialSpikeOrder(MeaMap,SpikeOrders,StimSite{i});
 set(f,'ColorMap',[[0,0,0];cmap]);
 axis tight;
@@ -317,7 +337,11 @@ maximize(gcf);
 xlabel('spike order within bursts');
 ylabel('burst number');
 set(findall(gcf,'-property','FontSize'),'FontSize',16);
-print('-depsc2','-r300','Fig6_sequentialburstprop1.eps');
+set(gca,'TickDir','out');
+% saveas(gcf,'Fig6_sequentialburstprop1a.eps', 'epsc2');
+% fix_pcolor_eps('Fig6_sequentialburstprop1a.eps');
+% export_fig('Fig6_sequentialburstprop1.eps');
+print('-depsc2','-r600','-cmyk ','Fig6_sequentialburstprop1.eps');
 % print('-dpng','-r300','Fig6_sequentialburstprop1.png');
 % export_fig -native 'Fig6_sequentialburstprop1.png';
 close all;
@@ -334,7 +358,7 @@ for j=1:size(bursts,3)
     end
 end
 % SpikeOrders(:,end+(oldsize-j))=0;
-f=figure;
+figure('renderer','zbuffer');
 h=PlotSequentialSpikeOrder(MeaMap,SpikeOrders,StimSite{i});
 % ylim([0 oldsize]);
 set(f,'ColorMap',[[0,0,0];cmap]);
@@ -347,7 +371,11 @@ maximize(gcf);
 xlabel('spike order within bursts');
 ylabel('burst number');
 set(findall(gcf,'-property','FontSize'),'FontSize',16);
-print('-depsc2','-r300','Fig6_sequentialburstprop2.eps');
+set(gca,'TickDir','out');
+% saveas(gcf,'Fig6_sequentialburstprop2.eps', 'epsc2');
+% fix_pcolor_eps('Fig6_sequentialburstprop2.eps');
+% export_fig('Fig6_sequentialburstprop2.eps');
+print('-depsc2','-r600','Fig6_sequentialburstprop2.eps');
 % print('-dpng','-r300','Fig6_sequentialburstprop2.png');
 % export_fig -native 'Fig6_sequentialburstprop2.png';
 close all;
