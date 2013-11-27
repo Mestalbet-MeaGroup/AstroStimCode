@@ -140,7 +140,6 @@ maximize(gcf);
 close all;
 
 %% Subplot Figure - 
-% error here in plot function, plots superbursts from post on pre chart.
 figure;
 subplot(12,1,1);
 bar(ratio,'k');

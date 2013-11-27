@@ -35,9 +35,9 @@ for j=1:numel(perErr)
             which = which.*addOrSub';
             change = perErr(j)*(DataSetBase{k}.Trim.be-DataSetBase{k}.Trim.bs).*which;
             %---------To Burst Start-----------%
-%             DataSetBase{k}.Trim.bs=DataSetBase{k}.Trim.bs+change;
+            DataSetBase{k}.Trim.bs=DataSetBase{k}.Trim.bs+change;
             %---------To Burst End-----------%
-            DataSetBase{k}.Trim.be=DataSetBase{k}.Trim.be+change;
+%             DataSetBase{k}.Trim.be=DataSetBase{k}.Trim.be+change;
             %----------End of Error Introduction--------%
             prepost = [prepost,zeros(1,numel(DataSetBase{k}.Trim.bs))]; % 0 = pre, 1 = post
             nsbsb   = [nsbsb,zeros(1,numel(DataSetBase{k}.Trim.bs))]; % 0 = not within superburst, 1 = within superburst
@@ -60,8 +60,8 @@ for j=1:numel(perErr)
                     addOrSub1(addOrSub1==0)=-1;
                     which1 = which1.*addOrSub1';
                     change1 = perErr(j)*(be1-bs1).*which1;
-%                     bs1=bs1+change1;
-                    be1=be1+change1;
+                    bs1=bs1+change1;
+%                     be1=be1+change1;
                     prepost = [prepost,zeros(1,numel(bs1))]; % 0 = pre, 1 = post
                     nsbsb   = [nsbsb,ones(1,numel(bs1))]; % 0 = not within superburst, 1 = within superburst
                     cultId  = [cultId,ones(1,numel(bs1)).*k];
@@ -82,9 +82,9 @@ for j=1:numel(perErr)
                 which = which.*addOrSub';
                 change = perErr(j)*(DataSetStims{k}.Trim.be-DataSetStims{k}.Trim.bs).*which;
                 %---------To Burst Start-----------%
-%                  DataSetStims{k}.Trim.bs=DataSetStims{k}.Trim.bs+change;
+                 DataSetStims{k}.Trim.bs=DataSetStims{k}.Trim.bs+change;
                 %---------To Burst End-----------%
-                DataSetStims{k}.Trim.be=DataSetStims{k}.Trim.be+change;
+%                 DataSetStims{k}.Trim.be=DataSetStims{k}.Trim.be+change;
                 %----------End of Error Introduction--------%
             end
             prepost = [prepost,ones(1,numel(DataSetStims{k}.Trim.bs))]; % 0 = pre, 1 = post
@@ -108,8 +108,8 @@ for j=1:numel(perErr)
                     addOrSub1(addOrSub1==0)=-1;
                     which1 = which1.*addOrSub1';
                     change1 = perErr(j)*(be1-bs1).*which1;
-%                     bs1=bs1+change1;
-                    be1=be1+change1;
+                    bs1=bs1+change1;
+%                     be1=be1+change1;
                     prepost = [prepost,ones(1,numel(bs1))]; % 0 = pre, 1 = post
                     nsbsb   = [nsbsb,ones(1,numel(bs1))]; % 0 = not within superburst, 1 = within superburst
                     cultId  = [cultId,ones(1,numel(bs1)).*k];
@@ -130,77 +130,77 @@ for j=1:numel(perErr)
     end
     waitbarwithtime(j/numel(perErr),h);
 end
-% save('BurstData_errTestingStarts.mat', 'BurstData');
-save('BurstData_errTestingEnds.mat', 'BurstData');
+save('BurstData_errTestingStarts.mat', 'BurstData');
+% save('BurstData_errTestingEnds.mat', 'BurstData');
 close(gcf);
 %% Plot Results
-%-----Plot Burst Durations------%
-figure;hold on;
-for i=1:3
-    for j=1:3
-        regbw  = BurstData{i,j}.bw(BurstData{i,j}.nsbsb==0); % Outside of SBs
-        sbbw  = BurstData{i,j}.bw(BurstData{i,j}.nsbsb==1); % Inside of SBs
-        [regCDFx,regCDFy,limRegX,limRegY]=CalcCdf(regbw'./1200); % Convert to ms
-        [sbCDFx,sbCDFy,limSBX,limSBY]=CalcCdf(sbbw'./1200);
-        %----Baseline----%
-        plot(regCDFx,regCDFy,'ok','MarkerSize',2,'MarkerFaceColor','b','MarkerEdgeColor','b');
-        %----Stimulation----%
-        plot(sbCDFx,sbCDFy,'ok','MarkerSize',2,'MarkerFaceColor','r','MarkerEdgeColor','r');
-    end
-end
-title('Durations');
-hold off;
-%-----Plot Number of Spikes per Channel-------%
-figure;hold on;
-for i=1:3
-    for j=1:3
-        regfr  = BurstData{i,j}.numspikes(BurstData{i,j}.nsbsb==0); %Outside of SBs
-        sbfr   = BurstData{i,j}.numspikes(BurstData{i,j}.nsbsb==1); %Inside of SBs
-        [regCDFx,regCDFy,limRegX,limRegY]=CalcCdf(regfr'); % Convert to ms
-        [sbCDFx,sbCDFy,limSBX,limSBY]=CalcCdf(sbfr');
-        %----Baseline----%
-        plot(regCDFx,regCDFy,'ok','MarkerSize',2,'MarkerFaceColor','b','MarkerEdgeColor','b');
-        %----Stimulation----%
-        plot(sbCDFx,sbCDFy,'ok','MarkerSize',2,'MarkerFaceColor','r','MarkerEdgeColor','r');
-    end
-end
-title('Number of Spikes Per Channel');
-hold off;
-axis('tight');
-
-%-----Plot Firing Rate------%
-figure;hold on;
-for i=1:3
-    for j=1:3
-        regfr  = BurstData{i,j}.numspikes(BurstData{i,j}.nsbsb==0)./(BurstData{i,j}.bw(BurstData{i,j}.nsbsb==0))'; %Outside of SBs
-        sbfr   = BurstData{i,j}.numspikes(BurstData{i,j}.nsbsb==1)./(BurstData{i,j}.bw(BurstData{i,j}.nsbsb==1))'; %Inside of SBs
-        [regCDFx,regCDFy,limRegX,limRegY]=CalcCdf(regfr'.*12000); % Convert to ms
-        [sbCDFx,sbCDFy,limSBX,limSBY]=CalcCdf(sbfr'.*12000);
-        %----Baseline----%
-        plot(regCDFx,regCDFy,'ok','MarkerSize',2,'MarkerFaceColor','b','MarkerEdgeColor','b');
-        %----Stimulation----%
-        plot(sbCDFx,sbCDFy,'ok','MarkerSize',2,'MarkerFaceColor','r','MarkerEdgeColor','r');
-    end
-end
-title('Firing Rate');
-hold off;
-axis('tight');
-%-----Plot Recruitment------%
-figure;hold on;
-for i=1:3
-    for j=1:3
-        regpcnt  = BurstData{i,j}.spikesPcntMax(BurstData{i,j}.nsbsb==0); % Outside of SBs
-        sbpcnt  = BurstData{i,j}.spikesPcntMax(BurstData{i,j}.nsbsb==1); % Inside of SBs
-        [regCDFx,regCDFy,limRegX,limRegY]=CalcCdf(regpcnt'); % Convert to ms
-        [sbCDFx,sbCDFy,limSBX,limSBY]=CalcCdf(sbpcnt');
-        %----Baseline----%
-        plot(regCDFx,regCDFy,'ok','MarkerSize',2,'MarkerFaceColor','b','MarkerEdgeColor','b');
-        %----Stimulation----%
-        plot(sbCDFx,sbCDFy,'ok','MarkerSize',2,'MarkerFaceColor','r','MarkerEdgeColor','r');
-    end
-end
-title('Recruitment');
-hold off;
-axis('tight');
-
+% %-----Plot Burst Durations------%
+% figure;hold on;
+% for i=1:3
+%     for j=1:3
+%         regbw  = BurstData{i,j}.bw(BurstData{i,j}.nsbsb==0); % Outside of SBs
+%         sbbw  = BurstData{i,j}.bw(BurstData{i,j}.nsbsb==1); % Inside of SBs
+%         [regCDFx,regCDFy,limRegX,limRegY]=CalcCdf(regbw'./1200); % Convert to ms
+%         [sbCDFx,sbCDFy,limSBX,limSBY]=CalcCdf(sbbw'./1200);
+%         %----Baseline----%
+%         plot(regCDFx,regCDFy,'ok','MarkerSize',2,'MarkerFaceColor','b','MarkerEdgeColor','b');
+%         %----Stimulation----%
+%         plot(sbCDFx,sbCDFy,'ok','MarkerSize',2,'MarkerFaceColor','r','MarkerEdgeColor','r');
+%     end
+% end
+% title('Durations');
+% hold off;
+% %-----Plot Number of Spikes per Channel-------%
+% figure;hold on;
+% for i=1:3
+%     for j=1:3
+%         regfr  = BurstData{i,j}.numspikes(BurstData{i,j}.nsbsb==0); %Outside of SBs
+%         sbfr   = BurstData{i,j}.numspikes(BurstData{i,j}.nsbsb==1); %Inside of SBs
+%         [regCDFx,regCDFy,limRegX,limRegY]=CalcCdf(regfr'); % Convert to ms
+%         [sbCDFx,sbCDFy,limSBX,limSBY]=CalcCdf(sbfr');
+%         %----Baseline----%
+%         plot(regCDFx,regCDFy,'ok','MarkerSize',2,'MarkerFaceColor','b','MarkerEdgeColor','b');
+%         %----Stimulation----%
+%         plot(sbCDFx,sbCDFy,'ok','MarkerSize',2,'MarkerFaceColor','r','MarkerEdgeColor','r');
+%     end
+% end
+% title('Number of Spikes Per Channel');
+% hold off;
+% axis('tight');
+% 
+% %-----Plot Firing Rate------%
+% figure;hold on;
+% for i=1:3
+%     for j=1:3
+%         regfr  = BurstData{i,j}.numspikes(BurstData{i,j}.nsbsb==0)./(BurstData{i,j}.bw(BurstData{i,j}.nsbsb==0))'; %Outside of SBs
+%         sbfr   = BurstData{i,j}.numspikes(BurstData{i,j}.nsbsb==1)./(BurstData{i,j}.bw(BurstData{i,j}.nsbsb==1))'; %Inside of SBs
+%         [regCDFx,regCDFy,limRegX,limRegY]=CalcCdf(regfr'.*12000); % Convert to ms
+%         [sbCDFx,sbCDFy,limSBX,limSBY]=CalcCdf(sbfr'.*12000);
+%         %----Baseline----%
+%         plot(regCDFx,regCDFy,'ok','MarkerSize',2,'MarkerFaceColor','b','MarkerEdgeColor','b');
+%         %----Stimulation----%
+%         plot(sbCDFx,sbCDFy,'ok','MarkerSize',2,'MarkerFaceColor','r','MarkerEdgeColor','r');
+%     end
+% end
+% title('Firing Rate');
+% hold off;
+% axis('tight');
+% %-----Plot Recruitment------%
+% figure;hold on;
+% for i=1:3
+%     for j=1:3
+%         regpcnt  = BurstData{i,j}.spikesPcntMax(BurstData{i,j}.nsbsb==0); % Outside of SBs
+%         sbpcnt  = BurstData{i,j}.spikesPcntMax(BurstData{i,j}.nsbsb==1); % Inside of SBs
+%         [regCDFx,regCDFy,limRegX,limRegY]=CalcCdf(regpcnt'); % Convert to ms
+%         [sbCDFx,sbCDFy,limSBX,limSBY]=CalcCdf(sbpcnt');
+%         %----Baseline----%
+%         plot(regCDFx,regCDFy,'ok','MarkerSize',2,'MarkerFaceColor','b','MarkerEdgeColor','b');
+%         %----Stimulation----%
+%         plot(sbCDFx,sbCDFy,'ok','MarkerSize',2,'MarkerFaceColor','r','MarkerEdgeColor','r');
+%     end
+% end
+% title('Recruitment');
+% hold off;
+% axis('tight');
+% 
 end

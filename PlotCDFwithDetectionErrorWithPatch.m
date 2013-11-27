@@ -104,6 +104,7 @@ figure('renderer','opengl');hold on;
 i=1;j=1;k=1;
 regbw  = BurstData{i,j,k}.spikesPcntMax((BurstData{i,j,k}.nsbsb==0)); % Outside of SBs
 sbbw  = BurstData{i,j,k}.spikesPcntMax((BurstData{i,j,k}.nsbsb==1)); % Inside of SBs
+
 [regCDFx,regCDFy,limRegX,limRegY]=CalcCdf(regbw'.*100); 
 [sbCDFx,sbCDFy,limSBX,limSBY]=CalcCdf(sbbw'.*100);
 %------Baseline-----%

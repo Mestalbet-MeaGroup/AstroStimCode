@@ -1,7 +1,8 @@
 % Calculates and plots the firing rates of all the cultures prior and
 % following optogenetic stimulation of astrocytes
 subplot = @(m,n,p) subtightplot (m, n, p, [0.05 0.05], [0.05 0.05], [0.05 0.05]);
-for i=1:size(DataSetStims,1)
+% for i=1:size(DataSetStims,1)
+for i=1:13
     %% Load Select Culture
     tpre=DataSetBase{i}.Trim.t; %pre
     icpre=DataSetBase{i}.Trim.ic; %pre
@@ -80,10 +81,14 @@ for i=1:size(DataSetStims,1)
     [~, ymax]=CalcLimitsWithoutOutliers(pres,posts);
 %     ylim([ymin*0.9,ymax*1.1]);
     ylim([-1, 25]);
-    ratio(i)  = (numel(tpost)/(max(tpost)-min(tpost))) /(numel(tpre)/(max(tpre)-min(tpre)));
+    postSpks(i) = numel(tpost)/(max(tpost)-min(tpost));
+    preSpks(i) = numel(tpre)/(max(tpre)-min(tpre));
+    ratio(i)  = postSpks(i)/preSpks(i);
+    
     %     xlabel(['Ratio of Spikes: Post/Pre = ' num2str(ratio)],'FontSize',16);
     hold off
     %     eval(['print(f,' '''-r600''' ',' '''-deps'',''' cultures{i,1} '.eps'');']);
+    
 end
 
 subplot(5,3,i+1:15)
@@ -98,4 +103,41 @@ set(gcf,'color','w');
 % export_fig 'FiringRateAllOpto.png';
 
 % print(gcf, '-r600', '-dpng', 'FiringRateAllOpto.png');
+culTypes = {'Melanopsin ','OptoA1-EYFP ','OptoA1-p2a-tRFP ','ChR2 '};
+cultLabels = {[culTypes{1} '(1)'] [culTypes{1} '(2)'] [culTypes{1} '(3)'] [culTypes{1} '(4)']...
+    [culTypes{2} '(1)'] [culTypes{2} '(2)'] [culTypes{2} '(3)'] ...
+    [culTypes{3} '(1)*'] [culTypes{3} '(2)']...
+    [culTypes{4} '(1)'] [culTypes{4} '(2)*'] [culTypes{4} '(3)'] [culTypes{4} '(4)']};
 
+% figure; 
+% [preSpks,ix]=sort(preSpks,'ascend');
+% postSpks=postSpks(ix);
+% cultLabels=cultLabels(ix);
+% hold on;
+% plot(preSpks,postSpks./(postSpks+preSpks),'ok','MarkerFaceColor','k');
+% xlabel('Baseline FR');
+% ylabel('Stimulation FR / (Stimulation FR + Baseline FR');
+% grid on;
+% maximize(gcf);
+% set(gcf,'color','w');
+% export_fig('SpikeRateFunction.png');
+
+figure; 
+hold on;
+plot(preSpks,postSpks./preSpks,'ok','MarkerFaceColor','k');
+text(preSpks+0.001,postSpks./preSpks,cultLabels);
+xlabel('Baseline FR');
+ylabel('Stimulation FR / Baseline FR');
+grid on;
+maximize(gcf);
+set(gcf,'color','w');
+% export_fig('SpikeRateRatio.png');
+
+figure;
+m = bootstrp(1000,@mean,ratio);
+[fi,xi] = ksdensity(m);
+plot(xi,fi);
+grid on; title('BootStrapped Mean Ratio of Spikes');
+set(gcf,'color','w');
+set(findall(gcf,'-property','FontSize'),'FontSize',16);
+% export_fig('BootStrappedMean_SpikeRateRatio.png');

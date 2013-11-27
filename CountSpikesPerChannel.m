@@ -7,7 +7,8 @@ for j=1:size(ic1,2)
     numspikes(i,j)=numel(t1(ic1(3,j):ic1(4,j)));
 end
 end
-maxnum = max(numspikes,[],1);
+% maxnum = max(numspikes,[],1);
+maxnum = nanmean(numspikes,1);
 for i=1:size(numspikes,2)
     numspikes(:,i)=numspikes(:,i)./maxnum(i);
 end
