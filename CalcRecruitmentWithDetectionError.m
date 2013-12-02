@@ -34,7 +34,7 @@ for j=1:numel(perErr)
             %---------To Burst End-----------%
             %             DataSetBase{k}.Trim.be=DataSetBase{k}.Trim.be+change;
             %----------End of Error Introduction--------%
-            spikesPcntMax = cat(1,spikesPcntMax,CountSpikesPerChannel(DataSetBase{k}.t,DataSetBase{k}.ic,DataSetBase{k}.Trim.bs,DataSetBase{k}.Trim.be));
+            spikesPcntMax = cat(1,spikesPcntMax,CountSpikesPerChannelq(DataSetBase{k}.t,DataSetBase{k}.ic,DataSetBase{k}.Trim.bs,DataSetBase{k}.Trim.be));
             if ~isempty(DataSetBase{k}.sbs)
                 for kk=1:numel(DataSetBase{k}.sbs)
                     switch options.choose(k)
@@ -52,7 +52,7 @@ for j=1:numel(perErr)
                     change1 = perErr(j)*(be1-bs1).*which1;
                     bs1=bs1+change1;
                     %                     be1=be1+change1;
-                    spikesPcntMax = cat(1,spikesPcntMax,CountSpikesPerChannel(DataSetBase{k}.t,DataSetBase{k}.ic,bs1,be1));
+                    spikesPcntMax = cat(1,spikesPcntMax,CountSpikesPerChannelq(DataSetBase{k}.t,DataSetBase{k}.ic,bs1,be1));
                 end
             end
             
@@ -69,7 +69,7 @@ for j=1:numel(perErr)
                 %                 DataSetStims{k}.Trim.be=DataSetStims{k}.Trim.be+change;
                 %----------End of Error Introduction--------%
             end
-            spikesPcntMax = cat(1,spikesPcntMax,CountSpikesPerChannel(DataSetStims{k}.t,DataSetStims{k}.ic,DataSetStims{k}.Trim.bs,DataSetStims{k}.Trim.be));
+            spikesPcntMax = cat(1,spikesPcntMax,CountSpikesPerChannelq(DataSetStims{k}.t,DataSetStims{k}.ic,DataSetStims{k}.Trim.bs,DataSetStims{k}.Trim.be));
             if ~isempty(DataSetStims{k}.sbs)
                 for kk=1:numel(DataSetStims{k}.sbs)
                     switch options.choose(k)
@@ -87,7 +87,7 @@ for j=1:numel(perErr)
                     change1 = perErr(j)*(be1-bs1).*which1;
                     bs1=bs1+change1;
                     %                     be1=be1+change1;
-                    spikesPcntMax = cat(1,spikesPcntMax,CountSpikesPerChannel(DataSetStims{k}.t,DataSetStims{k}.ic,bs1,be1));
+                    spikesPcntMax = cat(1,spikesPcntMax,CountSpikesPerChannelq(DataSetStims{k}.t,DataSetStims{k}.ic,bs1,be1));
                 end
             end
         end
