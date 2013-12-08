@@ -47,6 +47,7 @@ for i=1:size(StimSite,2);
         spot = imdilate(spot,se);
         spotA=spot;
         spot(spot==0)=nan;
+        numElecs = sum(spot(:)==1);
         
         %----Values within Spot---%
         temp1 = spot.*pdfpre{i};
@@ -61,7 +62,7 @@ for i=1:size(StimSite,2);
         temp2A = spotA.*pdfpost{i};
         v1A=temp1A(~isnan(temp1A));
         v2A=temp2A(~isnan(temp2A));
-            
+        
         figure;
         s1=subplot(1,3,1); imagescnan(temp1); set(gca,'YDir','normal','PlotBoxAspectRatio',[1 1 1],'YTickLabel',[],'XTickLabel',[]); caxis([0 0.02]);
         s2=subplot(1,3,2);imagescnan(temp2);set(gca,'YDir','normal','PlotBoxAspectRatio',[1 1 1],'YTickLabel',[],'XTickLabel',[]);caxis([0 0.02]);
@@ -71,29 +72,33 @@ for i=1:size(StimSite,2);
         s2Pos = get(s2,'position');
         s2Pos(3:4) = s1Pos(3:4);
         set(s2,'position',s2Pos);
+        
+        if numel(v1A)==numel(v2A)
+            s = subplot(1,3,3); hold on;
+            [v1A,ixA]=sort(v1A,'ascend');
+            v2A=v2A(ixA);
+            plot(v1A./(sum(v1A)/(256-numElecs)),v2A./(sum(v1A)/(256-numElecs)),'or','DisplayName','Outside Spot');
+            outsideSpotPre = [outsideSpotPre;v1A];
+            outsideSpotPost = [outsideSpotPost;v2A];
+            %             line([0 0.03],[0 0.03]);
+            %                 subplot(1,3,3); hold on; plot(v1,v2/(v1+v2),'.k'); plot(v1A,v2A/(v1A+v2A),'or');line([0,0.025],[0,1]);
+        end
         if numel(v1)==numel(v2)
-            subplot(1,3,3); hold on;
             [v1,ix]=sort(v1,'ascend');
             v2=v2(ix);
-            plot(v1./sum(v1),v2./sum(v2),'ok','MarkerFaceColor','k','DisplayName','Inside Spot');
+            plot(v1./(sum(v1)/numElecs),v2./(sum(v2)/numElecs),'ok','MarkerFaceColor','k','DisplayName','Inside Spot');
             xlabel('P_{baseline} / Total Probability Within Given Area');
             ylabel('P_{stimulation} / Total Probability Within Given Area');
             withinSpotPre = [withinSpotPre;v1];
             withinSpotPost = [withinSpotPost;v2];
         end
         
-        if numel(v1A)==numel(v2A)
-            [v1A,ixA]=sort(v1A,'ascend');
-            v2A=v2A(ixA);
-            plot(v1A./sum(v1A),v2A./sum(v1A),'or','DisplayName','Outside Spot');
-            outsideSpotPre = [outsideSpotPre;v1A];
-            outsideSpotPost = [outsideSpotPost;v2A];
-%             line([0 0.03],[0 0.03]);
-            %                 subplot(1,3,3); hold on; plot(v1,v2/(v1+v2),'.k'); plot(v1A,v2A/(v1A+v2A),'or');line([0,0.025],[0,1]);
-        end
+        
         set(gca,'PlotBoxAspectRatio',[1 1 1],'YAxisLocation', 'right');
         legend('-DynamicLegend');
-%         ylim([0 0.035]); xlim([-0.001 0.03]);
+        %         ylim([0 0.035]); xlim([-0.001 0.03]);
+        %         v = allchild(s);
+        %         uistack(v(5),'down',2);
         maximize(gcf);
         export_fig(['ProbabilityPbaseVsPstimNorm_',type,'_',num2str(i), '.png']);
         close all;
@@ -125,7 +130,7 @@ for i=1:size(StimSite,2);
         temp2A = spotA.*pdfpost{i};
         v1A=temp1A(~isnan(temp1A));
         v2A=temp2A(~isnan(temp2A));
-            
+        
         figure;
         s1=subplot(1,3,1); imagescnan(temp1); set(gca,'YDir','normal','PlotBoxAspectRatio',[1 1 1],'YTickLabel',[],'XTickLabel',[]); caxis([0 0.02]);
         s2=subplot(1,3,2);imagescnan(temp2);set(gca,'YDir','normal','PlotBoxAspectRatio',[1 1 1],'YTickLabel',[],'XTickLabel',[]);caxis([0 0.02]);
@@ -135,8 +140,16 @@ for i=1:size(StimSite,2);
         s2Pos = get(s2,'position');
         s2Pos(3:4) = s1Pos(3:4);
         set(s2,'position',s2Pos);
-        if numel(v1)==numel(v2)
+        
+        if numel(v1A)==numel(v2A)
             subplot(1,3,3); hold on;
+            [v1A,ixA]=sort(v1A,'ascend');
+            v2A=v2A(ixA);
+            plot(v1A,v2A,'or','DisplayName','Outside Spot');
+            outsideSpotPre = [outsideSpotPre;v1A];
+            outsideSpotPost = [outsideSpotPost;v2A];
+        end
+        if numel(v1)==numel(v2)
             [v1,ix]=sort(v1,'ascend');
             v2=v2(ix);
             plot(v1,v2,'ok','MarkerFaceColor','k','DisplayName','Inside Spot');
@@ -147,16 +160,12 @@ for i=1:size(StimSite,2);
             withinSpotPost = [withinSpotPost;v2];
         end
         
-        if numel(v1A)==numel(v2A)
-            [v1A,ixA]=sort(v1A,'ascend');
-            v2A=v2A(ixA);
-            plot(v1A,v2A,'or','DisplayName','Outside Spot');
-            outsideSpotPre = [outsideSpotPre;v1A];
-            outsideSpotPost = [outsideSpotPost;v2A];
-        end
+        
         set(gca,'PlotBoxAspectRatio',[1 1 1],'YAxisLocation', 'right');
         legend('-DynamicLegend');
         ylim([0 0.035]); xlim([-0.001 0.03]);
+        v = allchild(gca);
+        uistack(v(5),'down',2);
         maximize(gcf);
         export_fig(['ProbabilityPbaseVsPstim_',type,'_',num2str(i), '.png']);
         close all;
