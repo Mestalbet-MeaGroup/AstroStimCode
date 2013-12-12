@@ -1,9 +1,15 @@
 function [bs,be] = FindBurstsWithinSBs(t,ic,sbs,sbe,k,kk,rec,dpass)
-[t,ic] = CutSortChannel2(t,ic,sbs,sbe);
+% function which searches out the internal bursts within a superburst
+
+%---Make superburst cut-out---%
+[t,ic] = CutSortChannel2(t,ic,sbs,sbe); %t is in units of samples, sampling rate = 12kHz. Necesary for WPD algorithm.  
 tfull=t;
 icfull=ic;
+%---Create Firing Rate profile---%
 fr=histc(sort(t),min(t):100:max(t)+1000);
-fr = filtfilt(MakeGaussian(0,3,5),1,fr);
+fr = filtfilt(MakeGaussian(0,3,5),1,fr); %smooth
+
+%---Find Burst Starts/Stops---%
 [bs,be]=CalcOnOffsets(fr);
 % [bs,be]=initfin( (fr>0)|([0,0,diff(diff(fr))]>0));
 bs=bs*100+min(t)-100;
