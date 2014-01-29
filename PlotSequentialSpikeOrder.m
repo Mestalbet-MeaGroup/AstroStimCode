@@ -12,14 +12,14 @@ for i=1:size(SpikeOrders,1)
         end
     end
 end
-if ~isempty(StimSite)
-    img(end+1:end+5,:)=ones(5,size(img,2)).*Z1(find(MeaMap==StimSite));
-end
+% if ~isempty(StimSite)
+%     img(end+1:end+5,:)=ones(5,size(img,2)).*Z1(find(MeaMap==StimSite));
+% end
 [X,Y] = meshgrid(1:1:size(img,1),1:1:size(img,2));
 figure;
 if (size(img,1)>1)&&(size(img,2)>1)
-%     h = pcolor(X,Y,img');
-   h = imagesc(img');
+    h = pcolor(X,Y,img');
+%    h = imagesc(img');
     shading flat;
     set(gcf,'ColorMap',cmap);
     set(gca,'YDir','reverse','PlotBoxAspectRatio',[size(img,2) size(img,1) 1]);
