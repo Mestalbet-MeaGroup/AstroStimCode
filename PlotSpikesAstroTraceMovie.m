@@ -1,4 +1,4 @@
-function PlotSpikesAstroTraceMovie(recording,channel,fr,ic,traces)
+function mov = PlotSpikesAstroTraceMovie(recording,channel,fr,ic,traces)
 % Function which plots the calcium imaging movie and the electrode data on
 % the same 2D MEA surface. The color of the dots represent the firing rate.
 
@@ -33,13 +33,13 @@ freezeColors(hMEA);
 
 %% Get Files for Calcium Movie
 str = [num2str(recording) ' '  num2str(channel)];
-fileList = getAllFiles(uigetdir('C:\',str));
-
+% fileList = getAllFiles(uigetdir('C:\',str));
+fileList = getAllFiles('D:\Users\zeiss\Pictures\deleteme\4392_GFAP_gcAMP6_Mcherry_470nm_ch215\');
 %% Plot first Ca Image Frame
 i=1;
 CaFrame = imread(fileList{i});
 h2 = figure('Visible','off');
-imshow(CaFrame,jet(256));
+imshow(CaFrame,jet(256*256));
 hCa = imgca(h2);
 freezeColors(hCa);
 set(hCa,'position',[xpos(MeaMap(:)==channel)./max(xpos),ypos(MeaMap(:)==channel)./max(ypos),(size(CaFrame,2)./size(MeaImage,2))/2,(size(CaFrame,1)./size(MeaImage,1))/2]);
@@ -62,10 +62,11 @@ az = 0;
 el = 90;
 view(az, el);
 set(h,'CDataSource','c1');
+% set(gcf,'Visible','off');
 for frame=1:size(ActivityMat,3)
     CaFrame = imread(fileList{frame});
     h2 = figure('Visible','off');
-    imshow(CaFrame,jet(256));
+    imshow(CaFrame,jet(256*256));
     hCa = imgca(h2);
     freezeColors(hCa);
     set(hCa,'position',[xpos(MeaMap(:)==channel)./max(xpos),ypos(MeaMap(:)==channel)./max(ypos),(size(CaFrame,2)./size(MeaImage,2))/2,(size(CaFrame,1)./size(MeaImage,1))/2]);
@@ -73,9 +74,10 @@ for frame=1:size(ActivityMat,3)
     close(h2);
     c1 = squeeze(ActivityMat(:,:,frame));
     c1=c1(:);
-    refreshdata(h,'caller');
-    drawnow;
+    refreshdata(h,'caller'); 
+    drawnow;  
     title(hSubs(1),['Frame ',num2str(frame)]);
+    mov(frame) = getframe(gcf); 
 end
 
 
