@@ -34,7 +34,7 @@ freezeColors(hMEA);
 %% Get Files for Calcium Movie
 str = [num2str(recording) ' '  num2str(channel)];
 % fileList = getAllFiles(uigetdir('C:\',str));
-fileList = getAllFiles('D:\Users\zeiss\Pictures\deleteme\4392_GFAP_gcAMP6_Mcherry_470nm_ch215\');
+fileList = getAllFiles('E:\CalciumImagingArticleDataSet\GcAMP6 Data\Hippo Files\GFAP-GcAMP6\Tiffs\4384_ch242\');
 %% Plot first Ca Image Frame
 i=1;
 CaFrame = imread(fileList{i});
@@ -45,7 +45,7 @@ freezeColors(hCa);
 set(hCa,'position',[xpos(MeaMap(:)==channel)./max(xpos),ypos(MeaMap(:)==channel)./max(ypos),(size(CaFrame,2)./size(MeaImage,2))/2,(size(CaFrame,1)./size(MeaImage,1))/2]);
 
 %% Combine Axes
-h3 = figure;
+h3 = figure('Visible', 'Off');
 copyobj(hCa,h3);
 copyobj(hMEA,h3);
 hSubs = get(h3, 'children');
@@ -56,17 +56,21 @@ close(h1);close(h2);
 %% Generate Movie (of FR and Ca frames)
 hold(hSubs(1));
 c1 = ActivityMat(:,:,1);
-h = scatter(xpos,ypos,100,c1(:),'fill', 'Parent',hSubs(1));
+h = scatter(xpos,ypos,100,c1(:),'fill', 'Parent',hSubs(1),'Visible','Off');
 colormap(color);
+freezeColors(h);
 az = 0;
 el = 90;
 view(az, el);
 set(h,'CDataSource','c1');
+mov = VideoWriter('test.avi','Uncompressed AVI');
+mov.FrameRate=14.235;
+open(mov);
 % set(gcf,'Visible','off');
 for frame=1:size(ActivityMat,3)
     CaFrame = imread(fileList{frame});
     h2 = figure('Visible','off');
-    imshow(CaFrame,jet(256*256));
+    imshow(CaFrame,jet(256));
     hCa = imgca(h2);
     freezeColors(hCa);
     set(hCa,'position',[xpos(MeaMap(:)==channel)./max(xpos),ypos(MeaMap(:)==channel)./max(ypos),(size(CaFrame,2)./size(MeaImage,2))/2,(size(CaFrame,1)./size(MeaImage,1))/2]);
@@ -77,9 +81,10 @@ for frame=1:size(ActivityMat,3)
     refreshdata(h,'caller'); 
     drawnow;  
     title(hSubs(1),['Frame ',num2str(frame)]);
-    mov(frame) = getframe(gcf); 
+    frm = hardcopy(gcf, '-dzbuffer', '-r0');
+    writeVideo(mov,im2frame(frm));
 end
-
+close(mov);
 
 end
 
