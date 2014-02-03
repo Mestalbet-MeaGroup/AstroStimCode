@@ -15,7 +15,10 @@ function [interp_cmap]=interpolate_cbrewer(cbrew_init, interp_method, ncolors)
 % Author: Charles Robert
 % email: tannoudji@hotmail.com
 % Date: 14.10.2011
-
+ if strcmp(interp_method, 'cubic')
+     interp_method = 'PCHIP';
+ end
+     
 
 % just to make sure, in case someone puts in a decimal
 ncolors=round(ncolors);

@@ -1,4 +1,4 @@
-function mov = PlotSpikesAstroTraceMovie(recording,channel,fr,ic,traces)
+function PlotSpikesAstroTraceMovie(recording,channel,fr,ic,traces)
 % Function which plots the calcium imaging movie and the electrode data on
 % the same 2D MEA surface. The color of the dots represent the firing rate.
 
@@ -9,7 +9,6 @@ load('MeaMapPlot.mat');
 
 %% Create Color Scale for Firing Rate
 color = cbrewer('seq','YlOrRd',max(fr(:))+1);
-colorscale = 0:max(fr(:));
 
 %% Re-arrange firing rate along 2D
 elecs  = ic(1,:);
@@ -28,78 +27,95 @@ ActivityMat (find(ActivityMat==0))=nan;
 
 %% Get Files for Calcium Movie
 str = [num2str(recording) ' '  num2str(channel)];
-% fileList = getAllFiles(uigetdir('C:\',str));
-fileList = getAllFiles('D:\Users\zeiss\Pictures\deleteme\4392_GFAP_gcAMP6_Mcherry_470nm_ch215\');
+fileList = getAllFiles(uigetdir('C:\',str));
+% fileList = getAllFiles('D:\Users\zeiss\Pictures\deleteme\4392_GFAP_gcAMP6_Mcherry_470nm_ch215\');
 % fileList = getAllFiles('E:\CalciumImagingArticleDataSet\GcAMP6 Data\Hippo Files\GFAP-GcAMP6\Tiffs\4392_gfap_gcamp6_mcherry_470nm_ch215\');
 
 %% Combine Axes
 pos = [5 35 1912 1086];
-apos = [0.0875 0.0652681 0.824786 0.899767];
-h1=figure('Visible','off','Position',pos);
-imshow(MeaImage,gray(256));
-set(gca,'YDir','normal');
-hMEA = imgca(h1);
-freezeColors(hMEA);
 
-h2 = figure('Visible','off');
-CaFrame = imread(fileList{1});
-imagesc(CaFrame);
-set(gca,'yDir','normal');
+% Plot MEA Mosaic
+h1=figure('Visible','on','Position',pos);
+imshow(MeaImage',gray(256));
+hMEA = imgca(h1);
+set(hMEA,'YDir','normal');
 axis('tight');
 axis('off');
-hCa = imgca(h2);
+apos = get(hMEA,'position');
+freezeColors(hMEA);
+hold(hMEA,'on');
+xsize = size(MeaImage,1);
+ysize = size(MeaImage,2);
+
+% Plot Scatter Plot of Activity Frame
+% c1 = squeeze(ActivityMat(:,:,1));
+c1=nan(16,16);
+centeredon = find(MeaMap==channel);
+c1(centeredon)=1000;
+scatter(ypos,xpos,100,c1(:),'fill','parent',hMEA);% Xpos and Ypos order are not correct. Must recreate vectors. 
+colormap(color);
+hScat=gca;
+freezeColors(hScat);
+axis('off');
+uistack(hMEA,'up');
+hold off;
+
+%Xpos and Ypos order are not correct. Must recreate vectors. 
+
+% Plot Ca Trace Frame
+xsize = size(MeaImage,1);
+ysize = size(MeaImage,2);
+xposPer=xpos./xsize;
+yposPer=ypos./ysize;
+CaFrame = imread(fileList{1});
+CaFrame=imresize(CaFrame',0.62);
+[hCa ~] = axesRelative(hMEA, ...
+    'Units','normalized', 'Position',...
+    [yposPer(centeredon)-0.5*size(CaFrame,1)/xsize,xposPer(centeredon)-0.5*size(CaFrame,2)/ysize, size(CaFrame,1)/xsize,size(CaFrame,2)/ysize]);
+imagesc(CaFrame);
+CaColor = jet(65536);
+colormap(CaColor);
+set(hCa,'yDir','normal');
+axis('tight');
+axis('off');
 freezeColors(hCa);
 
+% Positions are not correct
 
-c1 = squeeze(ActivityMat(:,:,1));
-h4 = figure('Visible', 'off','Position',pos);
-h = scatter(xpos,ypos,100,c1(:),'fill');
-hScat=gca;
-set(hScat,'Position',apos);
-xlim([0 3087]);
-ylim([0 3087]);
-% axis('off');
-axis('manual');
-colormap(color);
-freezeColors(hScat);
+hSubs = get(h1,'children');
+hSubSub = get(hSubs(2),'children');
+set(hSubSub(1),'CDataSource','c1');
 
-h3 = figure('Visible', 'on','Position',pos);
-% maximize(h3);
-copyobj(hCa,h3);
-copyobj(hMEA,h3);
-copyobj(hScat,h3);
-
-hSubs = get(h3, 'children');
-uistack(hSubs(2),'top');
-uistack(hSubs(3),'top');
-uistack(hSubs(1),'top');
-set(hSubs(1),'Position',apos);
-set(hSubs(2),'Position',apos,'PlotBoxAspectRatio',[3088,3088,1]);
-set(hSubs(3),'Position',[(xpos(MeaMap(:)==channel)-1.89)./max(xpos),(ypos(find(MeaMap(:)==channel)))./max(ypos),(size(CaFrame,2)./size(MeaImage,2))/2,(size(CaFrame,1)./size(MeaImage,1))/2],'PlotBoxAspectRatio',[692,520,1]);
-scat=get(h,'children');
-set(scat,'CData',c1);
-
-mov = VideoWriter('test.avi','Uncompressed AVI');
-mov.FrameRate=14.235;
+MovieName = ['CombinedCaMEA_' num2str(recording) '_ch' num2str(channel)];
+mov = VideoWriter(MovieName,'MPEG-4');
+% mov.FrameRate=14.235;
+mov.FrameRate=1;
 open(mov);
-% wb = waitbarwithtime(0,'Creating Movie File...');
-numframes = size(ActivityMat,3);
 
+numframes = size(ActivityMat,3);
 for frame=1:numframes
     
-    CaFrame = imread(fileList{frame});
+    if frame==30
+        set(h1,'visible','off');
+    end
+        
+    CaFrame = imread(fileList{frame})';
     c1 = squeeze(ActivityMat(:,:,frame));
+    c1=c1(:);
+    refreshdata(hSubSub(1),'caller');
+    colormap(color); freezeColors(hSubSub(1));
     
-    scatter(xpos,ypos,100,c1(:),'fill','parent',hSubs(1)); axis('off')
-    set(get(hSubs(3),'children'),'CData',CaFrame);
-    title(hSubs(2),['Frame ',num2str(frame)]);
-    refreshdata;
+    set(get(hSubs(1),'children'),'CData',CaFrame); 
+    colormap(CaColor); 
+    freezeColors(hSubs(1));
+    
+    title(hMEA,['Frame ',num2str(frame)]);
     drawnow;
         
     frm = hardcopy(gcf, '-dzbuffer', '-r0');
     writeVideo(mov,im2frame(frm));
     
-%     waitbarwithtime(frame/numframes,wb);
+
 end
 close(mov);
 
