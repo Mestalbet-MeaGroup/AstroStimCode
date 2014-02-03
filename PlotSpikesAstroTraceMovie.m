@@ -35,7 +35,7 @@ fileList = getAllFiles(uigetdir('C:\',str));
 pos = [5 35 1912 1086];
 
 % Plot MEA Mosaic
-h1=figure('Visible','on','Position',pos);
+h1=figure('Visible','off','Position',pos);
 imshow(MeaImage,gray(256));
 hMEA = imgca(h1);
 set(hMEA,'YDir','normal');
@@ -93,12 +93,10 @@ open(mov);
 numframes = size(ActivityMat,3);
 for frame=1:numframes
     
-    if frame==30
-        set(h1,'visible','off');
-    end
-        
-    
-    
+%     if frame==30
+%         set(h1,'visible','off');
+%     end
+%     
     c1 = squeeze(ActivityMat(:,:,frame));
     c1=c1(:);
     refreshdata(hSubSub(1),'caller');
@@ -106,9 +104,9 @@ for frame=1:numframes
     
     CaFrame = imread(fileList{frame})';
     CaFrame = imresize(CaFrame,0.62);
-    set(get(hCa,'children'),'CData',CaFrame); 
-    colormap(CaColor); 
-    freezeColors(hSubs(1));
+    set(get(hCa,'children'),'CData',CaFrame);
+    colormap(CaColor); set(hCa,'clim',[min(CaFrame(:)),max(CaFrame(:))]); 
+%     freezeColors(hSubs(1));
     
     title(hMEA,['Frame ',num2str(frame)]);
     drawnow;
