@@ -8,8 +8,8 @@ image = [];
 load('MeaMapPlot.mat');
 
 %% Create Color Scale for Firing Rate
-color = cbrewer('seq','YlOrRd',max(fr(:))+1);
-
+color = cbrewer('seq','YlOrRd',max(fr(:)));
+% color = [[0,0,0];color];
 %% Re-arrange firing rate along 2D
 elecs  = ic(1,:);
 for i=1:numel(MeaMap)
@@ -51,16 +51,16 @@ ysize = size(MeaImage,2);
 % c1 = squeeze(ActivityMat(:,:,1));
 c1=nan(16,16);
 centeredon = find(MeaMap==channel);
-c1(centeredon)=1000;
+c1(centeredon)=30;
+c1(centeredon+1)=60;
+c1(centeredon-1)=5;
 scatter(xpos,ypos,100,c1(:),'fill','parent',hMEA);% Xpos and Ypos order are not correct. Must recreate vectors. 
-colormap(color);
+colormap(color); set(gca,'clim',[0,63]);
 hScat=gca;
 freezeColors(hScat);
 axis('off');
 uistack(hMEA,'up');
 hold off;
-
-%Xpos and Ypos order are not correct. Must recreate vectors. 
 
 % Plot Ca Trace Frame
 xsize = size(MeaImage,1);
@@ -100,7 +100,7 @@ for frame=1:numframes
     c1 = squeeze(ActivityMat(:,:,frame));
     c1=c1(:);
     refreshdata(hSubSub(1),'caller');
-    colormap(color); freezeColors(hSubSub(1));
+    colormap(color);  set(gca,'clim',[0,63]); freezeColors(hSubSub(1));
     
     CaFrame = imread(fileList{frame})';
     CaFrame = imresize(CaFrame,0.62);
