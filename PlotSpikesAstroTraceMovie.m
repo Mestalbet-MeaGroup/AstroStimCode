@@ -27,9 +27,9 @@ ActivityMat (find(ActivityMat==0))=nan;
 
 %% Get Files for Calcium Movie
 str = [num2str(recording) ' '  num2str(channel)];
-% fileList = getAllFiles(uigetdir('C:\',str));
+fileList = getAllFiles(uigetdir('C:\',str));
 % fileList = getAllFiles('D:\Users\zeiss\Pictures\deleteme\4392_GFAP_gcAMP6_Mcherry_470nm_ch215\');
-fileList = getAllFiles('E:\CalciumImagingArticleDataSet\GcAMP6 Data\Hippo Files\GFAP-GcAMP6\Tiffs\4392_gfap_gcamp6_mcherry_470nm_ch215\');
+% fileList = getAllFiles('E:\CalciumImagingArticleDataSet\GcAMP6 Data\Hippo Files\GFAP-GcAMP6\Tiffs\4392_gfap_gcamp6_mcherry_470nm_ch215\');
 
 %% Combine Axes
 pos = [5 35 1912 1086];
@@ -80,8 +80,6 @@ axis('tight');
 axis('off');
 freezeColors(hCa);
 
-% Positions are not correct
-
 hSubs = get(h1,'children');
 hSubSub = get(hSubs(2),'children');
 set(hSubSub(1),'CDataSource','c1');
@@ -99,13 +97,16 @@ for frame=1:numframes
         set(h1,'visible','off');
     end
         
-    CaFrame = imread(fileList{frame})';
+    
+    
     c1 = squeeze(ActivityMat(:,:,frame));
     c1=c1(:);
     refreshdata(hSubSub(1),'caller');
     colormap(color); freezeColors(hSubSub(1));
     
-    set(get(hSubs(1),'children'),'CData',CaFrame); 
+    CaFrame = imread(fileList{frame})';
+    CaFrame = imresize(CaFrame,0.62);
+    set(get(hCa,'children'),'CData',CaFrame); 
     colormap(CaColor); 
     freezeColors(hSubs(1));
     
