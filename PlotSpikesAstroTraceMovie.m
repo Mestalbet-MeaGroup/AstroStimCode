@@ -27,16 +27,16 @@ ActivityMat (find(ActivityMat==0))=nan;
 
 %% Get Files for Calcium Movie
 str = [num2str(recording) ' '  num2str(channel)];
-fileList = getAllFiles(uigetdir('C:\',str));
+% fileList = getAllFiles(uigetdir('C:\',str));
 % fileList = getAllFiles('D:\Users\zeiss\Pictures\deleteme\4392_GFAP_gcAMP6_Mcherry_470nm_ch215\');
-% fileList = getAllFiles('E:\CalciumImagingArticleDataSet\GcAMP6 Data\Hippo Files\GFAP-GcAMP6\Tiffs\4392_gfap_gcamp6_mcherry_470nm_ch215\');
+fileList = getAllFiles('E:\CalciumImagingArticleDataSet\GcAMP6 Data\Hippo Files\GFAP-GcAMP6\Tiffs\4392_gfap_gcamp6_mcherry_470nm_ch215\');
 
 %% Combine Axes
 pos = [5 35 1912 1086];
 
 % Plot MEA Mosaic
 h1=figure('Visible','on','Position',pos);
-imshow(MeaImage',gray(256));
+imshow(MeaImage,gray(256));
 hMEA = imgca(h1);
 set(hMEA,'YDir','normal');
 axis('tight');
@@ -52,7 +52,7 @@ ysize = size(MeaImage,2);
 c1=nan(16,16);
 centeredon = find(MeaMap==channel);
 c1(centeredon)=1000;
-scatter(ypos,xpos,100,c1(:),'fill','parent',hMEA);% Xpos and Ypos order are not correct. Must recreate vectors. 
+scatter(xpos,ypos,100,c1(:),'fill','parent',hMEA);% Xpos and Ypos order are not correct. Must recreate vectors. 
 colormap(color);
 hScat=gca;
 freezeColors(hScat);
@@ -71,7 +71,7 @@ CaFrame = imread(fileList{1});
 CaFrame=imresize(CaFrame',0.62);
 [hCa ~] = axesRelative(hMEA, ...
     'Units','normalized', 'Position',...
-    [yposPer(centeredon)-0.5*size(CaFrame,1)/xsize,xposPer(centeredon)-0.5*size(CaFrame,2)/ysize, size(CaFrame,1)/xsize,size(CaFrame,2)/ysize]);
+    [xposPer(centeredon)-0.5*size(CaFrame,1)/xsize,yposPer(centeredon)-0.5*size(CaFrame,2)/ysize, size(CaFrame,1)/xsize,size(CaFrame,2)/ysize]);
 imagesc(CaFrame);
 CaColor = jet(65536);
 colormap(CaColor);
