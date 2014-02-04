@@ -86,7 +86,11 @@ hSubSub = get(hSubs(2),'children');
 set(hSubSub(1),'CDataSource','c1');
 
 MovieName = ['CombinedCaMEA_' num2str(recording) '_ch' num2str(channel)];
-mov = VideoWriter(MovieName,'Archival');
+
+numframes = size(ActivityMat,3);
+upto = floor(linspace(1,numframes,9));
+
+mov = VideoWriter(MovieName,'Motion JPEG AVI');
 % mov.FrameRate=14.235;
 mov.FrameRate=1;
 open(mov);
@@ -122,4 +126,208 @@ for frame=2:numframes
 end
 close(mov);
 
+% Attempt to parralelize but figure production doesn't work in parallel. 
+% spmd (8)
+%     switch labindex
+%         case 1
+%             mov1 = VideoWriter([MovieName num2str(labindex)],'Motion JPEG AVI');
+%             mov1.FrameRate=1;
+%             open(mov1);
+%             for frame=upto(labindex):upto(labindex+1)
+%                 
+%                 c1 = squeeze(ActivityMat(:,:,frame));
+%                 c1=c1(:);
+%                 refreshdata(hSubSub(1),'caller');
+%                 colormap(color);  set(gca,'clim',[0,63]); freezeColors(hSubSub(1));
+%                 
+%                 CaFrame = GranulateCaFrame(mask,trace,frame);
+%                 CaFrame = imresize(CaFrame,0.62);
+%                 set(get(hCa,'children'),'CData',CaFrame);
+%                 colormap(CaColor); set(hCa,'clim',[nanmean(trace(:)),max(trace(:))]); freezeColors(get(hCa,'children'));
+%                 
+%                 title(hMEA,['Frame ',num2str(frame)]);
+%                 drawnow;
+%                 
+%                 frm = hardcopy(gcf, '-dzbuffer', '-r0');
+%                 writeVideo(mov1,im2frame(frm));
+%                 
+%             end
+%             close(mov1);
+%         case 2
+%             mov2 = VideoWriter([MovieName num2str(labindex)],'Motion JPEG AVI');
+%             mov2.FrameRate=1;
+%             open(mov2);
+%             numframes = size(ActivityMat,3);
+%             for frame=upto(labindex):upto(labindex+1)
+%                 
+%                 c1 = squeeze(ActivityMat(:,:,frame));
+%                 c1=c1(:);
+%                 refreshdata(hSubSub(1),'caller');
+%                 colormap(color);  set(gca,'clim',[0,63]); freezeColors(hSubSub(1));
+%                 
+%                 CaFrame = GranulateCaFrame(mask,trace,frame);
+%                 CaFrame = imresize(CaFrame,0.62);
+%                 set(get(hCa,'children'),'CData',CaFrame);
+%                 colormap(CaColor); set(hCa,'clim',[nanmean(trace(:)),max(trace(:))]); freezeColors(get(hCa,'children'));
+%                 
+%                 title(hMEA,['Frame ',num2str(frame)]);
+%                 drawnow;
+%                 
+%                 frm = hardcopy(gcf, '-dzbuffer', '-r0');
+%                 writeVideo(mov2,im2frame(frm));
+%                 
+%             end
+%             close(mov2);
+%         case 3
+%             mov3 = VideoWriter([MovieName num2str(labindex)],'Motion JPEG AVI');
+%             mov3.FrameRate=1;
+%             open(mov3);
+%             numframes = size(ActivityMat,3);
+%             for frame=upto(labindex):upto(labindex+1)
+%                 
+%                 c1 = squeeze(ActivityMat(:,:,frame));
+%                 c1=c1(:);
+%                 refreshdata(hSubSub(1),'caller');
+%                 colormap(color);  set(gca,'clim',[0,63]); freezeColors(hSubSub(1));
+%                 
+%                 CaFrame = GranulateCaFrame(mask,trace,frame);
+%                 CaFrame = imresize(CaFrame,0.62);
+%                 set(get(hCa,'children'),'CData',CaFrame);
+%                 colormap(CaColor); set(hCa,'clim',[nanmean(trace(:)),max(trace(:))]); freezeColors(get(hCa,'children'));
+%                 
+%                 title(hMEA,['Frame ',num2str(frame)]);
+%                 drawnow;
+%                 
+%                 frm = hardcopy(gcf, '-dzbuffer', '-r0');
+%                 writeVideo(mov3,im2frame(frm));
+%                 
+%             end
+%             close(mov3);
+%         case 4
+%             mov4 = VideoWriter([MovieName num2str(labindex)],'Motion JPEG AVI');
+%             mov4.FrameRate=1;
+%             open(mov4);
+%             numframes = size(ActivityMat,3);
+%             for frame=upto(labindex):upto(labindex+1)
+%                 
+%                 c1 = squeeze(ActivityMat(:,:,frame));
+%                 c1=c1(:);
+%                 refreshdata(hSubSub(1),'caller');
+%                 colormap(color);  set(gca,'clim',[0,63]); freezeColors(hSubSub(1));
+%                 
+%                 CaFrame = GranulateCaFrame(mask,trace,frame);
+%                 CaFrame = imresize(CaFrame,0.62);
+%                 set(get(hCa,'children'),'CData',CaFrame);
+%                 colormap(CaColor); set(hCa,'clim',[nanmean(trace(:)),max(trace(:))]); freezeColors(get(hCa,'children'));
+%                 
+%                 title(hMEA,['Frame ',num2str(frame)]);
+%                 drawnow;
+%                 
+%                 frm = hardcopy(gcf, '-dzbuffer', '-r0');
+%                 writeVideo(mov4,im2frame(frm));
+%                 
+%             end
+%             close(mov4);
+%         case 5
+%             mov5 = VideoWriter([MovieName num2str(labindex)],'Motion JPEG AVI');
+%             mov5.FrameRate=1;
+%             open(mov5);
+%             numframes = size(ActivityMat,3);
+%             for frame=upto(labindex):upto(labindex+1)
+%                 
+%                 c1 = squeeze(ActivityMat(:,:,frame));
+%                 c1=c1(:);
+%                 refreshdata(hSubSub(1),'caller');
+%                 colormap(color);  set(gca,'clim',[0,63]); freezeColors(hSubSub(1));
+%                 
+%                 CaFrame = GranulateCaFrame(mask,trace,frame);
+%                 CaFrame = imresize(CaFrame,0.62);
+%                 set(get(hCa,'children'),'CData',CaFrame);
+%                 colormap(CaColor); set(hCa,'clim',[nanmean(trace(:)),max(trace(:))]); freezeColors(get(hCa,'children'));
+%                 
+%                 title(hMEA,['Frame ',num2str(frame)]);
+%                 drawnow;
+%                 
+%                 frm = hardcopy(gcf, '-dzbuffer', '-r0');
+%                 writeVideo(mov5,im2frame(frm));
+%                 
+%             end
+%             close(mov5);
+%         case 6
+%             mov6 = VideoWriter([MovieName num2str(labindex)],'Motion JPEG AVI');
+%             mov6.FrameRate=1;
+%             open(mov6);
+%             numframes = size(ActivityMat,3);
+%             for frame=upto(labindex):upto(labindex+1)
+%                 
+%                 c1 = squeeze(ActivityMat(:,:,frame));
+%                 c1=c1(:);
+%                 refreshdata(hSubSub(1),'caller');
+%                 colormap(color);  set(gca,'clim',[0,63]); freezeColors(hSubSub(1));
+%                 
+%                 CaFrame = GranulateCaFrame(mask,trace,frame);
+%                 CaFrame = imresize(CaFrame,0.62);
+%                 set(get(hCa,'children'),'CData',CaFrame);
+%                 colormap(CaColor); set(hCa,'clim',[nanmean(trace(:)),max(trace(:))]); freezeColors(get(hCa,'children'));
+%                 
+%                 title(hMEA,['Frame ',num2str(frame)]);
+%                 drawnow;
+%                 
+%                 frm = hardcopy(gcf, '-dzbuffer', '-r0');
+%                 writeVideo(mov6,im2frame(frm));
+%                 
+%             end
+%             close(mov6);
+%         case 7
+%             mov7 = VideoWriter([MovieName num2str(labindex)],'Motion JPEG AVI');
+%             mov7.FrameRate=1;
+%             open(mov7);
+%             numframes = size(ActivityMat,3);
+%             for frame=upto(labindex):upto(labindex+1)
+%                 
+%                 c1 = squeeze(ActivityMat(:,:,frame));
+%                 c1=c1(:);
+%                 refreshdata(hSubSub(1),'caller');
+%                 colormap(color);  set(gca,'clim',[0,63]); freezeColors(hSubSub(1));
+%                 
+%                 CaFrame = GranulateCaFrame(mask,trace,frame);
+%                 CaFrame = imresize(CaFrame,0.62);
+%                 set(get(hCa,'children'),'CData',CaFrame);
+%                 colormap(CaColor); set(hCa,'clim',[nanmean(trace(:)),max(trace(:))]); freezeColors(get(hCa,'children'));
+%                 
+%                 title(hMEA,['Frame ',num2str(frame)]);
+%                 drawnow;
+%                 
+%                 frm = hardcopy(gcf, '-dzbuffer', '-r0');
+%                 writeVideo(mov7,im2frame(frm));
+%                 
+%             end
+%             close(mov7);
+%         case 8
+%             mov8 = VideoWriter([MovieName num2str(labindex)],'Motion JPEG AVI');
+%             mov8.FrameRate=1;
+%             open(mov8);
+%             numframes = size(ActivityMat,3);
+%             for frame=upto(labindex):upto(labindex+1)
+%                 
+%                 c1 = squeeze(ActivityMat(:,:,frame));
+%                 c1=c1(:);
+%                 refreshdata(hSubSub(1),'caller');
+%                 colormap(color);  set(gca,'clim',[0,63]); freezeColors(hSubSub(1));
+%                 
+%                 CaFrame = GranulateCaFrame(mask,trace,frame);
+%                 CaFrame = imresize(CaFrame,0.62);
+%                 set(get(hCa,'children'),'CData',CaFrame);
+%                 colormap(CaColor); set(hCa,'clim',[nanmean(trace(:)),max(trace(:))]); freezeColors(get(hCa,'children'));
+%                 
+%                 title(hMEA,['Frame ',num2str(frame)]);
+%                 drawnow;
+%                 
+%                 frm = hardcopy(gcf, '-dzbuffer', '-r0');
+%                 writeVideo(mov8,im2frame(frm));
+%                 
+%             end
+%             close(mov8);
+%     end
+% end
 end
