@@ -1,4 +1,4 @@
-function PlotSpikesAstroTraceMovie(recording,channel,fr,ic,traces)
+function PlotSpikesAstroTraceMovie(recording,channel,fr,ic,mask,trace)
 % Function which plots the calcium imaging movie and the electrode data on
 % the same 2D MEA surface. The color of the dots represent the firing rate.
 
@@ -27,7 +27,7 @@ ActivityMat (find(ActivityMat==0))=nan;
 
 %% Get Files for Calcium Movie
 str = [num2str(recording) ' '  num2str(channel)];
-fileList = getAllFiles(uigetdir('C:\',str));
+% fileList = getAllFiles(uigetdir('C:\',str));
 % fileList = getAllFiles('D:\Users\zeiss\Pictures\deleteme\4392_GFAP_gcAMP6_Mcherry_470nm_ch215\');
 % fileList = getAllFiles('E:\CalciumImagingArticleDataSet\GcAMP6 Data\Hippo Files\GFAP-GcAMP6\Tiffs\4392_gfap_gcamp6_mcherry_470nm_ch215\');
 
@@ -52,8 +52,6 @@ ysize = size(MeaImage,2);
 c1=nan(16,16);
 centeredon = find(MeaMap==channel);
 c1(centeredon)=30;
-c1(centeredon+1)=60;
-c1(centeredon-1)=5;
 scatter(xpos,ypos,100,c1(:),'fill','parent',hMEA);% Xpos and Ypos order are not correct. Must recreate vectors. 
 colormap(color); set(gca,'clim',[0,63]);
 hScat=gca;
@@ -67,31 +65,34 @@ xsize = size(MeaImage,1);
 ysize = size(MeaImage,2);
 xposPer=xpos./xsize;
 yposPer=ypos./ysize;
-CaFrame = imread(fileList{1});
-CaFrame=imresize(CaFrame',0.62);
+% CaFrame = imread(fileList{floor(end/2)});
+CaFrame = GranulateCaFrame(mask,trace,1);
+CaFrame=imresize(CaFrame,0.62);
 [hCa ~] = axesRelative(hMEA, ...
     'Units','normalized', 'Position',...
     [xposPer(centeredon)-0.5*size(CaFrame,1)/xsize,yposPer(centeredon)-0.5*size(CaFrame,2)/ysize, size(CaFrame,1)/xsize,size(CaFrame,2)/ysize]);
 imagesc(CaFrame);
-CaColor = jet(65536);
+CaColor = flipud(cbrewer('div','RdGy',16));
 colormap(CaColor);
 set(hCa,'yDir','normal');
 axis('tight');
 axis('off');
 freezeColors(hCa);
+% 
+% fun = @(block_struct) ones(floor(692/4),floor(520/4)).*nanmean(block_struct.data(:)); 
 
 hSubs = get(h1,'children');
 hSubSub = get(hSubs(2),'children');
 set(hSubSub(1),'CDataSource','c1');
 
 MovieName = ['CombinedCaMEA_' num2str(recording) '_ch' num2str(channel)];
-mov = VideoWriter(MovieName,'MPEG-4');
+mov = VideoWriter(MovieName,'Archival');
 % mov.FrameRate=14.235;
 mov.FrameRate=1;
 open(mov);
 
 numframes = size(ActivityMat,3);
-for frame=1:numframes
+for frame=2:numframes
     
 %     if frame==30
 %         set(h1,'visible','off');
@@ -102,11 +103,14 @@ for frame=1:numframes
     refreshdata(hSubSub(1),'caller');
     colormap(color);  set(gca,'clim',[0,63]); freezeColors(hSubSub(1));
     
-    CaFrame = imread(fileList{frame})';
+    CaFrame = GranulateCaFrame(mask,trace,frame);
+%     CaFrame = imread(fileList{frame})';
+%     CaFrame = double((CaFrame).*uint16(~mask'));
+%     CaFrame(CaFrame==0)=nan;
+%     CaFrame = blockproc(CaFrame,[floor(692/4) floor(520/4)],fun);
     CaFrame = imresize(CaFrame,0.62);
     set(get(hCa,'children'),'CData',CaFrame);
-    colormap(CaColor); set(hCa,'clim',[min(CaFrame(:)),max(CaFrame(:))]); 
-%     freezeColors(hSubs(1));
+    colormap(CaColor); set(hCa,'clim',[nanmean(trace(:)),max(trace(:))]); freezeColors(get(hCa,'children'));
     
     title(hMEA,['Frame ',num2str(frame)]);
     drawnow;
