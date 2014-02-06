@@ -1,4 +1,4 @@
-function PlotSpikesAstroTraceMovie(recording,channel,fr,ic,mask,trace)
+function PlotSpikesAstroTraceMovie(recording,channel,fr,ic,mask,trace,time,gfr)
 % Function which plots the calcium imaging movie and the electrode data on
 % the same 2D MEA surface. The color of the dots represent the firing rate.
 
@@ -6,7 +6,7 @@ function PlotSpikesAstroTraceMovie(recording,channel,fr,ic,mask,trace)
 % profile -memory on;
 image = [];
 load('MeaMapPlot.mat');
-
+% trace = inpaint_nans(trace,4)+abs(min(trace(:)));
 %% Create Color Scale for Firing Rate
 color = cbrewer('seq','YlOrRd',max(fr(:)));
 % color = [[0,0,0];color];
@@ -35,8 +35,10 @@ str = [num2str(recording) ' '  num2str(channel)];
 pos = [5 35 1912 1086];
 
 % Plot MEA Mosaic
-h1=figure('Visible','off','Position',pos);
+h1=figure('Visible','on','Position',pos);
+
 imshow(MeaImage,gray(256));
+% imshow(imread('MeaMosaicJustElectrodes.tif'),gray(2));
 hMEA = imgca(h1);
 set(hMEA,'YDir','normal');
 axis('tight');
@@ -73,22 +75,42 @@ CaFrame=imresize(CaFrame,0.62);
     [xposPer(centeredon)-0.5*size(CaFrame,1)/xsize,yposPer(centeredon)-0.5*size(CaFrame,2)/ysize, size(CaFrame,1)/xsize,size(CaFrame,2)/ysize]);
 imagesc(CaFrame);
 CaColor = flipud(cbrewer('div','RdGy',16));
+CaColor(1:3,:)=repmat(CaColor(1,:),3,1);
 colormap(CaColor);
 set(hCa,'yDir','normal');
 axis('tight');
 axis('off');
 freezeColors(hCa);
-% 
-% fun = @(block_struct) ones(floor(692/4),floor(520/4)).*nanmean(block_struct.data(:)); 
 
 hSubs = get(h1,'children');
 hSubSub = get(hSubs(2),'children');
 set(hSubSub(1),'CDataSource','c1');
 
+[hTraces ~] = axesRelative(hMEA, ...
+    'Units','normalized', 'Position',...
+    [0/xsize,-120/ysize, xsize/xsize,200/ysize]);
+[hFR ~] = axesRelative(hMEA, ...
+    'Units','normalized', 'Position',...
+    [0/xsize,(ysize-100)/ysize, xsize/xsize,200/ysize]);
+
+x=300;
+frame = 1;
+astro = 7;
+xvals = time(frame:x+frame);
+yTr = trace(frame:x+frame,astro)+eps;
+yFr = gfr(frame:x+frame)+eps;
+hTr = plot(hTraces,xvals, yTr);
+hFr = plot(hFR,xvals, yFr);
+set(hTraces,'xlim',[xvals(1),xvals(end)]);
+set(hFR,'XTickLabel',[],'xlim',[xvals(1),xvals(end)],'ylim',[min(yFr),15]);
+
+set(hTr,'xdatasource','xvals','ydatasource','yTr');
+set(hFr,'xdatasource','xvals','ydatasource','yFr');
+
 MovieName = ['CombinedCaMEA_' num2str(recording) '_ch' num2str(channel)];
 
 numframes = size(ActivityMat,3);
-upto = floor(linspace(1,numframes,9));
+upto = floor(linspace(1,numframes,16));
 
 mov = VideoWriter(MovieName,'Motion JPEG AVI');
 % mov.FrameRate=14.235;
@@ -96,7 +118,7 @@ mov.FrameRate=1;
 open(mov);
 
 numframes = size(ActivityMat,3);
-for frame=2:numframes
+for frame=12280:numframes-x
     
 %     if frame==30
 %         set(h1,'visible','off');
@@ -116,7 +138,14 @@ for frame=2:numframes
     set(get(hCa,'children'),'CData',CaFrame);
     colormap(CaColor); set(hCa,'clim',[nanmean(trace(:)),max(trace(:))]); freezeColors(get(hCa,'children'));
     
-    title(hMEA,['Frame ',num2str(frame)]);
+    xvals = time(frame:x+frame);
+    yTr = trace(frame:x+frame,astro)+eps;
+    yFr = gfr(frame:x+frame)+eps;
+    set(hTraces,'xlim',[xvals(1),xvals(end)],'ylim',[min(trace(:,astro)),max(trace(:,astro))]);
+    set(hFR,'xlim',[xvals(1),xvals(end)],'ylim',[min(yFr),15]);
+    refreshdata(hFr,'caller');
+    refreshdata(hTr,'caller');
+%     title(hMEA,['Frame ',num2str(frame)]);
     drawnow;
         
     frm = hardcopy(gcf, '-dzbuffer', '-r0');
