@@ -50,7 +50,7 @@ if numel(sbs)>0
     end
     hold on;
     alignFR = rFirings(1:5000,:);
-    plot(rFirings(:,1));
+    plot(rFirings(:,1),'b');
     
     for i=2:size(alignFR,2)
         [corr,lags]=xcorr(alignFR(:,i),alignFR(:,1)+alignFR(:,end));
@@ -63,7 +63,7 @@ if numel(sbs)>0
             lag=abs(lag);
             fr2plot = padarray(rFirings(:,i),lag,min(rFirings(:,i)),'pre');
         end
-        plot(fr2plot+offset);
+        plot(fr2plot+offset,'b');
     end
     set(gca,'XTick',[],'XTickLabel',[],'YTick',[],'YTickLabel',[]);
     ylim([-1 max(rFirings(:))+offset]);
@@ -71,7 +71,9 @@ if numel(sbs)>0
     SumFirings = sum(rFirings,2);
     findstop=diff(SumFirings);
     findstop = abs(findstop); thresh=mean(findstop)+std(findstop); [~,b]=findpeaks(findstop,'MinPeakHeight',thresh);
-    set(gca,'XTick',round(linspace(0,length(SumFirings),6)),'XTickLabel',round((linspace(0,length(SumFirings),6)./12000)),'box','off','TickDir','out');
+%     set(gca,'XTick',round(linspace(0,length(SumFirings),6)),'XTickLabel',round((linspace(0,length(SumFirings),6)./12000)),'box','off','TickDir','out');
+    stepsize=24000;
+    set(gca,'XTick',0:stepsize:length(SumFirings),'XTickLabel',round([0:stepsize:length(SumFirings)]./12000),'box','off','TickDir','out');
     xlim([0,b(end)*1.1]);
     xlabel('time [Sec]');
     set(findall(gcf,'-property','FontSize'),'FontUnits','pixels','FontSize',38);
