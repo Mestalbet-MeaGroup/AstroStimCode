@@ -98,7 +98,7 @@ line(lenLine,ones(length(lenLine)),'LineStyle','-.','Color','r');
 ylabel('Post/Pre number of spikes','FontSize',16);
 xlabel('Cultures','FontSize',16);
 set(gca,'FontSize',16);
-maximize(gcf);
+% maximize(gcf);
 set(gcf,'color','w');
 % export_fig 'FiringRateAllOpto.png';
 
@@ -129,7 +129,7 @@ text(preSpks+0.001,postSpks./preSpks,cultLabels);
 xlabel('Baseline FR');
 ylabel('Stimulation FR / Baseline FR');
 grid on;
-maximize(gcf);
+% maximize(gcf);
 set(gcf,'color','w');
 % export_fig('SpikeRateRatio.png');
 

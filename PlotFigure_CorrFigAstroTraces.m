@@ -27,8 +27,9 @@ for i=1:size(ic,2)
 end
 
 %% Produce Figures
-screen_size = get(0, 'ScreenSize');
-figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) screen_size(4) ])
+% screen_size = get(0, 'ScreenSize');
+% figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) screen_size(4) ])
+figure( 'renderer','zbuffer','visible','off','units', 'centimeters', 'Position', [0 0 173 89])
 subplot = @(m,n,p) subtightplot (m, n, p, [0.01 0.01], [0.1 0.05], [0.05 0.05]);
 
 %---Remove End Artifacts---%
@@ -50,7 +51,7 @@ set(gca,'YColor','w','XColor','w');
 ylabel('Regions of Interest','color','k');
 % Overlay Firing Rate
 hold on;
-patchline(trtime,zscore(mean(fr,2)),'linestyle','-','edgecolor','r','linewidth',5,'edgealpha',0.2);
+patchline(trtime,zscore(mean(fr,2)),'linestyle','-','edgecolor','r','linewidth',28,'edgealpha',0.2);
 hold off;
 %----------------------------------%
 subplot(10,1,6:10);
@@ -58,7 +59,7 @@ RasterPlotLineTrace(t,ic,min(trtime)*12000,max(trtime)*12000,mean(tr2,1),trtime.
 %----------------------------------%
 % Save figure
 set(gcf,'Color','w');
-export_fig('F:\Fig_TraceRaster_A-B.png','-r1200');
+export_fig('Fig_TraceRaster_A-B.png','-r1200');
 % print('-depsc','-r300','Fig_TraceRasterA-B.eps');
 close all;
 
@@ -67,7 +68,7 @@ figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) scre
 RasterPlotLineTrace(t,ic,3.007E7,3.014E7,tr2(15:18,:),trtime.*12000);
 set(gca,'PlotBoxAspectRatio',[1,1,1]);
 % print('-dpng','-r300','Fig_TraceRasterC.png');
-export_fig('F:\Fig_TraceRaster_C.eps','-r300');
+export_fig('Fig_TraceRaster_C.eps','-r300');
 close all;
 %Minute 42
 %-------------------------%
@@ -77,7 +78,7 @@ figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) scre
 RasterPlotLineTrace(t,ic,1.157E7,1.164E7,tr2(15:18,:),trtime.*12000);
 set(gca,'PlotBoxAspectRatio',[1,1,1]);
 % print('-dpng','-r300','Fig_TraceRasterD.png');
-export_fig('F:\Fig_TraceRaster_D.eps','-r300');
+export_fig('Fig_TraceRaster_D.eps','-r300');
 close all;
 %Minute 16
 %-------------------------%
@@ -87,7 +88,7 @@ figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) scre
 RasterPlotLineTrace(t,ic,5.132E6,5.202E6,tr2(15:18,:),trtime.*12000);
 set(gca,'PlotBoxAspectRatio',[1,1,1]);
 % print('-dpng','-r300','Fig_TraceRasterE.png');
-export_fig('F:\Fig_TraceRaster_E.eps','-r300');
+export_fig('Fig_TraceRaster_E.eps','-r300');
 close all;
 %Minute 7
 %-------------------------%
@@ -97,7 +98,7 @@ figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) scre
 RasterPlotLineTrace(t,ic,8.854E6,8.924E6,tr2(15:18,:),trtime.*12000);
 set(gca,'PlotBoxAspectRatio',[1,1,1]);
 % print('-dpng','-r300','Fig_TraceRasterF.png');
-export_fig('F:\Fig_TraceRaster_F.eps','-r300');
+export_fig('Fig_TraceRaster_F.eps','-r300');
 close all;
 %Minute 12
 %-------------------------%

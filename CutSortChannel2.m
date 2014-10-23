@@ -33,4 +33,5 @@ for i=1:size(ic,2),
 end
 icNew(:,to_delete)=[];
 % fprintf('\nPlease remember that cut segment started at time %d in the whole sort Channel\n',tStart);
-tNew=tNew-tStart;
+% tNew=tNew-tStart;
+end

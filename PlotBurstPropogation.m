@@ -1,9 +1,11 @@
-function [m,clusters] = PlotBurstPropogation(t,ic,bs,be);
+function [m,clusters] = PlotBurstPropogation(t,ic,bs,be,MeaMap);
 subplot = @(m,n,p) subtightplot (m, n, p, [0.01 0.01], [0.01 0.01], [0.01 0.01]);
-load('16x16MeaMap_90CW_Inverted.mat');
+% load('16x16MeaMap_90CW_Inverted.mat');
+% load('MeaMapPlot.mat','MeaMap');
+% MeaMap = rot90(MeaMap,-1);
 
 Nbursts=numel(bs);
-m = nan(size(MeaMap),size(MeaMap),Nbursts);
+m = nan(size(MeaMap,1),size(MeaMap,2),Nbursts);
 
 ic = ConvertIC2Samora(ic);
 [t,ix]=sort(t);

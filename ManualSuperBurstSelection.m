@@ -1,6 +1,6 @@
 function [sbs,sbe,sbw] = ManualSuperBurstSelection(t,ic);
 addpath(genpath('C:\Users\Noah\Documents\GitHub\Detect'));
-[Firings,SumFirings]=FindNeuronFrequency(t,ic,25,1);
+[Firings,SumFirings]=FindNeuronFrequency(t,ic,100,1);
 clipboard('copy',round(max(t)/12000));
 fs = length(SumFirings)/(max(t)/12000);
 labelSet = markEvents(Firings,{'1'},'srate',fs);
