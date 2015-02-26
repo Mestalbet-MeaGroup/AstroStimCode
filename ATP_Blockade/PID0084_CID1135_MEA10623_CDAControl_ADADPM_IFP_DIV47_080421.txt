@@ -1,0 +1,11 @@
+21.04.08
+DIV 47
+CID 1135
+
+1) baseline
+2) DPM 10muM (10mul added)
+activity changed to synchronised single spikes and short bursts
+
+
+3) IFP 10muM (10mul added)
+activity level dropped to zero. Stimulation was not capable to elicit spikes (tested different electrodes and electrode combinations and varied pulse width (100 to 800mus) and strength (-400 to -700muV).

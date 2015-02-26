@@ -4,7 +4,7 @@
 % BurstData = GenerateBurstData(DataSetBase,DataSetStims,MeaMap);
 subplot = @(m,n,p) subtightplot (m, n, p, [0.05 0.001], [0.05 0.05], [0.05 0.05]);
 %% CDFs
-PlotCDFwithDetectionErrorWithPatch;
+% PlotCDFwithDetectionErrorWithPatch;
 %% PDF base vs. stim
 
 %----------------------------%
@@ -42,11 +42,12 @@ PlotBurstInitPDF(pdfpre{k},pdfpost{k},StimSite{k},MeaMap);
 title('burst initation probability density');
 set(gcf,'color','none');
 shading flat;
-maximize(gcf);
+% maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16)
 % saveas(gcf,['Fig7_BurstInitiation',type, '.eps'], 'epsc2');
 % fix_pcolor_eps(['Fig7_BurstInitiation',type, '.eps']);
-print('-depsc2','-r300',['Fig7_BurstInitiation',type, '.eps']);
+% print('-depsc2','-r300',['Fig7_BurstInitiation',type, '.eps']); %this one
+
 % print('-dpng','-r300',['Fig7_BurstInitiation',type, '.png']);
 % export_fig -native ['Fig7_BurstInitiation',type, '.png'];
 close all;
@@ -72,7 +73,7 @@ for i=1:size(StimSite,2);
 end
 bar(vals);
 set(gca,'XTickLabels',cultLabels);
-rotateXLabels( gca(), 45 )
+% rotateXLabels( gca(), 45 )
 
 %-----Save and Close------%
 title('average burst initation probability within illumination spot');
@@ -82,6 +83,7 @@ maximize(gcf);
 set(findall(gcf,'-property','FontSize'),'FontSize',16)
 saveas(gcf,['Fig7_SpotBurstInitiation',type, '.eps'], 'epsc2');
 fix_pcolor_eps(['Fig7_SpotBurstInitiation',type, '.eps']);
+
 % print('-depsc2','-r300',['Fig7_SpotBurstInitiation',type, '.eps']);
 % print('-dpng','-r300',['Fig7_SpotBurstInitiation',type, '.png']);
 % export_fig -native ['Fig7_SpotBurstInitiation',type, '.png'];
@@ -168,7 +170,7 @@ for j=1:size(bursts,3)
 end
 f = figure('renderer','zbuffer');
 h=PlotSequentialSpikeOrder(MeaMap,SpikeOrders,StimSite{i});
-set(f,'ColorMap',[[0,0,0];cmap]);
+colormap([[0,0,0];cmap]);
 axis tight;
 set(gca,'PlotBoxAspectRatio',[size(SpikeOrders,1)+4,size(SpikeOrders,2),1]);
 oldsize=size(SpikeOrders,2);
@@ -183,7 +185,9 @@ set(gca,'TickDir','out');
 % saveas(gcf,'Fig7_sequentialburstprop1a.eps', 'epsc2');
 % fix_pcolor_eps('Fig7_sequentialburstprop1a.eps');
 % export_fig('Fig7_sequentialburstprop1.eps');
-print('-depsc2','-r600','-cmyk','Fig7_sequentialburstprop1.eps');
+
+% print('-depsc2','-r600','-cmyk','Fig7_sequentialburstprop1.eps'); %this one
+
 % print('-dpng','-r300','Fig7_sequentialburstprop1.png');
 % export_fig -native 'Fig7_sequentialburstprop1.png';
 close all;

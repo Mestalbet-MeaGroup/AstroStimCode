@@ -112,8 +112,8 @@ PlotPDFCultures(pdfpre,pdfpost,StimSite,divcontrol,divpreppost,MeaMap,CultNoSBs,
         notBoxPlot(plotme');
         grid on;
         set(gca,'XTickLabel',{'No Transfection','Stimulation','No SB Response','SBs in Pre'});
-        rotateXLabels(gca(),20);
-        maximize(gcf);
+%         rotateXLabels(gca(),20);
+%         maximize(gcf);
         set(gcf,'color','w');
     end
 % export_fig 'BurstInitiationPDF_NSBpreNSBpost.png';

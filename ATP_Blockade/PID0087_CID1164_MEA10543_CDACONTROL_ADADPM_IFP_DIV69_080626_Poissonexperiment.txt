@@ -1,0 +1,96 @@
+PID0087 
+CID1164 
+CACONTROL 
+AACONTROL 
+DIV69 080626
+
+Spikedetection:
+Theta = 4.7 x Std
+filter 200Hz HP
+
+PID0087_CID1164_CACONTROL_AACONTROL_DIV69_080626_1.mcd
+MCRack breackdown
+PID0087_CID1164_CACONTROL_AACONTROL_DIV69_080626_2.mcd
+Poisson stimulation 2
+
+
+DPM was not freshly prepared 
+
+PID0087_CID1164_CACONTROL_AACONTROL_DIV69_080626_3.mcd
+Baseline
++1muM DPM
+
+PID0087_CID1164_CACONTROL_AADPM11muM_DIV69_080626_3.mcd
++10muM DPM
+Blanked el85
+
+PID0087_CID1164_CACONTROL_AADPM11muMIFP1muM_DIV69_080626_3.mcd
++1muM IFP
+Blanked el85
+
+PID0087_CID1164_CACONTROL_AADPM11muMIFP11muM_DIV69_080626_3.mcd
++10muM IFP
+Blanked el85
+
+Older cultures may have stronger synapses and may require higher concentrations of NR2B NMDA blockers to be silenced...
+
+new solution IFP 1mM prepared
+
+PID0087_CID1164_CACONTROL_AADPM11muMIFP21muM_DIV69_080626_3.mcd
++10muM IFP
+Blanked el85
+
+Burst reappear, new solution DPM 1mM prepared
+
+PID0087_CID1164_CACONTROL_AADPM21muMIFP21muM_DIV69_080626_3.mcd
++10muM DPM
+Blanked el85
+
+
+PID0087_CID1164_CACONTROL_AADPM21muMIFP21muM_DIV69_080626_4
+Poisson stimulation 2
+abgebrochen, keine antworten
+
+Teststimulation, not recorded
+stimulation at electrode 44 with -700mV did not elicit responses
+stimulating at 5electrodes simulataneously evoked responses...
+
+PID0087_CID1164_CACONTROL_AADPM21muMIFP21muM_DIV69_080626_40001.mcd
+Teststimulation, recorded (stim file: Teststimulation1.stm)
+stim electrodes: 21, 71, 44, 28, 78
+amplitude -700mV
+
+PID0087_CID1164_CACONTROL_AADPM21muMIFP21muM_DIV69_080626_40002.mcd
+Teststimulation, recorded (stim file: Teststimulation1.stm)
+stim electrodes: 21, 71, 44, 28, 78
+amplitude -500mV
+
+PID0087_CID1164_CACONTROL_AADPM21muMIFP21muM_DIV69_080626_40003.mcd
+Teststimulation, recorded (stim file: Teststimulation1.stm)
+stim electrodes: 21, 71, 44, 28, 78
+amplitude -300mV
+
+PID0087_CID1164_CACONTROL_AADPM21muMIFP21muM_DIV69_080626_40004.mcd
+Teststimulation, recorded (stim file: Teststimulation1.stm)
+stim electrodes: 21, 71, 44, 28, 78
+amplitude -200mV
+
+
+
+PID0087_CID1164_CACONTROL_AADPM21muMIFP21muM_DIV69_080626_5
+Poisson stimulation 3
+stim electrodes: 21, 71, 44, 28, 78
+amplitude -200mV
+frequency: 30Hz
+Stimfile: stim30Hz_-200mV.txt
+no responses, aborted
+
+
+PID0087_CID1164_CACONTROL_AADPM21muMIFP21muM_DIV69_080626_6.mcd
+PID0087_CID1164_CACONTROL_AADPM21muMIFP21muM_DIV69_080626_60001.mcd - PID0087_CID1164_CACONTROL_AADPM21muMIFP21muM_DIV69_080626_60017.mcd 	
+Poisson stimulation 4
+Stim electrodes: 21, 71, 44, 28, 78
+amplitude -500mV
+frequency: 5Hz
+Stimfile: stim5Hz_-500mV.txt
+no responses, aborted

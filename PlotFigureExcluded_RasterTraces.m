@@ -1,7 +1,7 @@
 fclose('all');clear all; close all;clc;
-load('E:\CalciumImagingArticleDataSet\Mat Files\DataSet.mat');
-load('E:\CalciumImagingArticleDataSet\Mat Files\CombinedManualData\3334_ch014_FullSet.mat','triggers','traces','t','ic');
-time = CalcTimeFromTriggers('e:\CalciumImagingArticleDataSet\MCD Files\NN3334_centered14FullPower.mcd');
+load('F:\CalciumImagingArticleDataSet\Mat Files\DataSet.mat');
+load('F:\CalciumImagingArticleDataSet\Mat Files\CombinedManualData\3334_ch014_FullSet.mat','triggers','traces','t','ic');
+time = CalcTimeFromTriggers('F:\CalciumImagingArticleDataSet\MCD Files\NN3334_centered14FullPower.mcd');
 tcenter=216*12000;
 startframe=tcenter-2/2*(12000*60);
 endframe=tcenter+2/2*(12000*60);

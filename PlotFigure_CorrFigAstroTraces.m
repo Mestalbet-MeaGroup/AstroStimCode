@@ -29,7 +29,7 @@ end
 %% Produce Figures
 % screen_size = get(0, 'ScreenSize');
 % figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) screen_size(4) ])
-figure( 'renderer','zbuffer','visible','off','units', 'centimeters', 'Position', [0 0 173 89])
+% figure( 'renderer','zbuffer','visible','on','units', 'centimeters', 'Position', [0 0 173 89])
 subplot = @(m,n,p) subtightplot (m, n, p, [0.01 0.01], [0.1 0.05], [0.05 0.05]);
 
 %---Remove End Artifacts---%
@@ -59,12 +59,13 @@ RasterPlotLineTrace(t,ic,min(trtime)*12000,max(trtime)*12000,mean(tr2,1),trtime.
 %----------------------------------%
 % Save figure
 set(gcf,'Color','w');
-export_fig('Fig_TraceRaster_A-B.png','-r1200');
+% export_fig('Fig_TraceRaster_A-B.png','-r1200');
 % print('-depsc','-r300','Fig_TraceRasterA-B.eps');
-close all;
+% close all;
 
 %------------Burst+NoTrace-----------%
-figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) screen_size(4) ])
+% figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) screen_size(4) ])
+figure;
 RasterPlotLineTrace(t,ic,3.007E7,3.014E7,tr2(15:18,:),trtime.*12000);
 set(gca,'PlotBoxAspectRatio',[1,1,1]);
 % print('-dpng','-r300','Fig_TraceRasterC.png');
@@ -74,12 +75,13 @@ close all;
 %-------------------------%
 
 %------------Burst+Trace-----------%
-figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) screen_size(4) ])
+% figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) screen_size(4) ])
+figure;
 RasterPlotLineTrace(t,ic,1.157E7,1.164E7,tr2(15:18,:),trtime.*12000);
 set(gca,'PlotBoxAspectRatio',[1,1,1]);
 % print('-dpng','-r300','Fig_TraceRasterD.png');
-export_fig('Fig_TraceRaster_D.eps','-r300');
-close all;
+% export_fig('Fig_TraceRaster_D.eps','-r300');
+% close all;
 %Minute 16
 %-------------------------%
 
@@ -88,17 +90,42 @@ figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) scre
 RasterPlotLineTrace(t,ic,5.132E6,5.202E6,tr2(15:18,:),trtime.*12000);
 set(gca,'PlotBoxAspectRatio',[1,1,1]);
 % print('-dpng','-r300','Fig_TraceRasterE.png');
-export_fig('Fig_TraceRaster_E.eps','-r300');
-close all;
+% export_fig('Fig_TraceRaster_E.eps','-r300');
+% close all;
 %Minute 7
 %-------------------------%
 
 %------------NoBurst+Trace-----------%
-figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) screen_size(4) ])
+% figure('renderer','zbuffer','visible','off','Position', [0 0 screen_size(3) screen_size(4) ])
+figure;
 RasterPlotLineTrace(t,ic,8.854E6,8.924E6,tr2(15:18,:),trtime.*12000);
 set(gca,'PlotBoxAspectRatio',[1,1,1]);
 % print('-dpng','-r300','Fig_TraceRasterF.png');
-export_fig('Fig_TraceRaster_F.eps','-r300');
-close all;
+% export_fig('Fig_TraceRaster_F.eps','-r300');
+% close all;
 %Minute 12
 %-------------------------%
+%% Statistics
+culTypes = {'Melanopsin ','OptoA1-EYFP ','OptoA1-p2a-tRFP ','ChR2 '};
+cultLabels = [ones(4,1); ones(5,1)*2;ones(4,1)*3]; % 1 = mel, 2 = optoa1, 3= chr2
+durations = [];
+g1 = [];
+g2 = [];
+g3 = [];
+g4 = [];
+
+for i=1:size(DataSetStims,1)
+    post = [DataSetStims{i}.Trim.bw,DataSetStims{i}.sbw];
+    pre  = [DataSetBase{i}.Trim.bw,DataSetBase{i}.sbw];
+    durations = [durations,pre,post];
+    g1 = [g1,ones(size(pre)),ones(size(post))*2]; %pre or post
+    g2 = [g2,ones(size(pre)).*i,ones(size(post)).*i]; %culture
+    g3 = [g3,ones(size(pre)).*cultLabels(i),ones(size(post)).*cultLabels(i)]; %optogenetic reagent
+    if i<10
+        g4 = [g4,ones(size(pre)),ones(size(post))]; %gq or not
+    else
+        g4 = [g4,ones(size(pre))*2,ones(size(post))*2];
+    end
+end
+
+[p,table,stats,terms] = anovan(durations,{g1,g2,g3},'model','full','nested',[0,1,0;0,0,1;0,0,0]);

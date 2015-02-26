@@ -1,0 +1,33 @@
+02.05.08
+PID0084
+CID1131
+
+Filter: 200Hz HP
+Theta:  4.7Std, no manual correction
+
+AC:   46
+SNR: good
+
+Activity: regular short and high frequent bursts interspersed 
+with uncorrelated(?) single spiking on some channels
+
+1) Control
+2 channels with bad SNR (see Rack file)
+
+2) DPM 1muM (added 10mul of 100muM solution)
+threahold adjusted 
+
+3) DPM 3muM (added 20mul of 100muM solution)
+
+
+4) DPM 10muM (added 7mul of 1mM solution)
+
+5) DPM 30muM (added 20mul of 1mM solution)
+
+6) NMDA 1muM (added 10mul of 100muM solution)
+culture bursts one several channels but activity decays successively - culture dies
+--> Excitotoxic concentration!!!
+added 10muM IFP: induces single spiking on some channels again but only transiently
+added 30muM IFP: induces single spiking on some channels again but only transiently
+added 10muM BIC: no effect
+stimulation does not evoke any response

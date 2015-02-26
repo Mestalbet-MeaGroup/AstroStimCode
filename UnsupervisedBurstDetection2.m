@@ -1,9 +1,9 @@
 function [bs,be,bw,sbs,sbe,sbw]=UnsupervisedBurstDetection2(t,ic);
-[Firings,~]=FindNeuronFrequency(t,ic,25,1);
-frs=mean(Firings,2);
-thr = mean(frs)+2*std(frs);
-t(ic(3,frs>=thr):ic(4,frs>=thr));
-ic(:,frs>=thr)=[];
+% [Firings,~]=FindNeuronFrequency(t,ic,25,1);
+% frs=mean(Firings,2);
+% thr = mean(frs)+2*std(frs);
+% t(ic(3,frs>=thr):ic(4,frs>=thr))=[];
+% ic(:,frs>=thr)=[];
 
 
 [bs,be,~]=CalcBurstsSamora(t,ic);

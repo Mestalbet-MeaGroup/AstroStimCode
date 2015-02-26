@@ -35,9 +35,9 @@ set(gca,'XTickLabel',[],'YTick',[0.5,1,1.5,2,2.5,3],'YTickLabel',{'','1    ','',
 set(gca, 'Ticklength', [0.008 0],'box','off');
 set(findall(gcf,'-property','FontSize'),'FontUnits','pixels','FontSize',fntSize);
 set(findall(gcf,'-property','LineWidth'),'LineWidth',lnWidth);
-maximize(gcf);
 set(gcf,'color','none');
-plot2svg('Fig6_BurstDurationsA.svg', gcf,'png');
+% maximize(gcf);
+% plot2svg('Fig6_BurstDurationsA.svg', gcf,'png');
 % export_fig 'Fig6_BurstDurationsA.pdf';
 close all;
 
@@ -66,10 +66,10 @@ hold off;
 set(findall(gcf,'-property','FontSize'),'FontUnits','pixels','FontSize',fntSize);
 set(findall(gcf,'-property','LineWidth'),'LineWidth',lnWidth);
 set(gcf,'color','none');
-maximize(gcf);
-plot2svg('Fig6_BurstDurationsB.svg', gcf,'png');
+% maximize(gcf);
+% plot2svg('Fig6_BurstDurationsB.svg', gcf,'png');
 % export_fig 'Fig6_BurstDurationsB.pdf';
-close all;
+% close all;
 
 %Stimulation - Subplot 3;
 figure;
@@ -100,10 +100,10 @@ ylabel('burst duration [sec]');
 set(findall(gcf,'-property','FontSize'),'FontUnits','pixels','FontSize',fntSize);
 set(findall(gcf,'-property','LineWidth'),'LineWidth',lnWidth);
 set(gcf,'color','none');
-maximize(gcf);
-plot2svg('Fig6_BurstDurationsC.svg', gcf,'png');
+% maximize(gcf);
+% plot2svg('Fig6_BurstDurationsC.svg', gcf,'png');
 % export_fig 'Fig6_BurstDurationsC.pdf';
-close all;
+% close all;
 
 % Incidence - Subplot 4;
 figure;
@@ -134,10 +134,10 @@ set(gca,'XTickLabel',cultLabels);
 set(gcf,'color','none');
 set(findall(gcf,'-property','FontSize'),'FontUnits','pixels','FontSize',fntSize);
 set(findall(gcf,'-property','LineWidth'),'LineWidth',lnWidth);
-maximize(gcf);
+% maximize(gcf);
 % plot2svg('Fig6_BurstDurationsD.svg', gcf,'png');
 % export_fig 'Fig6_BurstDurationsD.pdf';
-close all;
+% close all;
 
 %% Subplot Figure - 
 figure;
@@ -234,7 +234,7 @@ rotateXLabels(gca(),20);
 %%
 set(gcf,'color','none');
 set(findall(gcf,'-property','FontSize'),'FontSize',16)
-maximize(gcf);
+% maximize(gcf);
 
 %%
 % export_fig 'AllBurstDurations.png';

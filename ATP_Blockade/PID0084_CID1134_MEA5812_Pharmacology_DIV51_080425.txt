@@ -1,0 +1,68 @@
+PID84
+CID1134
+DIV51
+CAControl
+
+
+theta:  4.5xstd, manually adjusted
+filter: 200Hz high pass
+
+
+~45 active channels
+SNR ~ 2-5 (moderate)
+channel 34 blanked
+
+
+1) baseline phase
+- recorded for ~9000s+
+
+2) DPM 1muM
+- added 10mul 100muM DPM
+
+3) DPM 3muM
+- added 20mul 100muM DPM
+bursts shorten - interburst periods are
+increasingly filled with single asynchronous spiking
+
+
+4) DPM 10muM
+- added 7mul 1mM DPM
+
+
+5) DPM 30muM
+- added 20mul 1mM DPM
+
+5) DPM 100muM
+- added 7mul 10mM DPM
+no activity anymore ...
+
+6) recorded over night ... only noise
+
+Experiment
+Acute application of dipyramidol results in the following effects based on mechanisms 
+proposed in the following:
+Bursts shorten due to increased ATP mediated synaptic shortterm supression 
+and interburstintervalls shorten due to decreased adensosine mediated longterm
+synaptic supression. Interburst intervalls reveal increased asynchronous single spiking.
+Burst sometimes are reduced to single spikes. Remaining network bursting and network wide
+synchronous events could be evoked by strong common input via Glial cells.
+
+Idea 
+- Increase excitability with Bicucullin to increase the proportion of interburst spiking
+- desynchronise input by gap junction blockers (Mefloquine 1-3muM)
+- take out common drive by ifenprodil
+
+Analysis:
+Look at correlations within the interburst periods.
+Could be a good way to compare Goe treated cultures and controls.
+Determine correlation vs. distance for all electrode combinations
+
+
+
+Comments:
+Waehrend des Versuchs bohren und haemmern die Handwerker wie gestoert an der 
+zum Nachbarraum angrenzenden Wand und erschuettern diese merklich!
+Man sieht jedoch auf Anhieb erst mal nichts in den Signalen...
+
+
+

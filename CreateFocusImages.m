@@ -33,6 +33,7 @@ for i=1:max(vec)
         if i==1
             mkdir(newdir);
         end
+%-----------------------------%
         %         test1 = adapthisteq(uint16(savitzkyGolay2D_rle_coupling(692,520,double(fstack(m,'fsize',18)),9,9,2))); %Extended focus
         %         test2 = imread(m{g==max(g)}); %Best z-slice
         %         g1 = gradient(double(test1));
@@ -44,10 +45,16 @@ for i=1:max(vec)
         %         else
         %             imwrite(imread(m{g==max(g)}),[newdir,'CS4_ch_m',num2str(i),'.png']);
         %             test1 = adapthisteq(uint16(savitzkyGolay2D_rle_coupling(692,520,double(fstack(m,'fsize',18)),9,9,2)));
-        test1 = visibresto(fstack(m,'fsize',18),11,0.5,-1);
-%         test1 = fstack(m,'fsize',18);
-        imwrite(test1,[newdir,'CS4_ch_m',num2str(i),'.png']);
-        %         end
+        %         end        
+%-----------------------------%
+%       test1 = adapthisteq(uint16(savitzkyGolay2D_rle_coupling(692,520,double(fstack(m(8:12),'fsize',3)),9,9,2)));
+%       test1 = visibresto(fstack(m,'fsize',18),11,0.5,-1);
+%       test1 = fstack(m,'fsize',18);
+%       test1 = imread(m{g==max(g)});
+      test1 = imread(m{11})+imread(m{12})+imread(m{13});
+      imwrite(test1,[newdir,'CS4_ch_m',num2str(i),'.png']);
+%-----------------------------%
+        
     end
 end
 end

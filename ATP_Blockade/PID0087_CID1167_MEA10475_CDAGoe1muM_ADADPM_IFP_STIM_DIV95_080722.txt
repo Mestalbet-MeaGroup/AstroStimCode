@@ -1,0 +1,66 @@
+PID0087
+CID1167
+CAGoe1muM
+AAControl
+DIV95
+DATE 080722
+
+1) 
+PID0087_CID1167_CAGoe1muM_AAControl_DIV95_080722.mcd
+Control recording
+
+Offline analysis:
+early to fire electrodes = 12,17,(21),71
+not so early electrodes  = 26,66
+late electrodes  = 57,65
+
+2) Stimulation 1
+PID0087_CID1167_CAGoe1muM_AAControl_DIV95_080722_stim1.mcd
+stimulation with protocol: Stim1_ISI5s_thetadetection.stm
+25x[-100,-200,-300,-400,-500,-600,-700,-800] = 200 pulses.
+
+early to fire electrodes ...
+1. stimulation electrode: 12 (triggerid   1-200)
+	~ reliable responses at -500mV. Stim frequency of 0.2 Hz results in 		very little spontaneous activity during the stimulation period.
+2. stimulation electrode: 17 (triggerid 201-400)
+
+3. stimulation electrode: 71 (triggerid 401-600)
+
+
+intermediate to fire electrodes ...
+
+4. stimulation electrode: 26 (triggerid 601-800)
+
+observation: when the stimulus is started after some time of spontaneous activity the first low amplitude pulses already evoke responses. After some time only amplitudes above -500mV evoke responses...
+
+5. stimulation electrode: 66 (triggerid 801-1000)
+
+
+late to fire electrodes ...
+
+6. stimulation electrode: 57 (triggerid 1001-1200)
+
+7. stimulation electrode: 65 (triggerid 1201-1400)
+
+
+3) Pharmacology
+PID0087_CID1167_CAGoe1muM_AADPM10muM_DIV95_080722.mcd
+10mul 1mM Dipyridamole --> ~ 10muM
+electrode 33 ist verrauscht
+
+4) Pharmacology
+PID0087_CID1167_CAGoe1muM_AADPM10muM_IFP10muM_DIV95_080722.mcd
++10mul 1mM Ifenprodil --> ~ 10muM
+no spontaneous activity within the first 5mins after application.
+rare synchronised single Spiking on a subset of electodes afterwards
+
+recorded ~1600s then started with the stimulation
+
+
+5) Stimulation 2
+early to fire electrodes ...
+1. stimulation electrode: 12 (triggerid   1-96)
+almost no response
+Goe cultures may have weak synapses and therefore ar shut down already at low concentrations ... next time: start with 1muM IFP & DPM
+aborted - no responses
+
