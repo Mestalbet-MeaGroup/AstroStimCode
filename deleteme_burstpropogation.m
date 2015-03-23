@@ -27,48 +27,53 @@ StimSite{15} =[];
 % [cmap,Z1]=MeaColorMap;
  
 %-----Sequential Burst Propogation-----%
-for i=1:13;
+for i=4;
 bursts  = BurstData.bursts(:,:,(BurstData.cultId==i)&(BurstData.prepost==0)&(BurstData.nsbsb==0));
 SpikeOrders=[];
+SpikeOrdersp=[];
 base = [];
 stim = [];
 basec=[];
 stimc=[];
+G = fspecial('gaussian',[16 16],2);
+
 for j=1:size(bursts,3)
     b = bursts(:,:,j);
     for k=1:max(b(:))
         SpikeOrders(k,j) = MeaMap(find(b==k));
     end
     [~,base(:,:,j)]=ismember(MeaMap,SpikeOrders(:,j));
+    basec(:,:,j) = convn(base(:,:,j),G,'same');
 end
 
 % %-----Sequential Burst Propogation-----%
-bursts  = BurstData.bursts(:,:,(BurstData.cultId==i)&(BurstData.nsbsb==1)&(BurstData.prepost==1));
-SpikeOrders=[];
-for j=1:size(bursts,3)
-    b = bursts(:,:,j);
+burstsp  = BurstData.bursts(:,:,(BurstData.cultId==i)&(BurstData.nsbsb==1)&(BurstData.prepost==1));
+
+for j=1:size(burstsp,3)
+    b = burstsp(:,:,j);
     for k=1:max(b(:))
-        SpikeOrders(k,j) = MeaMap(find(b==k));
+        SpikeOrdersp(k,j) = MeaMap(find(b==k));
     end
-      [~,stim(:,:,j)]=ismember(MeaMap,SpikeOrders(:,j));
+      [~,stim(:,:,j)]=ismember(MeaMap,SpikeOrdersp(:,j));
+      stimc(:,:,j) = convn(stim(:,:,j),G,'same');
 end
 
-G = fspecial('gaussian',[16 16],2);
-for ii=1:size(base,3)
-    basec(:,:,ii) = convn(base(:,:,ii),G,'same');
-%     imagesc(basec(:,:,i));
-%     pause(0.2);
-end
-for ii=1:size(stim,3)
-    stimc(:,:,ii) = convn(stim(:,:,ii),G,'same');
-%     imagesc(stimc(:,:,i));
-%     pause(0.2);
-end
-figure;
-subplot(2,1,1);
-plot(zscore(squeeze(mean(mean(diff(basec,[],3),1),2))));
-subplot(2,1,2);
-plot(zscore(squeeze(mean(mean(diff(stimc,[],3),1),2))));
+% G = fspecial('gaussian',[16 16],2);
+% for ii=1:size(base,3)
+%     basec(:,:,ii) = convn(base(:,:,ii),G,'same');
+% %     imagesc(basec(:,:,i));
+% %     pause(0.2);
+% end
+% for ii=1:size(stim,3)
+%     stimc(:,:,ii) = convn(stim(:,:,ii),G,'same');
+% %     imagesc(stimc(:,:,i));
+% %     pause(0.2);
+% end
+% figure;
+% subplot(2,1,1);
+% plot(zscore(squeeze(mean(mean(diff(basec,[],3),1),2))));
+% subplot(2,1,2);
+% plot(zscore(squeeze(mean(mean(diff(stimc,[],3),1),2))));
 end
 
 
